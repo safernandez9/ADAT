@@ -1,0 +1,71 @@
+CLASE FILE
+
+File f = new File("ruta")
+
+Para entenderme, File son referencias a rutas, pueden ser de achivos, directorios o lo que sea.
+
+f.isFile()
+f.isDirectory()
+f.exists()
+f.createNewFile() "Crea un el archivo f en la ruta de f"
+f.mkdir()
+f.mkdirs()
+f.delete() -> devuelve true o false
+f.getPath() Devuelve un String con la ruta almacenada en f 
+f.length() devuelve un long con el tamaño en bytes
+f.lastModified() Devuelve un long con los milisegundos desde 1970, se lo puedo pasar a un objeto SimpleDateFormat:
+            long milis = f.lastModified();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            System.out.println("Última modificación: " + sdf.format(milis));
+
+f.list() -> Para directorios, devuelve String[]
+
+
+LEER Y ESCRIBIR EN FLUJO DE BYTES
+
+InputStream in = new FileInputStream(fOrigen);
+OutputStream out = new FileOutputStream(fDestino)
+byte[] b = new byte[8192]
+int leido;
+while ((leido = in.read(b)) != -1) {
+                out.write(b, 0, leido);
+ }
+
+ Catchea IOException
+
+ Cabe resaltar que solo puedo abrir flujos sobre archivos.
+
+ new FileOutputStream("archivo.txt");
+ Si un archivo no existe, se crea y si existe lo sobreescribe
+
+ new FileOutputStream("archivo.txt", true);
+ Si existe añade bytes al final
+
+
+
+
+CLASE PATH y FILES
+
+Path p = Paths.get(String ruta)
+Path p = Path.of(String)       Las dos son validas
+FIles.isRegularFile(Path p)  -> Valida si p es archivo
+FIles.isDirectory(Path p)  -> Valida si p es archivo
+Files.exists(Path p)
+path.toString()
+Files.size(path) -> tamaño archivo en bytes. Requiere manejar una IOException
+path.getFileName()
+Files.getLastModifiedTime(path) -Devuelve un objeto con la info. Puedo usar .toMillis() para parsearlo a un long en milisegundos
+
+RECORRER DIRECTORIOS
+
+Los directorios se recorren con la interfaz DirecotoryStream<>
+Cada elemento del DirectoryStream es en el caso que programaremos un path
+Files.newDirectoryStream(dir) abre un directorio y devuelve un DirectoryStream<Path> con todos los elementos que contiene ese directorio dir.
+
+try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+            for (Path entry : stream) {
+                utilidades.mostrarInfo(entry);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }

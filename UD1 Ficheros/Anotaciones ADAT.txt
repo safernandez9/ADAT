@@ -1,0 +1,12 @@
+Operaciones de E/S suelen ser mas lentas que las realizadas en memoria por lo que es común el uso de buffers
+
+main limpio solo llamadas
+Clase operaciones donde se realizan las llamadas a los ejercicios (sin líneas que trabajen conficheros)(solo sus llamadas) (llamo a abrirFichero)
+
+clases especializadas para trabajo ocn ficheros(método abrirFichero) CLASE LECTURA TEXTO, CLASE ESCRITURATEXTO, ABRIRFICHERO,
+
+
+VER COMPARADORES
+CLASE ABSTRACTA
+CLASE ANONIMA
+LAMDAS INTERFACES....

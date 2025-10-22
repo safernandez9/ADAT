@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE corredores SYSTEM
+        "src/ArchivosXMLyDTD/CorredoresDTD.dtd">
+<corredores>
+    <velocista codigo="C01" dorsal="1" equipo="E1">
+        <nombre>Lucía Fernández Álvarez</nombre>
+        <fecha_nacimiento>2000-10-20</fecha_nacimiento>
+        <velocidad_media>10.4</velocidad_media>
+        <historial>
+            <puntuacion anio="2019">78.5</puntuacion>
+            <puntuacion anio="2020">85.0</puntuacion>
+            <puntuacion anio="2021">69.4</puntuacion>
+            <puntuacion anio="2022">61.5</puntuacion>
+            <puntuacion anio="2023">83.5</puntuacion>
+        </historial>
+    </velocista>
+    <fondista codigo="C02" dorsal="2" equipo="E2">
+        <nombre>Ana Pérez</nombre>
+        <fecha_nacimiento>1995-06-02</fecha_nacimiento>
+        <distancia_max>10000.0</distancia_max>
+    </fondista>
+    <velocista codigo="C03" dorsal="3" equipo="E1">
+        <nombre>Mario López</nombre>
+        <fecha_nacimiento>1998-04-12</fecha_nacimiento>
+        <velocidad_media>9.9</velocidad_media>
+        <historial>
+            <puntuacion anio="2020">78.5</puntuacion>
+            <puntuacion anio="2021">82.0</puntuacion>
+        </historial>
+    </velocista>
+    <velocista codigo="C04" dorsal="4" equipo="E3">
+        <nombre>Óscar Ruiz</nombre>
+        <fecha_nacimiento>2001-11-30</fecha_nacimiento>
+        <velocidad_media>10.1</velocidad_media>
+    </velocista>
+    <fondista codigo="C05" dorsal="5" equipo="E2">
+        <nombre>María González</nombre>
+        <fecha_nacimiento>1992-03-18</fecha_nacimiento>
+        <distancia_max>15000.0</distancia_max>
+        <historial>
+            <puntuacion anio="2017">68.0</puntuacion>
+            <puntuacion anio="2019">74.5</puntuacion>
+        </historial>
+    </fondista>
+    <velocista codigo="C06" dorsal="6" equipo="E4">
+        <nombre>Sergio Martín</nombre>
+        <fecha_nacimiento>1999-08-05</fecha_nacimiento>
+        <velocidad_media>10.2</velocidad_media>
+    </velocista>
+    <fondista codigo="C07" dorsal="7" equipo="E3">
+        <nombre>Beatriz Navarro</nombre>
+        <fecha_nacimiento>1989-12-22</fecha_nacimiento>
+        <distancia_max>12000.0</distancia_max>
+        <historial>
+            <puntuacion anio="2016">65.0</puntuacion>
+            <puntuacion anio="2018">70.0</puntuacion>
+        </historial>
+    </fondista>
+    <velocista codigo="C08" dorsal="8" equipo="E5">
+        <nombre>Iván Torres</nombre>
+        <fecha_nacimiento>2002-02-14</fecha_nacimiento>
+        <velocidad_media>10.7</velocidad_media>
+    </velocista>
+    <fondista codigo="C09" dorsal="9" equipo="E4">
+        <nombre>Rocío Méndez</nombre>
+        <fecha_nacimiento>1996-07-09</fecha_nacimiento>
+        <distancia_max>8000.0</distancia_max>
+        <historial>
+            <puntuacion anio="2019">77.0</puntuacion>
+        </historial>
+    </fondista>
+    <velocista codigo="C10" dorsal="10" equipo="E1">
+        <nombre>David Castro</nombre>
+        <fecha_nacimiento>1997-01-25</fecha_nacimiento>
+        <velocidad_media>9.8</velocidad_media>
+        <historial>
+            <puntuacion anio="2018">70.0</puntuacion>
+            <puntuacion anio="2022">80.9</puntuacion>
+        </historial>
+    </velocista>
+    <fondista codigo="C11" dorsal="11" equipo="E2">
+        <nombre>Elena Martín</nombre>
+        <fecha_nacimiento>1994-05-16</fecha_nacimiento>
+        <distancia_max>6000.0</distancia_max>
+    </fondista>
+    <velocista codigo="C12" dorsal="12" equipo="E5">
+        <nombre>Javier Alonso</nombre>
+        <fecha_nacimiento>2000-09-03</fecha_nacimiento>
+        <velocidad_media>10.3</velocidad_media>
+        <historial>
+            <puntuacion anio="2021">82.5</puntuacion>
+            <puntuacion anio="2022">79.4</puntuacion>
+            <puntuacion anio="2023">71.5</puntuacion>
+            <puntuacion anio="2024">73.5</puntuacion>
+        </historial>
+    </velocista>
+    <fondista codigo="C13" dorsal="13" equipo="E3">
+        <nombre>Laura Peña</nombre>
+        <fecha_nacimiento>1993-10-01</fecha_nacimiento>
+        <distancia_max>6000.0</distancia_max>
+    </fondista>
+    <velocista codigo="C14" dorsal="14" equipo="E2">
+        <nombre>Álvaro Ruiz</nombre>
+        <fecha_nacimiento>2003-06-11</fecha_nacimiento>
+        <velocidad_media>9.7</velocidad_media>
+    </velocista>
+    <velocista codigo="C15" dorsal="15" equipo="E5">
+        <nombre>Patricia Soto</nombre>
+        <fecha_nacimiento>1990-02-28</fecha_nacimiento>
+        <velocidad_media>11.0</velocidad_media>
+        <historial>
+            <puntuacion anio="2016">66.5</puntuacion>
+            <puntuacion anio="2021">81.0</puntuacion>
+        </historial>
+    </velocista>
+    <fondista codigo="C16" dorsal="16" equipo="E6">
+        <nombre>Fernando Díaz</nombre>
+        <fecha_nacimiento>1988-09-20</fecha_nacimiento>
+        <distancia_max>20000.0</distancia_max>
+    </fondista>
+    <velocista codigo="C17" dorsal="17" equipo="E4">
+        <nombre>Marcos Blanco</nombre>
+        <fecha_nacimiento>1996-12-02</fecha_nacimiento>
+        <velocidad_media>10.0</velocidad_media>
+    </velocista>
+    <fondista codigo="C18" dorsal="18" equipo="E6">
+        <nombre>Sandra Ruiz</nombre>
+        <fecha_nacimiento>1991-07-07</fecha_nacimiento>
+        <distancia_max>7000.0</distancia_max>
+        <historial>
+            <puntuacion anio="2018">73.5</puntuacion>
+            <puntuacion anio="2020">78.0</puntuacion>
+            <puntuacion anio="2021">79.4</puntuacion>
+            <puntuacion anio="2022">77.5</puntuacion>
+            <puntuacion anio="2023">79.5</puntuacion>
+        </historial>
+    </fondista>
+    <velocista codigo="C19" dorsal="19" equipo="E3">
+        <nombre>Rubén Molina</nombre>
+        <fecha_nacimiento>2004-03-15</fecha_nacimiento>
+        <velocidad_media>10.6</velocidad_media>
+    </velocista>
+    <fondista codigo="C20" dorsal="20" equipo="E1">
+        <nombre>Clara Varela</nombre>
+        <fecha_nacimiento>1997-11-02</fecha_nacimiento>
+        <distancia_max>9000.0</distancia_max>
+        <historial>
+            <puntuacion anio="2019">76.0</puntuacion>
+            <puntuacion anio="2021">79.4</puntuacion>
+            <puntuacion anio="2022">71.5</puntuacion>
+            <puntuacion anio="2023">73.5</puntuacion>
+        </historial>
+    </fondista>
+</corredores>
