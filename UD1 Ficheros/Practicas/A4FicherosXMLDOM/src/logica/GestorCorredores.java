@@ -8,7 +8,6 @@ import persistencia.TipoValidacion;
 
 import java.util.List;
 
-//CUIDADO CON LAS RUTAS LOGICAS DEL SYSTEM EN LAS CABECERAS DE XML
 //IMPRESION Y PEDIDA DE DATOS
 
 public class GestorCorredores {
