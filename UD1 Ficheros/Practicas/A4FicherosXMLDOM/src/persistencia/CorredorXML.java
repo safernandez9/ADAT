@@ -1,7 +1,9 @@
 package persistencia;
 
-// En persistencia va todo lo que acceda directamente a los archivos XML
-// PERSISTENCIA NO MANDA MENSAJES DE ERROR Y ES PARA LO QUE TOCA EL XML DIRECTAMENTE, es decir usa throws en los catch
+/* Responsabilidad de persistencia: Acceso y manipulación directa del Document Object Model (DOM) del fichero
+ * corredores.xml. No imprime por consola.
+ */
+
 
 import clases.Corredor;
 import clases.Fondista;
@@ -9,13 +11,23 @@ import clases.Puntuacion;
 import clases.Velocista;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contiene la lógica específica para la entidad Corredor
+ */
 public class CorredorXML {
+
+    private static Document documentoXML;
+
+    public void cargarDocumentoXML(String rutaDocumentoXML, TipoValidacion tipoValidacion) throws Exception{
+        this.documentoXML = XMLDOMUtils.cargarDocumentoXML(rutaDocumentoXML, tipoValidacion);
+    }
 
     /**
      * Llama a la creacion del Document pasando como parametros la ruta en String y la validacion en Enum.
@@ -30,6 +42,11 @@ public class CorredorXML {
         return XMLDOMUtils.cargarDocumentoXML(rutaXML, validacion);
     }
 
+    /**
+     *
+     * @param doc
+     * @return
+     */
     public List<Corredor> cargarCorredores(Document doc) {
         List<Corredor> lista = new ArrayList();
         Element raiz = doc.getDocumentElement();
@@ -83,6 +100,11 @@ public class CorredorXML {
 
     }
 
+    /**
+     *
+     * @param corredorElem
+     * @return
+     */
     private List<Puntuacion> cargarHistorial(Element corredorElem) {
         List<Puntuacion> historial = new ArrayList();
         Element historialElem = (Element) corredorElem.getElementsByTagName("historial").item(0);
@@ -99,5 +121,61 @@ public class CorredorXML {
         }
         return historial;
     }
-//Hacer el de que si le doy un codigo de cprredpr me devuelva el corredor
+
+    public void insertarCorredor(Corredor corredor) {
+
+        // Obtener nodo raiz <corredores>
+        Element raiz = documentoXML.getDocumentElement():
+
+        // Determinar tipo de corredor
+        String tipo = corredor instanceof Velocista ? "velocista" : "fondista";
+
+        // Creo nodo principal del corredor
+        Element nodoCorredor = XMLDOMUtils.addElement(documentoXML, tipo, raiz);
+
+        //Añadir los atributos: código, dorsal, equipo
+        XMLDOMUtils.añadirAtributoID(documentoXML );
+    }
+
+    public int obtenerSiguienteDorsal(){
+        Element raiz = documentoXML.getDocumentElement();
+    }
+
+    public void guardarDocumentoDOM(){
+
+    }
+
+    public Corredor buscarCorredorPorDorsal (int dorsal){
+        Element raiz = documentoXML.getDocumentElement();
+        NodeList hijos = raiz.getChildNodes();
+
+        for (int i = hijos.getLength()-1; i >= 0; i--) {
+            Node nodo = hijos.item(i);
+
+            if(nodo instanceof Element corredorElem){
+
+            }
+
+        }
+    }
+
+    /**
+     * Elimina un elemento por su id
+     * @param codigo
+     * @return
+     */
+    public boolean eliminarCorredorPorCodigo(String codigo){
+        Element corredor = XMLDOMUtils.buscarElementoPorID(documentoXML, codigo);
+        return XMLDOMUtils.eliminarElemento(corredor);
+    }
+
+    public boolean eliminarCorredorPorDorsal(int dorsal){
+
+        Corredor corredorAeliminar = buscarCorredorPorDorsal(dorsal);
+        if (corredorAeliminar != null) {
+            String codigoAEliminar = corredorAeliminar.getCodigo();
+        }
+    }
+
+
 }

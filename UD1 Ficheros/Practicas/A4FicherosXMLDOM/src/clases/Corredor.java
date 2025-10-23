@@ -6,12 +6,16 @@ import utilidades.UtilidadesFechas;
 
 public class Corredor{
 
+    // Variables
+
     private String codigo;
     private int dorsal;
     private String nombre;
     private LocalDate fechaNacimiento;
     private String equipo;
     private List<Puntuacion> historial;
+
+    // Constructores
 
     public Corredor(String nombre, LocalDate fechaNacimiento, String equipo) {
         this.nombre = nombre;
@@ -25,6 +29,16 @@ public class Corredor{
         this.nombre = nombre;
         this.fechaNacimiento = fecha;
         this.equipo = equipo;
+    }
+
+    // Getters y Setters
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public int getDorsal() {
@@ -74,6 +88,9 @@ public class Corredor{
 
         this.historial = historial;
     }
+
+
+    // Otros métodos
 
     @Override
     public String toString() {
