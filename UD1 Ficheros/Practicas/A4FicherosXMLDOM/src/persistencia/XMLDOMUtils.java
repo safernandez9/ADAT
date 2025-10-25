@@ -28,10 +28,10 @@ public class XMLDOMUtils {
 
 
     /**
-     *
-     * @param rutaFichero
-     * @param validacion
-     * @return
+     * Siempre es el mismo método. Carga un XML en el Document. LLama a ConfigurarFactory.
+     * @param rutaFichero Ruta del XML
+     * @param validacion Tipo validacion, Enum
+     * @return Document Documento generado a partir del XML
      */
     public static Document cargarDocumentoXML(String rutaFichero, TipoValidacion validacion) {
 
@@ -47,12 +47,12 @@ public class XMLDOMUtils {
                 db.setErrorHandler(new SimpleErrorHandler());
             }
 
-            // 4. Cargar el documento XML en memoria
+            // 4. Cargar el documento XML en memoria. Adquirir la raiz del Documetno y normalizarlo
+            // (Para evitar problemas de espacios y saltos de linea).
             Document documento = db.parse(new File(rutaFichero));
-
-            // Una vez cargado lo normalizo. getDocumentElement obtiene la raiz del documento
             documento.getDocumentElement().normalize();
             return documento;
+
         } catch (ParserConfigurationException e) {
             //Error en la confiduracion del parser DOM
             throw new ExcepcionXML("Error de configuracion" + e.getMessage());
@@ -67,24 +67,25 @@ public class XMLDOMUtils {
     }
 
     /**
-     * Activa el tipo de validacion sobre el dbf, que creo em este mismo metodo.
-     * Activo también configuraciones generales como dbf.setIgnoringElementContentWhitespace(true)
+     * Activa el tipo de validacion sobre el dbf, que creo en este mismo metodo.
+     * Activo también configuraciones generales.
      * En caso de validacion debo poner la linea correspondiente en el XML al DTD o XSD
      *
      * @param validacion
-     * @return
+     * @return DocumentBuildeFactory creada y configurada
      */
     private static DocumentBuilderFactory configurarFactory(TipoValidacion validacion) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
         switch (validacion) {
+
             case DTD -> {
+                //Activar Validacion y evitar que cuente los enter para la ella.
                 dbf.setValidating(true);
-                //Evitar que cuente los enter para la validacion
                 dbf.setIgnoringElementContentWhitespace(true);
             }
             case XSD -> {
-                // En los apuntes hay una forma mas moderna de hacerlo, pero mejor usar esta
+                //Activar el NameSpace, ignorar Whitespaces y setAttribute del espacio de nombres?
                 dbf.setNamespaceAware(true);
                 dbf.setIgnoringElementContentWhitespace(true);
 
@@ -98,21 +99,20 @@ public class XMLDOMUtils {
     }
 
     /**
-     *
-     * @param padre
-     * @param etiqueta
+     * Obtiene el texto de una etiqueta hija dentro de un elemento padre
+     * @param padre Padre de la etiqueda de la que quiero sacar texto
+     * @param etiqueta Nmobre de la etiqueta
      * @return
      */
-    public static String obtenerTexto(Element padre, String etiqueta) {
+    public static String obtenerTexto(Element padre, String etiqueta){
 
         NodeList lista = padre.getElementsByTagName(etiqueta);
 
-        // Busca todas las etiquetas hija dentor del elemento padre y comprueba si se encontró al menos una
-        if (lista.getLength() > 0) {
-            // Si la encontró devuelve el texto del primer elemento
-            return lista.item(0).getTextContent();
+        if (lista.getLength() == 0) {
+            return "";
         }
-        return "";
+
+        return lista.item(0).getTextContent();
     }
 
     /**
@@ -142,26 +142,30 @@ public class XMLDOMUtils {
      * Añade un atributo a un elemento de un documento XML
      *
      * @param doc Raiz del Document
-     * @param nombre
-     * @param valor
-     * @param padre
-     * @return
+     * @param nombre Nombre del atributo
+     * @param valor Valor del atributo
+     * @param padre Elemento al que se le añadirá el atributo
+     * @return Atributo creado
      */
     public static Attr añadirAtributo(Document doc, String nombre, String valor, Element padre) {
-        Attr atributo = doc.createAttribute(nombre);
-        atributo.setValue(valor);
+
+        // Si no devolviera el atributo podría usar el siguiente metodo:
+        // padre.setAttribute(nombre, valor);
+
+        Attr atributo = doc.createAttribute(nombre);        //CreateAttribute crea el atributo con el nombre que le paso
+        atributo.setValue(valor);                           // SetValue le asigna el valor que le paso
         padre.setAttributeNode(atributo);
         return atributo;
     }
 
     /**
-     * Añadir atributo que será considerado como ID. De esta manera los atributos con el mismo
-     * nombre no podrán tener mismo valor?
+     * Añadir atributo que será considerado como ID. Se hace como un atributo normal pero añado al acabar
+     * el metodo padre.setIdAttributeNode(atributo, true);
      *
      * @param doc Raiz del Document
-     * @param nombre
-     * @param valorID
-     * @param padre
+     * @param nombre Nombre del atributo
+     * @param valorID Valor del atributo
+     * @param padre Elemento al que se le añadirá el atributo
      * @return
      */
     public static Attr añadirAtributoID(Document doc, String nombre, String valorID, Element padre) {
@@ -179,20 +183,19 @@ public class XMLDOMUtils {
      * Crea elemento con texto y lo añade como hijo a un padre.
      *
      * @param doc Raiz del Document
-     * @param nombre
-     * @param valor
-     * @param padre
+     * @param nombre Nombre del Element que voy a crear
+     * @param valor Valor (En texto) del Element que voy a crear
+     * @param padre Nombre del padre del que colgaré el Element
      * @return
      */
     public static Element addElement(Document doc, String nombre, String valor, Element padre) {
 
         // Creo elemento en el doc
         Element elemento = doc.createElement(nombre);
-        // Creo un nodo de texto con el valor del elemento
-        Text texto = doc.createTextNode(valor);
-        // Añado hijo al padre
+        Text texto = doc.createTextNode(valor);                     // CreateTextNode crea un nodo de texto con el valor que le paso
+
+        // Añado hijo al padre primero. Despues añado el texto al hijo.
         padre.appendChild(elemento);
-        // Doy valor al hijo
         elemento.appendChild(texto);
 
         return elemento;
@@ -200,21 +203,21 @@ public class XMLDOMUtils {
 
     /**
      * Crea elemento vacio y lo añade como hijo al padre.
-     * (Recordar que vacío = sin texto, no sin atributos)
      *
      * @param doc Raiz del Document
-     * @param nombre
-     * @param padre
+     * @param nombre Nombre del Element que voy a crear
+     * @param padre Nombre del padre del que colgaré el Element
      * @return
      */
     public static Element addElement(Document doc, String nombre, Element padre) {
-        Element elemento = doc.createElement(nombre);
-        padre.appendChild(elemento);
+        Element elemento = doc.createElement(nombre);   // createElement crea el Element con el nombre que le paso
+        padre.appendChild(elemento);                    // appendChild añade el elemento como hijo del padre
         return elemento;
     }
 
     /**
-     * Elimina un elemento, cojo su padre y desde el elimino su hijo (El elemento que he pasado)
+     * Elimina un elemento, cojo su padre y desde él elimino el hijo.
+     * El resto de nodos se borraran en cascada.
      * @param elemento
      * @return
      */
@@ -227,16 +230,16 @@ public class XMLDOMUtils {
     }
 
     /**
-     * Modifica un elemento
+     * Modifica un atributo de un elemento. Si no existe lo crea.
      * @param elemento
      * @param nombre
      * @param valor Es Object porque no se que tipo de dato recibiré
      */
-    public static void modificarElemento(Element elemento, String nombre, Object valor){
+    public static void modificarAtributo(Element elemento, String nombre, Object valor){
 
         // Conviverto el tipo de dato recibido a String
         String valorStr = String.valueOf(valor);
-        // setAttribute si el atributo no existe lo crea
+        // setAttribute si el atributo no existe lo crea, si existe lo sobreescribe
         elemento.setAttribute(nombre, valorStr);
 
 

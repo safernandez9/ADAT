@@ -65,6 +65,7 @@ public class Corredor{
         this.nombre = nombre;
     }
 
+
     public String getEquipo() {
         return equipo;
     }

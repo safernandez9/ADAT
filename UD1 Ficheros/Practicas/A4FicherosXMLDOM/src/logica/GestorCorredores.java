@@ -2,7 +2,7 @@ package logica;
 
 /**
  * La capa Lógica:
- * Responsabilidad: Orquestar las operaciones de negocio, gestionar la lógica de feedback
+ * Responsabilidad: Gestionar la lógica de feedback
  * al usuario, y coordinar la persistencia. Es como el director de orquesta de la aplicación.
  * Es el único que "habla" con la clase principal (el main) y es el único que "habla" con la
  * capa de persistencia (CorredorXML). Hay impresión de datos.
@@ -19,20 +19,21 @@ import java.util.List;
 
 public class GestorCorredores {
 
+
     private final CorredorXML gestor;
     private Document documentoXML;
 
     /**
-     *
+     *  El constructor inicializa un único CorredorXML
      */
     public GestorCorredores() {
         this.gestor = new CorredorXML();
     }
 
     /**
-     *
-      * @param rutaXML
-     * @param validacion
+     *  LLama a cargarDocumento de CorredorXML
+     * @param rutaXML String con la ruta del fichero
+     * @param validacion Enum con el tipo de validacion (DTD, XSD o ninguna)
      * @throws ExcepcionXML
      */
     public void cargarDocumento(String rutaXML, TipoValidacion validacion) throws ExcepcionXML {
@@ -46,7 +47,7 @@ public class GestorCorredores {
     }
 
     /**
-     *
+     * Función que recibe de CorredorXML un List de Corredores y la muestra en función de su método toString()
      */
     public void mostrarCorredores(){
         List<Corredor> lista = gestor.cargarCorredores(documentoXML);
@@ -54,5 +55,7 @@ public class GestorCorredores {
             System.out.println(c);
         }
     }
+
+
 
 }

@@ -4,7 +4,6 @@ package persistencia;
  * corredores.xml. No imprime por consola.
  */
 
-
 import clases.Corredor;
 import clases.Fondista;
 import clases.Puntuacion;
@@ -25,16 +24,11 @@ public class CorredorXML {
 
     private static Document documentoXML;
 
-    public void cargarDocumentoXML(String rutaDocumentoXML, TipoValidacion tipoValidacion) throws Exception{
-        this.documentoXML = XMLDOMUtils.cargarDocumentoXML(rutaDocumentoXML, tipoValidacion);
-    }
-
     /**
-     * Llama a la creacion del Document pasando como parametros la ruta en String y la validacion en Enum.
-     * Propaga las excepciones, no las maneja aquí
-     *
-     * @param rutaXML
-     * @param validacion
+     * Llama a la creacion del Document con el que trabajará esta clase, que se hará en XMLDOMUtils.
+     * Propaga las excepciones, no las maneja aquí.
+     * @param rutaXML String con la ruta del archivo xml
+     * @param validacion Enum creado por mi con el tipo de validacion
      * @return
      * @throws ExcepcionXML
      */
@@ -43,17 +37,21 @@ public class CorredorXML {
     }
 
     /**
+     * Carga los corredores del Document en una List. Obtiene los nodos corredor del Document,
+     * Verifica que sean de tipo Element, los envía a la funcion que los convierte en objetos Corredor
+     * y si no recibe null los añade a la List.
      *
-     * @param doc
-     * @return
+     * @param doc Document sobre el que trabajo
+     * @return List de Corredores
      */
     public List<Corredor> cargarCorredores(Document doc) {
+
         List<Corredor> lista = new ArrayList();
         Element raiz = doc.getDocumentElement();
-        NodeList nodos = raiz.getChildNodes();
+        NodeList nodos = raiz.getChildNodes();      // Devuelve hijos directos
 
         for (int i = 0; i < nodos.getLength(); i++) {
-            //Si es una instancia de nodo elemento (buscar google)
+            //Si es una instancia de nodo elemento, crea un Element corredorElem y almacena en el
             if (nodos.item(i) instanceof Element corredorElem) {
                 Corredor corredor = crearCorredor(corredorElem);
                 if (corredor != null) {
@@ -65,16 +63,21 @@ public class CorredorXML {
     }
 
     /**
-     * Crea un objeto corredor a partir de un nodo Corredor que recibe de un DOM
+     * Crea un objeto corredor a partir de un Element (Nodo) Corredor que recibe por parametros.
      *
      * @param corredorElem
      * @return
      */
     public Corredor crearCorredor(Element corredorElem) {
+
+        // Tener en cuenta que de un XML todo viene en forma de String, por ello habrá datos que parsear.
+
+        // Datos en forma de atributos
         String codigo = corredorElem.getAttribute("codigo");
         int dorsal = Integer.parseInt(corredorElem.getAttribute("dorsal"));
         String equipo = corredorElem.getAttribute("equipo");
-        //Conseguir texto de la etiqueta nombre
+
+        // Datos en forma de texto (Necesito función propia)
         String nombre = XMLDOMUtils.obtenerTexto(corredorElem, "nombre");
         LocalDate fecha = LocalDate.parse(XMLDOMUtils.obtenerTexto(corredorElem, "fecha"));
 
@@ -91,7 +94,7 @@ public class CorredorXML {
             default -> null;
         };
 
-        // Si acabo de construir un corredor en el switch
+        // Si todo fue bien, añado el historial (Funcion propia que me devuelva una List)
         if (corredor != null) {
             corredor.setHistorial(cargarHistorial(corredorElem));
         }
@@ -101,19 +104,23 @@ public class CorredorXML {
     }
 
     /**
-     *
+     * Cargo desde un elemento Corredor su historial a una List
      * @param corredorElem
      * @return
      */
     private List<Puntuacion> cargarHistorial(Element corredorElem) {
         List<Puntuacion> historial = new ArrayList();
+
+        // getElementsByTagName devuelve los nodos hijos y descendientes de ellos si los hay con ese nombre.
+        // item(0) devuelve el primero que encuentra
         Element historialElem = (Element) corredorElem.getElementsByTagName("historial").item(0);
 
         if (historialElem != null) {
             NodeList puntuaciones = historialElem.getElementsByTagName("puntuacion");
+
+            // Recorro una NodeList con los nodos <puntuacion>
             for (int i = 0; i < puntuaciones.getLength(); i++) {
-                Element punt = (Element)
-                        puntuaciones.item(i);
+                Element punt = (Element) puntuaciones.item(i);
                 int anio = Integer.parseInt(punt.getAttribute("anio"));
                 float puntos = Float.parseFloat(punt.getTextContent());
                 historial.add(new Puntuacion(anio, puntos));
@@ -122,19 +129,24 @@ public class CorredorXML {
         return historial;
     }
 
+    /**
+     * Inserta un nuevo corredor en el Document XML
+     * @param corredor
+     */
     public void insertarCorredor(Corredor corredor) {
 
         // Obtener nodo raiz <corredores>
-        Element raiz = documentoXML.getDocumentElement():
+        Element raiz = documentoXML.getDocumentElement();
 
-        // Determinar tipo de corredor
+        // Determinar tipo de corredor que he recibido para ver que escribo en el nodo
         String tipo = corredor instanceof Velocista ? "velocista" : "fondista";
 
-        // Creo nodo principal del corredor
+        // Creo nodo principal del corredor, le paso el documento, el nombre del nodo y el nodo padre.
         Element nodoCorredor = XMLDOMUtils.addElement(documentoXML, tipo, raiz);
 
         //Añadir los atributos: código, dorsal, equipo
-        XMLDOMUtils.añadirAtributoID(documentoXML );
+        XMLDOMUtils.añadirAtributoID(documentoXML, "codigo", corredor.getCodigo(), nodoCorredor);
+        XMLDOMUtils.añadirAtributo(documentoXML, "dorsal", corredor.getDorsal(), nodoCorredor);
     }
 
     public int obtenerSiguienteDorsal(){
