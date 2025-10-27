@@ -69,3 +69,9 @@ try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
+para cpnsola new putputsream reader(new(System out
+poner dtd al guardar por q  no va en el dom, normalize para evitar espaciso
+devuelve element cuando añadeelement por si tengo que a la vuelta colgarle algo devolverlos tal cual.
