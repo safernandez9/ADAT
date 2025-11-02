@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+  <!-- Raíz: colección de equipos -->
+  <xs:element name="equipos">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="equipo" type="equipoType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Tipo complejo para cada equipo -->
+  <xs:complexType name="equipoType">
+    <xs:sequence>
+      <xs:element name="nombre" type="xs:string"/>
+      <xs:element name="patrocinadores" type="patrocinadoresType"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <!-- Contenedor de patrocinadores -->
+  <xs:complexType name="patrocinadoresType">
+    <xs:sequence>
+      <xs:element name="patrocinador" type="patrocinadorType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="numPatrocinadores" type="xs:nonNegativeInteger" use="optional"/>
+  </xs:complexType>
+
+  <!-- Patrocinador con contenido simple (nombre) y atributos -->
+  <xs:complexType name="patrocinadorType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="donacion" type="xs:decimal" use="required"/>
+        <xs:attribute name="fecha_inicio" type="xs:date" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+</xs:schema>
+
+

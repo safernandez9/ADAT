@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="925291f4-50fd-427e-a125-d4bbdbca7cb5" name="Changes" comment="CMT LUNES">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/A4FicherosXMLDOM.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/A4UD1-DOM GestionCorredoresyEquipos.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AnexoUNIDAD2-ExpresionesXPATH DOM.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivosXMLDTD/Corredores.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivosXMLDTD/CorredoresDTD.dtd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivosXMLDTD/CorrredoresXSD.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivosXMLDTD/Equipos.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivosXMLDTD/EquiposDTD.dtd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArchivosXMLDTD/EquiposXSD.xsd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clases/Corredor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clases/Equipo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clases/Fondista.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clases/Patrocinador.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clases/Puntuacion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clases/Velocista.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logica/GestorCorredores.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logica/GestorEquipos.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistencia/CorredorXML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistencia/EquipoXML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistencia/ExcepcionXML.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistencia/SimpleErrorHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistencia/TipoValidacion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/persistencia/XMLDOMUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilidades/Utilidades.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilidades/UtilidadesFechas.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;safernandez9&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/safernandez9/ADAT.git&quot;,
+    &quot;accountId&quot;: &quot;d889f03c-0881-409a-bbd8-e89fa10ed27d&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="34SJ4iBgtSBxlJTrrX2cS40Zrm8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/FP/DAM 2/ADAT/UD1 Ficheros/Practicas/A4FicherosXMLDOM&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;application.passwordSafe&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="925291f4-50fd-427e-a125-d4bbdbca7cb5" name="Changes" comment="" />
+      <created>1761200849990</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761200849990</updated>
+    </task>
+    <task id="LOCAL-00001" summary="CMT Jueves">
+      <option name="closed" value="true" />
+      <created>1761209292803</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1761209292803</updated>
+    </task>
+    <task id="LOCAL-00002" summary="CMT LUNES">
+      <option name="closed" value="true" />
+      <created>1761560406248</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1761560406248</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="CMT Jueves" />
+    <MESSAGE value="CMT LUNES" />
+    <option name="LAST_COMMIT_MESSAGE" value="CMT LUNES" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

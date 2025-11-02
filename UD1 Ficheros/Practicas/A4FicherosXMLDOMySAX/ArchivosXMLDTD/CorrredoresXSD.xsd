@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+  <!-- Raíz -->
+  <xs:element name="corredores">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="velocista"/>
+        <xs:element ref="fondista"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Velocista -->
+  <xs:element name="velocista">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="nombre" type="xs:string"/>
+        <xs:element name="fecha_nacimiento" type="xs:date"/>
+        <xs:element name="velocidad_media" type="xs:float" minOccurs="0"/>
+        <xs:element name="historial" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="puntuacion" maxOccurs="unbounded" minOccurs="1">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:decimal">
+                      <xs:attribute name="anio" type="xs:gYear" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="codigo" type="xs:ID" use="required"/>
+      <xs:attribute name="dorsal" type="xs:int" use="required"/>
+      <xs:attribute name="equipo" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Fondista -->
+  <xs:element name="fondista">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="nombre" type="xs:string"/>
+        <xs:element name="fecha_nacimiento" type="xs:date"/>
+        <xs:element name="distancia_max" type="xs:float"/>
+        <xs:element name="historial" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="puntuacion" maxOccurs="unbounded" minOccurs="1">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:decimal">
+                      <xs:attribute name="anio" type="xs:gYear" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="codigo" type="xs:ID" use="required"/>
+      <xs:attribute name="dorsal" type="xs:int" use="required"/>
+      <xs:attribute name="equipo" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+

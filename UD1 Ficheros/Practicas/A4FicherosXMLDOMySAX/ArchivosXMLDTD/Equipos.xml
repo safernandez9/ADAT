@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<equipos>
+  <equipo id="E1">
+    <nombre>Rápidos del Norte</nombre>
+    <patrocinadores numPatrocinadores="4">
+      <patrocinador donacion="1500.0" fecha_inicio="2023-01-15">Nike</patrocinador>
+      <patrocinador donacion="1200.0" fecha_inicio="2022-06-01">Adidas</patrocinador>
+      <patrocinador donacion="800.0" fecha_inicio="2021-04-10">New Balance</patrocinador>
+      <patrocinador donacion="500.0" fecha_inicio="2020-09-05">Decathlon</patrocinador>
+    </patrocinadores>
+  </equipo>
+  <equipo id="E2">
+    <nombre>Truenos del Oeste</nombre>
+    <patrocinadores numPatrocinadores="5">
+      <patrocinador donacion="1300.0" fecha_inicio="2020-03-20">Puma</patrocinador>
+      <patrocinador donacion="1100.0" fecha_inicio="2021-09-10">Under Armour</patrocinador>
+      <patrocinador donacion="900.0" fecha_inicio="2019-07-15">Reebok</patrocinador>
+      <patrocinador donacion="1500.0" fecha_inicio="2023-01-15">Nike</patrocinador>
+      <patrocinador donacion="1000.0" fecha_inicio="2022-11-05">Adidas</patrocinador>
+    </patrocinadores>
+  </equipo>
+  <equipo id="E3">
+    <nombre>Correcaminos</nombre>
+    <patrocinadores numPatrocinadores="3">
+      <patrocinador donacion="800.0" fecha_inicio="2021-09-10">ASICS</patrocinador>
+      <patrocinador donacion="700.0" fecha_inicio="2022-02-05">Brooks</patrocinador>
+      <patrocinador donacion="450.0" fecha_inicio="2020-07-01">Saucony</patrocinador>
+    </patrocinadores>
+  </equipo>
+  <equipo id="E4">
+    <nombre>Atléticos del Sur</nombre>
+    <patrocinadores numPatrocinadores="4">
+      <patrocinador donacion="1200.0" fecha_inicio="2022-06-01">Adidas</patrocinador>
+      <patrocinador donacion="900.0" fecha_inicio="2021-02-28">Salomon</patrocinador>
+      <patrocinador donacion="850.0" fecha_inicio="2020-10-10">Mizuno</patrocinador>
+      <patrocinador donacion="950.0" fecha_inicio="2021-08-15">HOKA</patrocinador>
+    </patrocinadores>
+  </equipo>
+  <equipo id="E5">
+    <nombre>Veloces Unidos</nombre>
+    <patrocinadores numPatrocinadores="4">
+      <patrocinador donacion="1400.0" fecha_inicio="2020-03-20">Nike</patrocinador>
+      <patrocinador donacion="1100.0" fecha_inicio="2023-01-15">Puma</patrocinador>
+      <patrocinador donacion="1000.0" fecha_inicio="2021-06-10">Under Armour</patrocinador>
+      <patrocinador donacion="600.0" fecha_inicio="2018-09-05">Skechers</patrocinador>
+    </patrocinadores>
+  </equipo>
+  <equipo id="E6">
+    <nombre>Picos y Llanos</nombre>
+    <patrocinadores numPatrocinadores="5">
+      <patrocinador donacion="700.0" fecha_inicio="2022-02-05">Decathlon</patrocinador>
+      <patrocinador donacion="2000.0" fecha_inicio="2021-05-01">Lululemon</patrocinador>
+      <patrocinador donacion="600.0" fecha_inicio="2021-09-10">Salomon</patrocinador>
+      <patrocinador donacion="950.0" fecha_inicio="2020-12-12">HOKA</patrocinador>
+      <patrocinador donacion="750.0" fecha_inicio="2019-03-03">Brooks</patrocinador>
+    </patrocinadores>
+  </equipo>
+  <equipo id="E7">
+    <nombre>Sprint Gallego</nombre>
+    <patrocinadores numPatrocinadores="4">
+      <patrocinador donacion="900.0" fecha_inicio="2022-08-01">New Balance</patrocinador>
+      <patrocinador donacion="700.0" fecha_inicio="2019-11-12">Reebok</patrocinador>
+      <patrocinador donacion="650.0" fecha_inicio="2021-04-20">ASICS</patrocinador>
+      <patrocinador donacion="500.0" fecha_inicio="2018-06-15">Saucony</patrocinador>
+    </patrocinadores>
+  </equipo>
+  <equipo id="E8">
+    <nombre>Maratón Atlántico</nombre>
+    <patrocinadores numPatrocinadores="5">
+      <patrocinador donacion="2000.0" fecha_inicio="2021-05-01">Nike</patrocinador>
+      <patrocinador donacion="1500.0" fecha_inicio="2022-06-01">Adidas</patrocinador>
+      <patrocinador donacion="1200.0" fecha_inicio="2020-11-11">Puma</patrocinador>
+      <patrocinador donacion="850.0" fecha_inicio="2019-09-09">Mizuno</patrocinador>
+      <patrocinador donacion="500.0" fecha_inicio="2018-01-30">Decathlon</patrocinador>
+    </patrocinadores>
+  </equipo>
+</equipos>
+
+
+
