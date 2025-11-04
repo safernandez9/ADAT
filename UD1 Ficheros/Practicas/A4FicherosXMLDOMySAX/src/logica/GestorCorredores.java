@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 import persistencia.CorredorXML;
 import persistencia.ExcepcionXML;
 import persistencia.TipoValidacion;
+import persistenciaSAX.CorredoresSAX;
 
 import java.util.List;
 
@@ -20,14 +21,18 @@ import java.util.List;
 public class GestorCorredores {
 
 
-    private final CorredorXML gestor;
+    private final CorredorXML gestorDOM;
+    private final CorredoresSAX gestorSAX;
     private Document documentoXML;
 
+
     /**
-     *  El constructor inicializa un único CorredorXML
+     *  El constructor inicializa un único gestorDOM de Operaciones para Corredor DOM y otro para
+     *  Corredor SAX
      */
     public GestorCorredores() {
-        this.gestor = new CorredorXML();
+        this.gestorDOM = new CorredorXML();
+        this.gestorSAX = new CorredoresSAX();
     }
 
     /**
@@ -38,7 +43,7 @@ public class GestorCorredores {
      */
     public void cargarDocumento(String rutaXML, TipoValidacion validacion) throws ExcepcionXML {
         try{
-            this.documentoXML = gestor.cargarDocumentoDOM(rutaXML, validacion);
+            this.documentoXML = gestorDOM.cargarDocumentoDOM(rutaXML, validacion);
             System.out.println("Documento XML cargado correctamente");
         }
         catch(ExcepcionXML e){
@@ -47,14 +52,36 @@ public class GestorCorredores {
     }
 
     /**
+     * LLama a cargarDocumento de CorredorSAX
+     * @param rutaXML String con la ruta del fichero
+     * @param validacion Enum con el tipo de validación
+     * @throws ExcepcionXML
+     */
+    public void cargarDocumentoSAX(String rutaXML, TipoValidacion validacion) throws ExcepcionXML {
+        gestorSAX.cargarDocumentoXML(rutaXML, validacion);
+    }
+
+    /**
      * Función que recibe de CorredorXML un List de Corredores y la muestra en función de su método toString()
      */
-    public void mostrarCorredores(){
-        List<Corredor> lista = gestor.cargarCorredores(documentoXML);
+    public void mostrarCorredoresDOM(){
+        List<Corredor> lista = gestorDOM.cargarCorredores(documentoXML);
         for(Corredor c : lista){
             System.out.println(c);
         }
     }
+
+    /**
+     * Función que recibe de CorredorXML un List de Corredores y la muestra en función de su método toString()
+     */
+    public void mostrarCorredoresSAX(){
+        List<Corredor> lista = gestorSAX.cargarCorredores(ruta);
+        for(Corredor c : lista){
+            System.out.println(c);
+        }
+    }
+
+
 
 
 
