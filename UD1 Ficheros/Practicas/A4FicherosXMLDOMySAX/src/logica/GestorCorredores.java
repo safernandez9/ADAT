@@ -58,7 +58,7 @@ public class GestorCorredores {
      * @throws ExcepcionXML
      */
     public void cargarDocumentoSAX(String rutaXML, TipoValidacion validacion) throws ExcepcionXML {
-        gestorSAX.cargarDocumentoXML(rutaXML, validacion);
+        gestorSAX.cargarCorredores(rutaXML, validacion);
     }
 
     /**
@@ -74,8 +74,8 @@ public class GestorCorredores {
     /**
      * Función que recibe de CorredorXML un List de Corredores y la muestra en función de su método toString()
      */
-    public void mostrarCorredoresSAX(){
-        List<Corredor> lista = gestorSAX.cargarCorredores(ruta);
+    public void mostrarCorredoresSAX(String ruta, TipoValidacion validacion) {
+        List<Corredor> lista = gestorSAX.cargarCorredores(ruta, validacion);
         for(Corredor c : lista){
             System.out.println(c);
         }

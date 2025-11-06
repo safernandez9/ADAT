@@ -8,11 +8,10 @@ import org.xml.sax.helpers.DefaultHandler;
 import persistencia.ExcepcionXML;
 import persistencia.TipoValidacion;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 
@@ -21,19 +20,23 @@ public class XMLSAXUtils {
 
     /**
      * Carga y lee el documento SAX con una manejadora que recibe.
+     * Los datos los guarda la manejadora
      * @param rutaFichero String con la ruta del fichero
      * @param validacion Enum con el tipo de validación
      * @param miHandler Manejadora que voy a utilizar
      */
     public static void cargarDocumentoXMLSAX(String rutaFichero, TipoValidacion validacion, DefaultHandler miHandler) {
 
-        if (rutaFichero == "" || rutaFichero == null) {
+        // Comprobaciones de si la cadena rutaFichero está vacía, si la validacion es null y si el fichero no existe
+        if (rutaFichero.isEmpty() || rutaFichero == null) {
             throw new ExcepcionXML("Ruta del fichero XML vacía");
         }
         if(validacion == null){
             throw new ExcepcionXML("Tipo de validación introducido nulo");
         }
-        if((COMPROBACION RUTA NO EXISTE))
+        if(!(new File(rutaFichero).exists())){
+            throw new ExcepcionXML("El fichero no existe");
+        }
 
         try {
             // Creo y configuro la Factory de SAX
@@ -46,12 +49,12 @@ public class XMLSAXUtils {
             XMLReader xmlReader = saxParser.getXMLReader();
             xmlReader.setContentHandler(miHandler);
 
-            xmlReader.parse(new InputSource((new InputSource(new
-                    FileInputStream(rutaFichero)));
+            xmlReader.parse(new InputSource(new BufferedInputStream(new FileInputStream(rutaFichero))));
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
-            throw new RuntimeException(e);
+            throw new ExcepcionXML("Error en la lectura del archivo XML: " + e.getMessage());
+        } catch (SAXException | ParserConfigurationException e) {
+            throw new ExcepcionXML("Error al cargar el documento XML: " + e.getMessage());
         }
 
     }
