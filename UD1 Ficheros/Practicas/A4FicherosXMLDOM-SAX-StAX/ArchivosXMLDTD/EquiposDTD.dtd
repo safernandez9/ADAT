@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!ELEMENT equipos (equipo*)>
+
+<!ELEMENT equipo (nombre, patrocinadores)>
+<!ATTLIST equipo
+  id ID #REQUIRED
+>
+
+<!ELEMENT nombre (#PCDATA)>
+
+<!ELEMENT patrocinadores (patrocinador*)>
+<!ATTLIST patrocinadores
+  numPatrocinadores CDATA #IMPLIED
+>
+
+<!ELEMENT patrocinador (#PCDATA)>
+<!ATTLIST patrocinador
+  donacion CDATA #REQUIRED
+  fecha_inicio CDATA #REQUIRED
+>
