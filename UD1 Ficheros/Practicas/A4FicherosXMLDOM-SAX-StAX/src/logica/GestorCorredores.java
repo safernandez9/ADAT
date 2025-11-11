@@ -14,7 +14,13 @@ import persistenciaDOM.CorredorXML;
 import persistenciaDOM.ExcepcionXML;
 import persistenciaDOM.TipoValidacion;
 import persistenciaSAX.CorredoresSAX;
+import persistenciaStAX.modoCursor.CorredoresStAXCursor;
+import persistenciaStAX.modoCursor.XMLStAXUtilsCursor;
+import persistenciaStAX.modoEventos.CorredoresStAXEventos;
+import persistenciaStAX.modoEventos.XMLStAXUtilsEventos;
 
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamReader;
 import java.util.List;
 
 
@@ -24,15 +30,19 @@ public class GestorCorredores {
     private final CorredorXML gestorDOM;
     private final CorredoresSAX gestorSAX;
     private Document documentoXML;
+    private final CorredoresStAXCursor gestorStAXCursor;
+    private final CorredoresStAXEventos gestorStAXEventos;
 
 
     /**
-     *  El constructor inicializa un único gestorDOM de Operaciones para Corredor DOM y otro para
-     *  Corredor SAX
+     *  El constructor inicializa los gestores para las diferentes metodologías
+     *  creando uno nuevo por cada una, DOM, SAX, StAXCursor y StAXEventos
      */
     public GestorCorredores() {
         this.gestorDOM = new CorredorXML();
         this.gestorSAX = new CorredoresSAX();
+        this.gestorStAXCursor = new CorredoresStAXCursor();
+        this.gestorStAXEventos = new CorredoresStAXEventos();
     }
 
     /**
@@ -78,6 +88,36 @@ public class GestorCorredores {
         List<Corredor> lista = gestorSAX.cargarCorredores(ruta, validacion);
         for(Corredor c : lista){
             System.out.println(c);
+        }
+    }
+
+    public void mostrarCorredoresStAXCursor(String ruta, TipoValidacion validacion) {
+        try{
+            XMLStreamReader reader = XMLStAXUtilsCursor.cargarDocumentoStAXCursor(ruta, validacion);
+            List <Corredor> lista = gestorStAXCursor.leerCorredores(reader);
+
+            System.out.println("Lista de corredores (StAX Cursor");
+            for(Corredor c : lista){
+                System.out.println(c);
+            }
+
+        }catch(ExcepcionXML e){
+            System.err.println("Error al leer corredores ocn StAX Cursor: " + e.getMessage());
+        }
+    }
+
+    public void mostrarCorredoresStAXEventos(String ruta, TipoValidacion validacion) {
+        try{
+            XMLEventReader reader = XMLStAXUtilsEventos.cargarDocumentoStAXEventos(ruta, validacion);
+            List <Corredor> lista = gestorStAXEventos.leerCorredores(reader);
+
+            System.out.println("Lista de corredores (StAX Evento");
+            for(Corredor c : lista){
+                System.out.println(c);
+            }
+
+        } catch(ExcepcionXML e){
+            System.err.println("Error al leer corredores con StAX Eventos: " + e.getMessage());
         }
     }
 

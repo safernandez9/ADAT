@@ -1,4 +1,4 @@
-package persistenciaStAX.modoCursor;
+package persistenciaSAX;
 
 /**
  * Lanzo en lugar de runtimeExceptions, facilita la legibilidad del codigo. Dos constructores según como la quiera usar.

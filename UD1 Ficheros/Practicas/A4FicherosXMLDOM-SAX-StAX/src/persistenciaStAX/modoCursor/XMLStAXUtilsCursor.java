@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+// Por ahora al día.
+
 public class XMLStAXUtilsCursor {
 
     /**
@@ -103,31 +105,34 @@ public class XMLStAXUtilsCursor {
     }
 
     /**
-     *
+     * Extrae el texto del evento actual si es de tipo CHARACTER
      * @param lector
      * @return
      */
-    private static String leerTexto(XMLStreamReader lector) {
+    public static String leerTexto(XMLStreamReader lector) {
         return lector.getEventType() == XMLStreamConstants.CHARACTERS ? lector.getText().trim() : "";
     }
 
     /**
      * Extrae el valor de un atributo dado en la etiqueta actual
      *
+     * @param lector
+     * @param nombre
      * @return
      */
-    private static String leerAtributo(XMLStreamReader lector, String nombre) {
+    public static String leerAtributo(XMLStreamReader lector, String nombre) {
         return lector.getAttributeValue(null, nombre);
 
     }
 
     /**
      * Devuelve el nombre local (sin prefijo) de la etiqueta actual
+     * solo si es etiqueta de inicio o cierre
      *
      * @param lector XMLStreamReader, lector StAX
      * @return Nombre de la etiqueta (solo lo devuelve si es de apertura o cierre)
      */
-    private static String obtenerNombreEtiqueta(XMLStreamReader lector) {
+    public static String obtenerNombreEtiqueta(XMLStreamReader lector) {
         if (lector.isStartElement() || lector.isEndElement()) {
             return lector.getLocalName();
         } else {
