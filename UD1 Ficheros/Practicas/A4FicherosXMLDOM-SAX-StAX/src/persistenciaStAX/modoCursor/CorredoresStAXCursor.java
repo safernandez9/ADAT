@@ -118,9 +118,9 @@ public class CorredoresStAXCursor {
         } catch (XMLStreamException e) {
             throw new ExcepcionXML("Error al leer los corredores: " + e.getMessage(), e);
         }
-
         return corredores;
     }
+
 
 
 }
