@@ -128,25 +128,77 @@ public class CorredorXML {
         return historial;
     }
 
-//    /**
-//     * Inserta un nuevo corredor en el Document XML
-//     * @param corredor
-//     */
-//    public void insertarCorredor(Corredor corredor) {
-//
-//        // Obtener nodo raiz <corredores>
+    /**
+     * Busca un corredor en el document por su ID, lo crea y lo devuelve como objeto
+     * @param ID id del Corredor
+     * @return
+     */
+    public Corredor mostrarCorredorPorIdDOM(String ID) throws ExcepcionXML {
+        Corredor c = crearCorredor(XMLDOMUtils.buscarElementoPorID(documentoXML, ID));
+        if (c == null) {
+            throw new ExcepcionXML("No existe el corredor con el identificador " + ID);
+        }
+        return c;
+    }
+
+    /**
+     * Usa el método de XMLDOMUtils obtenerElementoPorAtributo() para buscar un corredor
+     * por su dorsal, crearlo si existe y devolverlo
+     * @param dorsal Dorsal del corredor buscado
+     * @return Corredor buscado
+     * @throws ExcepcionXML
+     */
+    public Corredor mostrarCorredorPorDorsal(int dorsal) throws ExcepcionXML {
+        Element e = XMLDOMUtils.buscarElementoPorAtributo(documentoXML, "velocista", "dorsal", Integer.toString(dorsal));
+        if(e == null){
+            e = XMLDOMUtils.buscarElementoPorAtributo(documentoXML, "fondista", "dorsal", Integer.toString(dorsal));
+        }
+        Corredor c = crearCorredor(e);
+        if(c == null){
+            throw new ExcepcionXML("No existe corredor con el dorsal " + dorsal);
+        }
+        return c;
+    }
+
+    // SU METODO, POR QUE HABRIA QUE COMPROBAR SI ES INSTANCEOF SI SABEMOS COMO ES EL XML?
+//    public Corredor buscarCorredorPorDorsal (int dorsal){
 //        Element raiz = documentoXML.getDocumentElement();
+//        NodeList hijos = raiz.getChildNodes();
 //
-//        // Determinar tipo de corredor que he recibido para ver que escribo en el nodo
-//        String tipo = corredor instanceof Velocista ? "velocista" : "fondista";
+//        for (int i = hijos.getLength()-1; i >= 0; i--) {
+//            Node nodo = hijos.item(i);
+//            if(nodo instanceof Element corredorElem){
 //
-//        // Creo nodo principal del corredor, le paso el documento, el nombre del nodo y el nodo padre.
-//        Element nodoCorredor = XMLDOMUtils.addElement(documentoXML, tipo, raiz);
+//            }
 //
-//        //Añadir los atributos: código, dorsal, equipo
-//        XMLDOMUtils.añadirAtributoID(documentoXML, "codigo", corredor.getCodigo(), nodoCorredor);
-//        XMLDOMUtils.añadirAtributo(documentoXML, "dorsal", corredor.getDorsal(), nodoCorredor);
+//        }
 //    }
+
+    // RECIBE UN CORREDOR O SOLO ALGUNOOS PARAMETROS? POR EL TEMA DE AUTOINCREMENTAR EL DORSAL
+    /**
+      * Inserta un nuevo corredor en el Document XML
+      * @param corredor
+      */
+    public void insertarCorredor(Corredor corredor) {
+
+        // Obtener nodo raiz <corredores>
+        Element raiz = documentoXML.getDocumentElement();
+
+        // Determinar tipo de corredor que he recibido para ver que escribo en el nodo
+        String tipo = corredor instanceof Velocista ? "velocista" : "fondista";
+
+        // Creo nodo principal del corredor, le paso el documento, el nombre del nodo y el nodo padre y me quedo con su referencia.
+        Element nodoCorredor = XMLDOMUtils.addElement(documentoXML, tipo, raiz);
+
+        //Añadir los atributos: código, dorsal, equipo
+        XMLDOMUtils.añadirAtributoID(documentoXML, "codigo", corredor.getCodigo(), nodoCorredor);
+        XMLDOMUtils.añadirAtributo(documentoXML, "dorsal", Integer.toString(corredor.getDorsal()), nodoCorredor);
+        XMLDOMUtils.añadirAtributo(documentoXML, "equipo", corredor.getEquipo(), nodoCorredor);
+    }
+
+
+
+//
 //
 //    public int obtenerSiguienteDorsal(){
 //        Element raiz = documentoXML.getDocumentElement();
@@ -156,19 +208,7 @@ public class CorredorXML {
 //
 //    }
 //
-//    public Corredor buscarCorredorPorDorsal (int dorsal){
-//        Element raiz = documentoXML.getDocumentElement();
-//        NodeList hijos = raiz.getChildNodes();
 //
-//        for (int i = hijos.getLength()-1; i >= 0; i--) {
-//            Node nodo = hijos.item(i);
-//
-//            if(nodo instanceof Element corredorElem){
-//
-//            }
-//
-//        }
-//    }
 //
 //    /**
 //     * Elimina un elemento por su id

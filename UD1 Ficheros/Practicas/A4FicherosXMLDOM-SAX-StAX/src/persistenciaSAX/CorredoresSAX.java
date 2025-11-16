@@ -27,4 +27,6 @@ public class CorredoresSAX {
         XMLSAXUtils.cargarDocumentoXMLSAX(rutaFichero, validacion, miHandler);
         return miHandler.getCorredores();
     }
+
+    
 }

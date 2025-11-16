@@ -12,8 +12,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
 
-
-// FALTAN EXCEPCIONES (CREO)
 public class XMLSAXUtils {
 
     /**
@@ -23,7 +21,7 @@ public class XMLSAXUtils {
      * @param validacion Enum con el tipo de validación
      * @param miHandler Manejadora que voy a utilizar
      */
-    public static void cargarDocumentoXMLSAX(String rutaFichero, TipoValidacion validacion, DefaultHandler miHandler) {
+    public static void cargarDocumentoXMLSAX(String rutaFichero, TipoValidacion validacion, DefaultHandler miHandler) throws ExcepcionXML {
 
         // Comprobaciones de si la cadena rutaFichero está vacía, si la validacion es null y si el fichero no existe
         if (rutaFichero.isEmpty() || rutaFichero == null) {
@@ -89,6 +87,7 @@ public class XMLSAXUtils {
 
         return factory;
     }
+
 
 }
 

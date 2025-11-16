@@ -33,7 +33,7 @@ public class XMLDOMUtils {
      * @param validacion Tipo validacion, Enum
      * @return Document Documento generado a partir del XML
      */
-    public static Document cargarDocumentoXML(String rutaFichero, TipoValidacion validacion) {
+    public static Document cargarDocumentoXML(String rutaFichero, TipoValidacion validacion) throws ExcepcionXML {
 
         try {
             // 1. Crear y configurar la factoria de parsers segun el tipo de validacion (DEBE SER ANTES QUE EL PUNTO 2)
@@ -249,11 +249,33 @@ public class XMLDOMUtils {
      * Busca un elemento DOM por su atributo ID. Requiere que el documento haya sido
      * cargado con validacion DTD/XSD para que el parser haya recibido el atributo como ID
      * @param doc Raiz del Document
-     * @param idValue id del elemento que busco
+     * @param idValue id del elemento que busco como String
      * @return null si no existe, El elemento si existe
      */
     public static Element buscarElementoPorID(Document doc, String idValue){
         return doc.getElementById(idValue);
+    }
+
+    /**
+     * Busca un elemento por uno de sus atributos.
+     *
+     * @param doc Raiz del Document
+     * @param nombreElemento Nombre del elemento
+     * @param nombreAtributo Nombre del atributo
+     * @param valorBuscado Valor del atributo buscado
+     * @return Elemento
+     */
+    public static Element buscarElementoPorAtributo(Document doc, String nombreElemento, String nombreAtributo, String valorBuscado) {
+        NodeList lista = doc.getElementsByTagName(nombreElemento);
+
+        for (int i = 0; i < lista.getLength(); i++) {
+            Element e = (Element) lista.item(i);
+            if (e.hasAttribute(nombreAtributo) && e.getAttribute(nombreAtributo).equals(valorBuscado)) {
+                return e;
+            }
+        }
+
+        return null;
     }
 
 
