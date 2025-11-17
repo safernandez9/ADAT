@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!ELEMENT corredores (velocista | fondista)*>
+
+    <!-- Definicionn de velocista -->
+    <!ELEMENT velocista (nombre, fecha_nacimiento, velocidad_media, historial?)>
+    <!ATTLIST velocista 
+        codigo ID #REQUIRED
+        dorsal CDATA #REQUIRED
+        equipo CDATA #REQUIRED>
+
+    <!-- DefiniciÃ³nn de fondista -->
+    <!ELEMENT fondista (nombre, fecha_nacimiento, distancia_max, historial?)>
+    <!ATTLIST fondista 
+        codigo ID #REQUIRED
+        dorsal CDATA #REQUIRED
+        equipo CDATA #REQUIRED>
+
+  
+<!-- Elementos simples usados por ambos tipos -->
+<!ELEMENT nombre (#PCDATA)>
+<!ELEMENT fecha_nacimiento (#PCDATA)>
+<!ELEMENT velocidad_media (#PCDATA)>
+<!ELEMENT distancia_max (#PCDATA)>
+
+<!-- Historial de puntuaciones: si aparece debe contener una o mÃ¡s puntuacion -->
+<!ELEMENT historial (puntuacion+)>
+
+<!-- Puntuacion con atributo anio obligatorio -->
+<!ELEMENT puntuacion (#PCDATA)>
+<!ATTLIST puntuacion
+  anio CDATA #REQUIRED>
+
+
