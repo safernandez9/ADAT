@@ -1,16 +1,30 @@
 package modelo;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Telefonos {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Telefonos extends Contacto{
 
+    // No va en Persona por que es opcional.
     @XmlElementWrapper(name = "Teléfonos")
     @XmlElement(name = "Teléfono")
     private List<Telefono> telefonos;
 
+    public Telefonos() {
+        telefonos = new ArrayList<Telefono>();
+    }
 
-    //PROPERTI DELANTE DE LOS GET A VECES???
+    public List<Telefono> getTelefonos() {
+        return telefonos;
+    }
+
+    public void setTelefonos(List<Telefono> telefonos) {
+        this.telefonos = telefonos;
+    }
 }

@@ -233,9 +233,9 @@ public class XMLStAXUtilsCursor {
         } catch (IOException e) {
             throw new ExcepcionXML("No se pude crear el fichero XML: " + rutaSalida, e);
         } catch (XMLStreamException e) {
-            throw new ExcepcionXML()
+            throw new ExcepcionXML();
         } catch (Exception e){
-            throw new ExcepcionXML()
+            throw new ExcepcionXML();
         }
     }
 
@@ -361,7 +361,7 @@ public class XMLStAXUtilsCursor {
         try {
             writer.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new ExcepcionXML()
+            throw new ExcepcionXML();
         }
     }
 }

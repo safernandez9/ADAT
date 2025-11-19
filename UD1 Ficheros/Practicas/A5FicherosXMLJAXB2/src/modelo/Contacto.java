@@ -6,7 +6,7 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlSeeAlso({Telefono.class, Email.class})
+@XmlSeeAlso({Telefonos.class, Email.class})
 public abstract class Contacto {
     // Abstracta por que no comparte nada, solo es herencia para hacer
     // Email O Telefono, al igual que se hace con Estudiante O Trabajador

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Registro version="1.0" fechaCreacion="2025-11-17">
+    <Categorias>Estudios Trabajo Deporte</Categorias>
+    <Personas>
+        <Trabajador>
+            <Nombre>Carlos Alba</Nombre>
+            <FechaNacimiento>1999-03-12</FechaNacimiento>
+            <Telefonos>
+                <Teléfonos>
+                    <Teléfono tipo="movil">111111111</Teléfono>
+                    <Teléfono tipo="fijo">222222222</Teléfono>
+                </Teléfonos>
+            </Telefonos>
+            <empresa puesto="Director">LaColmena</empresa>
+            <Salario>8000.0</Salario>
+        </Trabajador>
+        <Estudiante>
+            <Nombre>Angel Rodríguez</Nombre>
+            <FechaNacimiento>2001-07-21</FechaNacimiento>
+            <Email>
+                <email>angel.rodriguez@example.com</email>
+            </Email>
+            <Universidad>Santiago</Universidad>
+            <Carrera>Informática</Carrera>
+        </Estudiante>
+        <Trabajador>
+            <Nombre>Manuel Sánchez</Nombre>
+            <FechaNacimiento>1979-11-04</FechaNacimiento>
+            <Email>
+                <email>Manuel Sánchez@example.com</email>
+            </Email>
+            <empresa puesto="Gerente">ElTornillo</empresa>
+            <Salario>2000.0</Salario>
+        </Trabajador>
+    </Personas>
+</Registro>
