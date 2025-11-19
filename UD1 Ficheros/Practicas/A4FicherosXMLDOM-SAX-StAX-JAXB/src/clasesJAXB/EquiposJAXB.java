@@ -17,24 +17,24 @@ import java.util.List;
 public class EquiposJAXB {
 
     @XmlElement(name = "equipo", required = true)
-    private List<Equipo> equipos = new ArrayList<Equipo>();
+    private List<EquipoJAXB> equipos = new ArrayList<EquipoJAXB>();
 
     // Constructor vacío obligatorio en JAXB
     public EquiposJAXB() {
     }
 
     // Constructor normal
-    public EquiposJAXB(List<Equipo> equipos) {
+    public EquiposJAXB(List<EquipoJAXB> equipos) {
         this.equipos = (equipos != null) ? equipos : new ArrayList<>();
     }
 
     // GETTERS Y SETTERS OBLIGATORIOS
 
-    public List<Equipo> getEquipos() {
+    public List<EquipoJAXB> getEquipos() {
         return equipos;
     }
 
-    public void setEquipos(List<Equipo> equipos) {
+    public void setEquipos(List<EquipoJAXB> equipos) {
         this.equipos = equipos;
     }
 
@@ -52,6 +52,10 @@ public class EquiposJAXB {
         } catch (JAXBException e){
             throw new ExcepcionXML("");
         }
+    }
+
+    public static void escribirEquipos(String rutaXML) throws ExcepcionXML {
+            XMLJAXBUtils.marshall(EquiposJAXB.class, rutaXML);
     }
 
 

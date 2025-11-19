@@ -1,13 +1,19 @@
 package clasesJAXB;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlValue;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PuntuacionJAXB {
 
+    @XmlAttribute(name = "anio")
     private int anio;
+
+    @XmlValue
     private float puntos;
 
-    /**
-     * Constructor vacío creado para la manejadora de SAX
-     */
     public PuntuacionJAXB() {
 
     }

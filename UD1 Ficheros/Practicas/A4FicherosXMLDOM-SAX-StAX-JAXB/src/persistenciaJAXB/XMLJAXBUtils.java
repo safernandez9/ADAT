@@ -13,9 +13,9 @@ public class XMLJAXBUtils {
      * @param objeto
      * @param rutaArchivo
      * @param <T>
-     * @throws JAXBException
+     * @throws ExcepcionXML
      */
-    public static <T> void marshall(T objeto, String rutaArchivo) throws JAXBException{
+    public static <T> void marshall(T objeto, String rutaArchivo) throws ExcepcionXML {
         try{
             // Crear contexto JAXB
             JAXBContext context = JAXBContext.newInstance(objeto.getClass());
@@ -29,7 +29,7 @@ public class XMLJAXBUtils {
             // marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "XMLPuntos.xsd");
 
             marshaller.marshal(objeto, new File(rutaArchivo));
-        } catch (ExcepcionXML e) {
+        } catch (JAXBException e) {
             throw new ExcepcionXML("Error al ? el archivo: " + rutaArchivo, e);
         }
     }

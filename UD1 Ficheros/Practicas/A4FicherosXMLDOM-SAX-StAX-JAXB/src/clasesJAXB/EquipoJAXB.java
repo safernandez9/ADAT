@@ -14,7 +14,7 @@ public class EquipoJAXB {
     private String nombre;
 
     //NO PUEDO HACERLO CON WRAPPER YA QUE TIENE UN ATRIBUTO, SI CONTUVIERA TEXTO TAMPOCO PODRIA
-    //SOLO PUEDO CON ETIQUETAS QUE TRABAJAN  UNICAMENTE COMO CAPSULAS <a><b></b></a>
+    //SOLO PUEDO CON ETIQUETAS QUE TRABAJAN UNICAMENTE COMO CAPSULAS <a><b></b></a>
     @XmlElement(name = "patrocinadores", required = true)
     private PatrocinadoresJAXB patrocinadores;
 

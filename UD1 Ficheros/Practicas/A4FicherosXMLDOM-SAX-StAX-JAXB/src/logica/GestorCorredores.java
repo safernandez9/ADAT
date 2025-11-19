@@ -9,6 +9,7 @@ package logica;
  */
 
 import clases.Corredor;
+import clases.Equipo;
 import clasesJAXB.EquipoJAXB;
 import clasesJAXB.EquiposJAXB;
 import org.w3c.dom.Document;
@@ -119,7 +120,9 @@ public class GestorCorredores {
         }
     }
 
-    public void añadirCorredor()
+    public void añadirCorredor(){
+
+    }
 
 
 
@@ -183,10 +186,24 @@ public class GestorCorredores {
         }
     }
 
-// ACABAR public void mostrarEquiposJAXB(String rutaXML){
+    public void mostrarEquiposJAXB(String rutaXML){
 
         EquiposJAXB equipos = EquiposJAXB.leerEquipos(rutaXML);
 
+        for(EquipoJAXB e : equipos){
+            System.out.println(e);
+        }
+
+
+    }
+
+    public void escribirEquipos(String rutaXML){
+        try{
+            EquiposJAXB.escribirEquipos(rutaXML);
+        }
+        catch (ExcepcionXML e){
+            System.out.println("Error al escribir equipos XML: " + e.getMessage());
+        }
 
     }
 
