@@ -1,11 +1,9 @@
 package modelo;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.bind.annotation.XmlTransient;
 
-
-@XmlAccessorType(XmlAccessType.NONE)
+@XmlTransient
 @XmlSeeAlso({Telefonos.class, Email.class})
 public abstract class Contacto {
     // Abstracta por que no comparte nada, solo es herencia para hacer

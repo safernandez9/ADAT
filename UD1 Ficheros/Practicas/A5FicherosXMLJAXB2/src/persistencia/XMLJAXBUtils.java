@@ -32,7 +32,15 @@ public class XMLJAXBUtils {
 
             marshaller.marshal(objeto, new File(rutaArchivo));
         } catch (JAXBException e) {
-            throw new ExcepcionXML("Error al ? el archivo: " + rutaArchivo, e);
+            System.err.println("JAXBException: " + e.getMessage());
+            Throwable linked = e.getLinkedException();
+            if(linked != null){
+                System.err.println("Linked Exception: " + linked.getMessage());
+                linked.printStackTrace();
+            }
+            else{
+                e.printStackTrace();
+            }
         }
     }
 

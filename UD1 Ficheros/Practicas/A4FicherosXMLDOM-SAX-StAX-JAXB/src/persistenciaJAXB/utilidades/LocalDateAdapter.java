@@ -1,3 +1,4 @@
+// Acabado
 package persistenciaJAXB.utilidades;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;

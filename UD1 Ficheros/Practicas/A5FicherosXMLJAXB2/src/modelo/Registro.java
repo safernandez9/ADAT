@@ -27,7 +27,7 @@ public class Registro {
 
     // Envuelve la lista dentro de un solo elemento XML llamado <Personas> ... </Personas>.
     @XmlElementWrapper(name = "Personas")
-    // Permite definir subtipos concretos que pueden aparecer dentro de la lista.
+    // Permite definir subtipos concretos que pueden aparecer dentro de la lista. A o B
     @XmlElements({
             @XmlElement(name = "Trabajador", type = Trabajador.class),
             @XmlElement(name = "Estudiante", type = Estudiante.class)

@@ -11,9 +11,8 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Telefonos extends Contacto{
 
-    // No va en Persona por que es opcional.
-    @XmlElementWrapper(name = "Teléfonos")
-    @XmlElement(name = "Teléfono")
+    // No va en Persona por que es opcional
+    @XmlElement(name = "Telefono")
     private List<Telefono> telefonos;
 
     public Telefonos() {

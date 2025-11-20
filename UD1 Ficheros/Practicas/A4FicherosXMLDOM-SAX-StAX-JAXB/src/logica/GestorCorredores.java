@@ -9,9 +9,12 @@ package logica;
  */
 
 import clases.Corredor;
-import clases.Equipo;
-import clasesJAXB.EquipoJAXB;
-import clasesJAXB.EquiposJAXB;
+import jakarta.xml.bind.JAXBException;
+import persistenciaJAXB.XMLJAXBUtils;
+import persistenciaJAXB.clasesJAXB.CorredorJAXB;
+import persistenciaJAXB.clasesJAXB.CorredoresJAXB;
+import persistenciaJAXB.clasesJAXB.EquipoJAXB;
+import persistenciaJAXB.clasesJAXB.EquiposJAXB;
 import org.w3c.dom.Document;
 import persistenciaDOM.CorredorXML;
 import persistenciaDOM.ExcepcionXML;
@@ -186,26 +189,24 @@ public class GestorCorredores {
         }
     }
 
-    public void mostrarEquiposJAXB(String rutaXML){
-
-        EquiposJAXB equipos = EquiposJAXB.leerEquipos(rutaXML);
-
-        for(EquipoJAXB e : equipos){
-            System.out.println(e);
+    /**
+     * Muestra los Corredores sacados de un fichero por pantalla.
+     *
+     * @param ruta
+     */
+    public void mostrarCorredoresJAXB(String ruta){
+        try {
+            CorredoresJAXB corredores = new CorredoresJAXB();
+            corredores.leerCorredores(ruta);
+            for (CorredorJAXB c : corredores.getCorredores()) {
+                System.out.println(c);
+            }
+        } catch (ExcepcionXML e) {
+            System.err.println("Error al leer: " + ruta + " con JAXB. " + e.getMessage());
         }
-
-
     }
 
-    public void escribirEquipos(String rutaXML){
-        try{
-            EquiposJAXB.escribirEquipos(rutaXML);
-        }
-        catch (ExcepcionXML e){
-            System.out.println("Error al escribir equipos XML: " + e.getMessage());
-        }
 
-    }
 
 
 }

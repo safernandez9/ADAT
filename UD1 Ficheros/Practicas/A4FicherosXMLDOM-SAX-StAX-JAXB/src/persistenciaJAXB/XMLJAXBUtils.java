@@ -1,3 +1,4 @@
+// Acabado
 package persistenciaJAXB;
 
 import jakarta.xml.bind.*;
@@ -5,14 +6,16 @@ import persistenciaDOM.ExcepcionXML;
 
 import java.io.File;
 
+
+
 public class XMLJAXBUtils {
 
     /**
-     * CAMBIO LA EXCEPCION POR LA NUESTRA?
+     * Hace el marshall del Objeto raiz en memoria al documento XML rutaArchivo
      *
-     * @param objeto
-     * @param rutaArchivo
-     * @param <T>
+     * @param objeto Objeto raiz a introducir en el documento XML
+     * @param rutaArchivo Ruta del archivo XML donde quiero escribir
+     * @param <T> Acepta cualquier objeto
      * @throws ExcepcionXML
      */
     public static <T> void marshall(T objeto, String rutaArchivo) throws ExcepcionXML {
@@ -30,7 +33,7 @@ public class XMLJAXBUtils {
 
             marshaller.marshal(objeto, new File(rutaArchivo));
         } catch (JAXBException e) {
-            throw new ExcepcionXML("Error al ? el archivo: " + rutaArchivo, e);
+            throw new ExcepcionXML("Error al marshall el archivo: " + rutaArchivo, e);
         }
     }
 
@@ -43,16 +46,20 @@ public class XMLJAXBUtils {
      * @param <T>
      * @throws JAXBException si ocurre un error de JAXB
      */
-    public static <T> T unmarshall(Class<T> clase, String rutaArchivo) throws JAXBException {
+    public static <T> T unmarshall(Class<T> clase, String rutaArchivo) throws ExcepcionXML {
 
-        // Crear el contexto JAXB para la clase indicada
-        JAXBContext context = JAXBContext.newInstance(clase);
+        try {
+            // Crear el contexto JAXB para la clase indicada
+            JAXBContext context = JAXBContext.newInstance(clase);
 
-        // Crear el unmarshaller
-        Unmarshaller unmarshaller = context.createUnmarshaller();
+            // Crear el unmarshaller
+            Unmarshaller unmarshaller = context.createUnmarshaller();
 
-        // Leer y convertir el XML a objeto
-        return clase.cast(unmarshaller.unmarshal(new File(rutaArchivo)));
+            // Leer y convertir el XML a objeto
+            return clase.cast(unmarshaller.unmarshal(new File(rutaArchivo)));
+        } catch (JAXBException e) {
+            throw  new ExcepcionXML("Error al unmarshall el archivo: " + rutaArchivo, e);
+        }
     }
 
 

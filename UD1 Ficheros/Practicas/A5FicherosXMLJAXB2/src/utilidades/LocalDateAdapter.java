@@ -5,8 +5,6 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-// CUIDADO QUE EN ESTE LAS FECHAS NO ESTAN EN ISO
-
 /**
  * XMLAdapter para convertir entre LocalDate y String en JAXB.
  * Permite serializar (marshal) y deserializar (unmarshal) fechas en formato yyyy-MM-dd
@@ -14,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
     // Definimos el formato de fecha que vamos a usar en el XML
-        private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy");
 
     /**
      * Convierte un String a objeto LocalDate desserializarlo (unmarshal) con JAXB

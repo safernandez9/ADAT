@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Telefono {
 
-    @XmlAttribute
+    @XmlAttribute(name = "tipo")
     private String tipo;
 
     @XmlValue
