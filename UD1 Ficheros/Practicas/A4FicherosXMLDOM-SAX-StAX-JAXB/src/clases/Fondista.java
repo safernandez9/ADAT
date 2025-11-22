@@ -1,6 +1,7 @@
 package clases;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Fondista extends Corredor{
 
@@ -16,6 +17,12 @@ public class Fondista extends Corredor{
         this.distanciaMax = distancia;
     }
 
+    public Fondista(String id, String nombre, LocalDate fecha, String equipo, List<Puntuacion> historial, float distanciaMax) {
+        super(id, nombre, fecha, equipo, historial);
+        this.distanciaMax = distanciaMax;
+
+    }
+
     public float getDistanciaMax() {
         return distanciaMax;
     }
@@ -29,6 +36,16 @@ public class Fondista extends Corredor{
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append("  |  DISTANCIA MAX:  ");
         sb.append(String.format("%.3f km", this.distanciaMax));
+        sb.append(" | HISTORIAL: ");
+        if(this.getHistorial() != null && !this.getHistorial().isEmpty()){
+            for(Puntuacion p : this.getHistorial()){
+                sb.append(" [");
+                sb.append(p.toString());
+                sb.append("] ");
+            }
+        } else {
+            sb.append("No tiene puntuaciones.");
+        }
         return sb.toString();
     }
 }

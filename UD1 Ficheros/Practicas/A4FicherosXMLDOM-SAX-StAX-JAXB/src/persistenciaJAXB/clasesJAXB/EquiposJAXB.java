@@ -65,7 +65,7 @@ public class EquiposJAXB {
      */
     public static void escribirEquipos(String rutaXML) throws ExcepcionXML {
             try{
-                XMLJAXBUtils.marshall(, rutaXML);
+                //XMLJAXBUtils.marshall(, rutaXML);
             } catch (ExcepcionXML e) {
                 throw new ExcepcionXML(e.getMessage(), e);
             }

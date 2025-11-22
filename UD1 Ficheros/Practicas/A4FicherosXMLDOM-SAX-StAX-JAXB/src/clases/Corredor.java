@@ -36,6 +36,14 @@ public class Corredor{
         this.equipo = equipo;
     }
 
+    public Corredor(String codigo, String nombre, LocalDate fecha, String equipo, List<Puntuacion> historial) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.fechaNacimiento = fecha;
+        this.equipo = equipo;
+        this.historial = historial;
+    }
+
     // Getters y Setters
 
     public String getCodigo() {
@@ -103,6 +111,8 @@ public class Corredor{
         StringBuilder sb = new StringBuilder();
 
         sb.append("NOMBRE: ").append(this.nombre);
+        sb.append(" | DORSAL: ").append(this.dorsal);
+        sb.append(" | CÓDIGO: ").append(this.codigo);
         sb.append(" | FECHANACIMIENTO: ").append(UtilidadesFechas.formatearLargo(this.fechaNacimiento));
         sb.append(" | EQUIPO: ").append(this.equipo);
 

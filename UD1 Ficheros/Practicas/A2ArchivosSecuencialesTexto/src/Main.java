@@ -1,22 +1,24 @@
-import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) throws Exception {
 
-public class Main{
-    public static void main(String[] args) {
+        // String rutaLog = "\\log.txt";
+        // String rutaEscoba = "\\escoba.txt";
 
-        Scanner sc = new Scanner(System.in);
-        String archivos;
+        // String rutaLog = "/Volumes/DAM/ADAT/Prueba1/src/Ejercicio2/log.txt";
+        String rutaEscoba = "src/escoba.txt";
 
-        //Ejercicio 1
-        System.out.println("Ejercicio 1");
-        System.out.println("Introduzca los archivos a contar separados por espacios");
-        archivos = sc.nextLine();
-        Operaciones.ejercicio1(archivos);
+        // String salidaLineas = "/Volumes/DAM/ADAT/Prueba1/src/Ejercicio2/Salida.txt";
+        // String salidaPalabras = "/Volumes/DAM/ADAT/Prueba1/src/Ejercicio2/ResultadoPalabras.txt";
+        // String logDirectorios = "/Volumes/DAM/ADAT/Prueba1/src/Ejercicio2/ficherolog.txt";
+        String salidaContar = "src/contarpalabras.txt";
 
-        //Ejercicio 2
-        System.out.println("Ejercicio 2");
+        // String[] archivos = {rutaLog, rutaEscoba};
+        // Operaciones.contarLineas(archivos, salidaLineas);
 
-        //Ejercicio 3
-        System.out.println("Ejercicio 3");
+        // Operaciones.crearDirectorios(rutaLog, logDirectorios);
+
+        // Operaciones.contarPalabra(rutaEscoba, "escoba", salidaPalabras);
+        Operaciones.contarPalabras(rutaEscoba, salidaContar);
+
     }
 }
-

@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static persistenciaDOM.XMLDOMUtils.buscarElementoPorAtributo;
+
 /**
  * Contiene la lógica específica para la entidad Corredor
  */
@@ -32,7 +34,8 @@ public class CorredorXML {
      * @throws ExcepcionXML
      */
     public Document cargarDocumentoDOM(String rutaXML, TipoValidacion validacion) throws ExcepcionXML {
-        return XMLDOMUtils.cargarDocumentoXML(rutaXML, validacion);
+        documentoXML = XMLDOMUtils.cargarDocumentoXML(rutaXML, validacion);
+        return this.documentoXML;
     }
 
     /**
@@ -67,7 +70,7 @@ public class CorredorXML {
      * @param corredorElem
      * @return
      */
-    public Corredor crearCorredor(Element corredorElem) {
+    public Corredor crearCorredor(Element corredorElem) throws ExcepcionXML {
 
         // Tener en cuenta que de un XML todo viene en forma de String, por ello habrá datos que parsear.
 
@@ -78,16 +81,16 @@ public class CorredorXML {
 
         // Datos en forma de texto (Necesito función propia)
         String nombre = XMLDOMUtils.obtenerTexto(corredorElem, "nombre");
-        LocalDate fecha = LocalDate.parse(XMLDOMUtils.obtenerTexto(corredorElem, "fecha"));
+        LocalDate fecha = LocalDate.parse(XMLDOMUtils.obtenerTexto(corredorElem, "fecha_nacimiento"));
 
         Corredor corredor = switch (corredorElem.getTagName()) {
             case "fondista" -> {
-                float distancia = Float.parseFloat(XMLDOMUtils.obtenerTexto(corredorElem, "distancia"));
+                float distancia = Float.parseFloat(XMLDOMUtils.obtenerTexto(corredorElem, "distancia_max"));
                 // Yield funciona como un return en un switch
                 yield new Fondista(codigo, dorsal, nombre, fecha, equipo, distancia);
             }
             case "velocista" -> {
-                float velocidad = Float.parseFloat(XMLDOMUtils.obtenerTexto(corredorElem, "velocidad"));
+                float velocidad = Float.parseFloat(XMLDOMUtils.obtenerTexto(corredorElem, "velocidad_media"));
                 yield new Velocista(codigo, dorsal, nombre, fecha, equipo, velocidad);
             }
             default -> null;
@@ -134,11 +137,17 @@ public class CorredorXML {
      * @return
      */
     public Corredor mostrarCorredorPorIdDOM(String ID) throws ExcepcionXML {
-        Corredor c = crearCorredor(XMLDOMUtils.buscarElementoPorID(documentoXML, ID));
-        if (c == null) {
-            throw new ExcepcionXML("No existe el corredor con el identificador " + ID);
+        Element elem = XMLDOMUtils.buscarElementoPorID(documentoXML, ID);
+
+        if (elem == null) {
+            throw new ExcepcionXML("No existe corredor con el ID " + ID);
         }
-        return c;
+
+        try {
+            return crearCorredor(elem);
+        } catch (ExcepcionXML ex) {
+            throw new ExcepcionXML(ex.getMessage());
+        }
     }
 
     /**
@@ -149,40 +158,35 @@ public class CorredorXML {
      * @throws ExcepcionXML
      */
     public Corredor mostrarCorredorPorDorsal(int dorsal) throws ExcepcionXML {
-        Element e = XMLDOMUtils.buscarElementoPorAtributo(documentoXML, "velocista", "dorsal", Integer.toString(dorsal));
+        Element e = buscarElementoPorAtributo(documentoXML, "velocista", "dorsal", Integer.toString(dorsal));
         if(e == null){
-            e = XMLDOMUtils.buscarElementoPorAtributo(documentoXML, "fondista", "dorsal", Integer.toString(dorsal));
+            e = buscarElementoPorAtributo(documentoXML, "fondista", "dorsal", Integer.toString(dorsal));
         }
-        Corredor c = crearCorredor(e);
-        if(c == null){
-            throw new ExcepcionXML("No existe corredor con el dorsal " + dorsal);
-        }
-        return c;
-    }
 
-    // SU METODO, POR QUE HABRIA QUE COMPROBAR SI ES INSTANCEOF SI SABEMOS COMO ES EL XML?
-//    public Corredor buscarCorredorPorDorsal (int dorsal){
-//        Element raiz = documentoXML.getDocumentElement();
-//        NodeList hijos = raiz.getChildNodes();
-//
-//        for (int i = hijos.getLength()-1; i >= 0; i--) {
-//            Node nodo = hijos.item(i);
-//            if(nodo instanceof Element corredorElem){
-//
-//            }
-//
-//        }
-//    }
+        if(e == null){
+            throw new ExcepcionXML("No existe el corredor para el dorsal " + dorsal);
+        }
+
+        try{
+            return crearCorredor(e);
+        } catch (ExcepcionXML ex) {
+            throw new ExcepcionXML("Error al crear corredor por dorsal: " + ex.getMessage());
+        }
+
+    }
 
     // RECIBE UN CORREDOR O SOLO ALGUNOOS PARAMETROS? POR EL TEMA DE AUTOINCREMENTAR EL DORSAL
     /**
-      * Inserta un nuevo corredor en el Document XML
+      * Inserta un nuevo corredor en el Document XML(El dorsal es autoIncremental)
       * @param corredor
       */
     public void insertarCorredor(Corredor corredor) {
 
         // Obtener nodo raiz <corredores>
         Element raiz = documentoXML.getDocumentElement();
+
+        // Obtener siguiente dorsal disponible antes de añadirlo
+        String nuevoDorsal = obtenerSiguienteDorsal();
 
         // Determinar tipo de corredor que he recibido para ver que escribo en el nodo
         String tipo = corredor instanceof Velocista ? "velocista" : "fondista";
@@ -192,41 +196,60 @@ public class CorredorXML {
 
         //Añadir los atributos: código, dorsal, equipo
         XMLDOMUtils.añadirAtributoID(documentoXML, "codigo", corredor.getCodigo(), nodoCorredor);
-        XMLDOMUtils.añadirAtributo(documentoXML, "dorsal", Integer.toString(corredor.getDorsal()), nodoCorredor);
+        XMLDOMUtils.añadirAtributo(documentoXML, "dorsal", nuevoDorsal, nodoCorredor);
         XMLDOMUtils.añadirAtributo(documentoXML, "equipo", corredor.getEquipo(), nodoCorredor);
+
+        // Añadir los elementos: nombre, fecha
+        XMLDOMUtils.addElement(documentoXML, "nombre", corredor.getNombre(), nodoCorredor);
+        XMLDOMUtils.addElement(documentoXML, "fecha_nacimiento", corredor.getFechaNacimiento().toString(), nodoCorredor);
+
+        // Añadir el elemento específico según el tipo de corredor
+        if (corredor instanceof Velocista velocista) {
+            XMLDOMUtils.addElement(documentoXML, "velocidad_media", Float.toString(velocista.getVelocidadMedia()), nodoCorredor);
+        } else if (corredor instanceof Fondista fondista) {
+            XMLDOMUtils.addElement(documentoXML, "distancia_max", Float.toString(fondista.getDistanciaMax()), nodoCorredor);
+        }
+
+        // Añadir el historial
+
+        Element historialElem = XMLDOMUtils.addElement(documentoXML, "historial", nodoCorredor);
+        for (Puntuacion p : corredor.getHistorial()) {
+            Element puntuacionElem = XMLDOMUtils.addElement(documentoXML, "puntuacion", historialElem);
+            XMLDOMUtils.añadirAtributo(documentoXML, "anio", Integer.toString(p.getAnio()), puntuacionElem);
+            puntuacionElem.setTextContent(Float.toString(p.getPuntos()));
+        }
     }
 
+    /**
+     * Obtiene el siguiente dorsal disponible (Mayor dorsal + 1)
+     * @return
+     */
+    public String obtenerSiguienteDorsal(){
+        Element raiz = documentoXML.getDocumentElement();
+        NodeList nodos = raiz.getChildNodes();
+        int maxDorsal = 0;
+        for (int i = 0; i < nodos.getLength(); i++) {
+            if (nodos.item(i) instanceof Element corredorElem) {
+                int dorsal = Integer.parseInt(corredorElem.getAttribute("dorsal"));
+                if(dorsal > maxDorsal){
+                    maxDorsal = dorsal;
+                }
+            }
+        }
+        maxDorsal += 1;
+        return Integer.toString(maxDorsal);
+    }
 
+    /**
+     * Elimina un elemento por su id
+     * @param codigo
+     * @return
+     */
+    public boolean eliminarCorredorPorCodigo(String codigo){
+        Element corredor = XMLDOMUtils.buscarElementoPorID(documentoXML, codigo);
+        return XMLDOMUtils.eliminarElemento(corredor);
+    }
 
-//
-//
-//    public int obtenerSiguienteDorsal(){
-//        Element raiz = documentoXML.getDocumentElement();
-//    }
-//
-//    public void guardarDocumentoDOM(){
-//
-//    }
-//
-//
-//
-//    /**
-//     * Elimina un elemento por su id
-//     * @param codigo
-//     * @return
-//     */
-//    public boolean eliminarCorredorPorCodigo(String codigo){
-//        Element corredor = XMLDOMUtils.buscarElementoPorID(documentoXML, codigo);
-//        return XMLDOMUtils.eliminarElemento(corredor);
-//    }
-//
-//    public boolean eliminarCorredorPorDorsal(int dorsal){
-//
-//        Corredor corredorAeliminar = buscarCorredorPorDorsal(dorsal);
-//        if (corredorAeliminar != null) {
-//            String codigoAEliminar = corredorAeliminar.getCodigo();
-//        }
-//    }
 
 
 }

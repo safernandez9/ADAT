@@ -22,15 +22,44 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- *  Contiene métodos genéricos y reutilizables para el manejo del DOM y XPath
+ * Contiene métodos genéricos y reutilizables para el manejo del DOM y XPath
  */
 public class XMLDOMUtils {
+
+    // ===================== CHULETA RÁPIDA DOM (JAVA) ======================
+
+// Insertar un nodo al final
+// parent.appendChild(nuevoNodo);
+
+// Insertar un nodo antes que un hermano
+// parent.insertBefore(nuevoNodo, nodoReferencia);
+
+// Insertar en una posición concreta
+// Node ref = parent.getChildNodes().item(indice);
+// parent.insertBefore(nuevoNodo, ref);
+
+// Insertar después de un nodo (no existe método directo → truco)
+// parent.insertBefore(nuevoNodo, nodoViejo.getNextSibling());
+
+// Reemplazar un nodo por otro
+// parent.replaceChild(nuevoNodo, nodoViejo);
+
+// Eliminar un nodo hijo
+// parent.removeChild(nodo);
+
+// Crear elementos y texto
+// Element e = doc.createElement("Tag");
+// Text t = doc.createTextNode("contenido");
+// e.appendChild(t);
+
+// ===============================================================
 
 
     /**
      * Siempre es el mismo método. Carga un XML en el Document. LLama a ConfigurarFactory.
+     *
      * @param rutaFichero Ruta del XML
-     * @param validacion Tipo validacion, Enum
+     * @param validacion  Tipo validacion, Enum
      * @return Document Documento generado a partir del XML
      */
     public static Document cargarDocumentoXML(String rutaFichero, TipoValidacion validacion) throws ExcepcionXML {
@@ -100,11 +129,12 @@ public class XMLDOMUtils {
 
     /**
      * Obtiene el texto de una etiqueta hija dentro de un elemento padre
-     * @param padre Padre de la etiqueda de la que quiero sacar texto
+     *
+     * @param padre    Padre de la etiqueda de la que quiero sacar texto
      * @param etiqueta Nmobre de la etiqueta
      * @return
      */
-    public static String obtenerTexto(Element padre, String etiqueta){
+    public static String obtenerTexto(Element padre, String etiqueta) {
 
         NodeList lista = padre.getElementsByTagName(etiqueta);
 
@@ -117,7 +147,7 @@ public class XMLDOMUtils {
 
     /**
      *
-     * @param doc Raiz del Document
+     * @param doc         Raiz del Document
      * @param rutaDestino
      */
     public static void guardarDocumentoXML(Document doc, String rutaDestino) {
@@ -141,10 +171,10 @@ public class XMLDOMUtils {
     /**
      * Añade un atributo a un elemento de un documento XML
      *
-     * @param doc Raiz del Document
+     * @param doc    Raiz del Document
      * @param nombre Nombre del atributo
-     * @param valor Valor del atributo
-     * @param padre Elemento al que se le añadirá el atributo
+     * @param valor  Valor del atributo
+     * @param padre  Elemento al que se le añadirá el atributo
      * @return Atributo creado
      */
     public static Attr añadirAtributo(Document doc, String nombre, String valor, Element padre) {
@@ -162,30 +192,35 @@ public class XMLDOMUtils {
      * Añadir atributo que será considerado como ID. Se hace como un atributo normal pero añado al acabar
      * el metodo padre.setIdAttributeNode(atributo, true);
      *
-     * @param doc Raiz del Document
-     * @param nombre Nombre del atributo
+     * @param doc     Raiz del Document
+     * @param nombre  Nombre del atributo
      * @param valorID Valor del atributo
-     * @param padre Elemento al que se le añadirá el atributo
+     * @param padre   Elemento al que se le añadirá el atributo
      * @return
      */
     public static Attr añadirAtributoID(Document doc, String nombre, String valorID, Element padre) {
-        Attr atributoID = doc.createAttribute(nombre);
-        atributoID.setValue(valorID);
-        padre.setAttributeNode(atributoID);
+        try {
+            Attr atributoID = doc.createAttribute(nombre);
 
-        // Registrar el atributo como tipo ID, no va a poder haber otro con el mismo nombre
-        padre.setIdAttributeNode(atributoID, true);
+            atributoID.setValue(valorID);
+            padre.setAttributeNode(atributoID);
 
-        return atributoID;
+            // Registrar el atributo como tipo ID, no va a poder haber otro con el mismo nombre
+            padre.setIdAttributeNode(atributoID, true);
+
+            return atributoID;
+        } catch (DOMException e) {
+            throw new ExcepcionXML("Error al añadir atributo ID: " + e.getMessage());
+        }
     }
 
     /**
      * Crea elemento con texto y lo añade como hijo a un padre.
      *
-     * @param doc Raiz del Document
+     * @param doc    Raiz del Document
      * @param nombre Nombre del Element que voy a crear
-     * @param valor Valor (En texto) del Element que voy a crear
-     * @param padre Nombre del padre del que colgaré el Element
+     * @param valor  Valor (En texto) del Element que voy a crear
+     * @param padre  Nombre del padre del que colgaré el Element
      * @return
      */
     public static Element addElement(Document doc, String nombre, String valor, Element padre) {
@@ -204,12 +239,13 @@ public class XMLDOMUtils {
     /**
      * Crea elemento vacio y lo añade como hijo al padre.
      *
-     * @param doc Raiz del Document
+     * @param doc    Raiz del Document
      * @param nombre Nombre del Element que voy a crear
-     * @param padre Nombre del padre del que colgaré el Element
+     * @param padre  Nombre del padre del que colgaré el Element
      * @return
      */
     public static Element addElement(Document doc, String nombre, Element padre) {
+
         Element elemento = doc.createElement(nombre);   // createElement crea el Element con el nombre que le paso
         padre.appendChild(elemento);                    // appendChild añade el elemento como hijo del padre
         return elemento;
@@ -218,11 +254,12 @@ public class XMLDOMUtils {
     /**
      * Elimina un elemento, cojo su padre y desde él elimino el hijo.
      * El resto de nodos se borraran en cascada.
+     *
      * @param elemento
      * @return
      */
-    public static boolean eliminarElemento(Element elemento){
-        if(elemento != null && elemento.getParentNode() != null){
+    public static boolean eliminarElemento(Element elemento) {
+        if (elemento != null && elemento.getParentNode() != null) {
             elemento.getParentNode().removeChild(elemento);
             return true;
         }
@@ -231,11 +268,12 @@ public class XMLDOMUtils {
 
     /**
      * Modifica un atributo de un elemento. Si no existe lo crea.
+     *
      * @param elemento
      * @param nombre
-     * @param valor Es Object porque no se que tipo de dato recibiré
+     * @param valor    Es Object porque no se que tipo de dato recibiré
      */
-    public static void modificarAtributo(Element elemento, String nombre, Object valor){
+    public static void modificarAtributo(Element elemento, String nombre, Object valor) {
 
         // Conviverto el tipo de dato recibido a String
         String valorStr = String.valueOf(valor);
@@ -248,21 +286,22 @@ public class XMLDOMUtils {
     /**
      * Busca un elemento DOM por su atributo ID. Requiere que el documento haya sido
      * cargado con validacion DTD/XSD para que el parser haya recibido el atributo como ID
-     * @param doc Raiz del Document
+     *
+     * @param doc     Raiz del Document
      * @param idValue id del elemento que busco como String
      * @return null si no existe, El elemento si existe
      */
-    public static Element buscarElementoPorID(Document doc, String idValue){
+    public static Element buscarElementoPorID(Document doc, String idValue) {
         return doc.getElementById(idValue);
     }
 
     /**
      * Busca un elemento por uno de sus atributos.
      *
-     * @param doc Raiz del Document
+     * @param doc            Raiz del Document
      * @param nombreElemento Nombre del elemento
      * @param nombreAtributo Nombre del atributo
-     * @param valorBuscado Valor del atributo buscado
+     * @param valorBuscado   Valor del atributo buscado
      * @return Elemento
      */
     public static Element buscarElementoPorAtributo(Document doc, String nombreElemento, String nombreAtributo, String valorBuscado) {
@@ -283,13 +322,14 @@ public class XMLDOMUtils {
 
     /**
      * Evalua y aplica una expresión XPath. Devuelve un Object de manera genérica
-     * @param contexto Nodo desde el que busca
-     * @param expresion Expresión XPath
+     *
+     * @param contexto          Nodo desde el que busca
+     * @param expresion         Expresión XPath
      * @param resultadoEsperado Tipo de objeto que espero recibir de mi XPath
      * @return
      */
     public static Object evaluarXPath(Object contexto, String expresion, QName resultadoEsperado) throws ExcepcionXML {
-        try{
+        try {
             // Inicializo y compilo el XPath
             XPath xpath = XPathFactory.newInstance().newXPath();
 
@@ -302,58 +342,62 @@ public class XMLDOMUtils {
     /**
      * Llama a evaluarXPath esperando un NodeList, castea el Object recibido a NodeList y
      * lo devuelve.
+     *
      * @param contexto
      * @param expresion
      * @return
      */
-    public static NodeList evaluarXPathNodeList(Object contexto, String expresion){
+    public static NodeList evaluarXPathNodeList(Object contexto, String expresion) {
         return (NodeList) evaluarXPath(contexto, expresion, XPathConstants.NODESET);
     }
 
     /**
      * Llama a evaluarXPath esperando un Node, castea el Object recibido a Node y
      * lo devuelve.
+     *
      * @param contexto
      * @param expresion
      * @return
      */
-    public static Node evaluarXPathNode(Object contexto, String expresion){
+    public static Node evaluarXPathNode(Object contexto, String expresion) {
         return (Node) evaluarXPath(contexto, expresion, XPathConstants.NODE);
     }
 
     /**
      * Llama a evaluarXPath esperando un Boolean, castea el Object recibido a Boolean y
      * lo devuelve.
+     *
      * @param contexto
      * @param expresion
      * @return
      */
-    public static Boolean evaluarXPathBoolean(Object contexto, String expresion){
+    public static Boolean evaluarXPathBoolean(Object contexto, String expresion) {
         return (Boolean) evaluarXPath(contexto, expresion, XPathConstants.BOOLEAN);
     }
 
     /**
      * Llama a evaluarXPath esperando un String, castea el Object recibido a String y
      * lo devuelve.
+     *
      * @param contexto
      * @param expresion
      * @return
      */
-    public static String evaluarXPathString(Object contexto, String expresion){
+    public static String evaluarXPathString(Object contexto, String expresion) {
         return (String) evaluarXPath(contexto, expresion, XPathConstants.STRING);
     }
 
     /**
      * Llama a evaluarXPath esperando un Double, castea el Object recibido a Double y
      * lo devuelve.
+     *
      * @param contexto
      * @param expresion
      * @return
      */
-    public static Double evaluarXPathNumber(Object contexto, String expresion){
+    public static Double evaluarXPathNumber(Object contexto, String expresion) {
         return (Double) evaluarXPath(contexto, expresion, XPathConstants.NUMBER);
     }
-
 
 
 }

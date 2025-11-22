@@ -32,14 +32,14 @@ public class CorredoresJAXB {
      * @return
      * @throws ExcepcionXML
      */
-    public CorredoresJAXB leerCorredores(String rutaXML) throws ExcepcionXML {
-        try{
-            return XMLJAXBUtils.unmarshall(CorredoresJAXB.class, rutaXML);
-        }
-        catch (JAXBException e) {
-            throw new ExcepcionXML(e.getMessage(), e);
-        }
-    }
+//    public CorredoresJAXB leerCorredores(String rutaXML) throws ExcepcionXML {
+////        try{
+////            return XMLJAXBUtils.unmarshall(CorredoresJAXB.class, rutaXML);
+////        }
+////        catch (JAXBException e) {
+////            throw new ExcepcionXML(e.getMessage(), e);
+////        }
+//    }
 
 
     // GETTERS Y SETTERS

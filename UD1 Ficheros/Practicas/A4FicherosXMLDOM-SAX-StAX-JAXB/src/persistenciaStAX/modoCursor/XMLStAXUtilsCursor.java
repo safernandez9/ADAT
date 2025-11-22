@@ -214,6 +214,7 @@ public class XMLStAXUtilsCursor {
         finally {
             //Creear lector?
         }
+        return null;  //PARA COMPILAR SOLO
 
     }
 
@@ -226,18 +227,18 @@ public class XMLStAXUtilsCursor {
      * @return
      * @throws ExcepcionXML
      */
-    public static XMLStreamWriter crearWriterStAX (String rutaSalida) throws ExcepcionXML {
-        try{
-            XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-            return outputFactory.createXMLStreamWriter(new FileWriter(rutaSalida));
-        } catch (IOException e) {
-            throw new ExcepcionXML("No se pude crear el fichero XML: " + rutaSalida, e);
-        } catch (XMLStreamException e) {
-            throw new ExcepcionXML();
-        } catch (Exception e){
-            throw new ExcepcionXML();
-        }
-    }
+//    public static XMLStreamWriter crearWriterStAX (String rutaSalida) throws ExcepcionXML {
+//        try{
+//            XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+//            return outputFactory.createXMLStreamWriter(new FileWriter(rutaSalida));
+//        } catch (IOException e) {
+//            throw new ExcepcionXML("No se pude crear el fichero XML: " + rutaSalida, e);
+//        } catch (XMLStreamException e) {
+//            throw new ExcepcionXML();
+//        } catch (Exception e){
+//            throw new ExcepcionXML();
+//        }
+//    }
 
 
     /**
@@ -357,11 +358,11 @@ public class XMLStAXUtilsCursor {
      * @param writer XMLStreamWriter que escribe el documento
      * @throws ExcepcionXML
      */
-    public static void ADDEndDocumento(XMLStreamWriter writer) throws ExcepcionXML {
-        try {
-            writer.writeEndElement();
-        } catch (XMLStreamException e) {
-            throw new ExcepcionXML();
-        }
-    }
+//    public static void ADDEndDocumento(XMLStreamWriter writer) throws ExcepcionXML {
+//        try {
+//            writer.writeEndElement();
+//        } catch (XMLStreamException e) {
+//            throw new ExcepcionXML();
+//        }
+//    }
 }

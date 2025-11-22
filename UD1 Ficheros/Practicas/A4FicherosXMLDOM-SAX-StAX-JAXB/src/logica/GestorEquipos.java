@@ -12,20 +12,20 @@ public class GestorEquipos {
 
     //COMPROBAR EXCEPCION
     public void mostrarEquipos(){
-        try{
-            EquiposJAXB equipos = XMLJAXBUtils.unmarshall(EquiposJAXB.class, "ArchivosXMLSDTD/Equipos.xml");
-        }catch(ExcepcionXML | JAXBException e){
-            System.out.println(e.getMessage());
-        }
+//        try{
+//            EquiposJAXB equipos = XMLJAXBUtils.unmarshall(EquiposJAXB.class, "ArchivosXMLSDTD/Equipos.xml");
+//        }catch(ExcepcionXML | JAXBException e){
+//            System.out.println(e.getMessage());
+//        }
     }
 
     public void mostrarEquiposJAXB(String rutaXML){
 
         EquiposJAXB equipos = EquiposJAXB.leerEquipos(rutaXML);
 
-        for(EquipoJAXB e : equipos){
-            System.out.println(e);
-        }
+//        for(EquipoJAXB e : equipos){
+//            System.out.println(e);
+//        }
 
 
     }

@@ -145,6 +145,8 @@ public class Vista {
                         OperacionesNIO.moverArchivoNIO(rutaOrigen, rutaDestino);
                     } catch (ArchivoNoExisteException | NoEsArchivoException | ErrorBorradoException e) {
                         System.out.println(e.getMessage());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                     break;
                 case 8:
@@ -160,6 +162,8 @@ public class Vista {
                     } catch (
                             DirectorioNoExisteException | NoEsDirectorioException e) {
                         System.out.println(e.getMessage());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                     break;
                 case 9:
