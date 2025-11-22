@@ -245,8 +245,11 @@ public class CorredorXML {
      * @param codigo
      * @return
      */
-    public boolean eliminarCorredorPorCodigo(String codigo){
+    public boolean eliminarCorredorPorCodigo(String codigo) throws ExcepcionXML {
         Element corredor = XMLDOMUtils.buscarElementoPorID(documentoXML, codigo);
+        if(corredor == null){
+            throw new ExcepcionXML("Corredor con ID " + codigo + " no encontrado.");
+        }
         return XMLDOMUtils.eliminarElemento(corredor);
     }
 

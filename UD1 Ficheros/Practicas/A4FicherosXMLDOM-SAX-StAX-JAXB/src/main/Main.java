@@ -49,6 +49,9 @@ public static void main(String[] args) {
     System.out.println("\n\nElimino corredor con ID 'C08' del documento XML...\n");
     gestor.eliminarCorredorPorIDDOM("C08");
     gestor.eliminarCorredorPorIDDOM("C09");
+    gestor.eliminarCorredorPorIDDOM("C99"); // No existente
+
+    System.out.println("\nListado de corredores tras las eliminaciones:\n");
     gestor.listarCorredoresDOM();
 
 
