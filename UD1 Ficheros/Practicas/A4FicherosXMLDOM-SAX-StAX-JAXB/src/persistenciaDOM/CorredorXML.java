@@ -253,6 +253,44 @@ public class CorredorXML {
         return XMLDOMUtils.eliminarElemento(corredor);
     }
 
+    /**
+     * Permitir agregar o actualizar una puntuación en el historial de un corredor existente
+     * (buscado por codigo).
+     * o Si el año de la nueva puntuación no existe, se debe agregar un nuevo registro de puntuación.
+     * o Si el año ya está presente, se debe actualizar el valor de la puntuación para ese año.
+     * o Tras la operación exitosa, debe darse un feedback claro sobre si la puntuación se añadió o se
+     * modificó.
+     */
+    public boolean modificarPuntuacion(String ID, Puntuacion nuevaPuntuacion) throws ExcepcionXML {
+        Element corredorElem = XMLDOMUtils.buscarElementoPorID(documentoXML, ID);
+        if(corredorElem == null){
+            throw new ExcepcionXML("Corredor con ID " + ID + " no existe.");
+        }
 
+        // Pongo .item(0) porque aunque solo haya un historial, getElementsByTagName devuelve una NodeList no convertible a Element.
+        Element historialElem = (Element) corredorElem.getElementsByTagName("historial").item(0);
+        if(historialElem == null){
+            throw new ExcepcionXML("El corredor con ID " + ID + " no tiene historial.");
+        }
+
+        // Saco el NodeList de puntuaciones del Element historial
+        NodeList puntuaciones = historialElem.getElementsByTagName("puntuacion");
+
+        for (int i = 0; i < puntuaciones.getLength(); i++) {
+            Element puntuacionElem = (Element) puntuaciones.item(i);
+            int anio = Integer.parseInt(puntuacionElem.getAttribute("anio"));
+            if(anio == nuevaPuntuacion.getAnio()){
+                // Actualizar puntuacion
+                puntuacionElem.setTextContent(Float.toString(nuevaPuntuacion.getPuntos()));
+                return true; // Indica que se modificó
+            }
+        }
+        // Si no se encontró el año, añadir nueva puntuacion
+        Element nuevaPuntuacionElem = XMLDOMUtils.addElement(documentoXML, "puntuacion", historialElem);
+        XMLDOMUtils.añadirAtributo(documentoXML, "anio", Integer.toString(nuevaPuntuacion.getAnio()), nuevaPuntuacionElem);
+        nuevaPuntuacionElem.setTextContent(Float.toString(nuevaPuntuacion.getPuntos()));
+        return true; // Indica que se añadió
+
+    }
 
 }

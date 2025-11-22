@@ -1,3 +1,4 @@
+import clases.Puntuacion;
 import logica.GestorCorredores;
 import persistenciaDOM.TipoValidacion;
 
@@ -52,6 +53,17 @@ public static void main(String[] args) {
     gestor.eliminarCorredorPorIDDOM("C99"); // No existente
 
     System.out.println("\nListado de corredores tras las eliminaciones:\n");
+    gestor.listarCorredoresDOM();
+
+    // Modificar puntuacion corredor
+
+    System.out.println("\n\nModifico la puntuación del corredor con ID 'C01'...\n");
+    gestor.añadirOModificarPuntuacionDOM("C01", new Puntuacion(2023, (float)48.7));
+    System.out.println("\n\nAñado una puntuación del corredor con ID 'C01'\n");
+    gestor.añadirOModificarPuntuacionDOM("C01", new Puntuacion(2024, (float)54.3));
+    System.out.println("\n\nAñado una puntuación del corredor con ID 'C99' (no existente)\n");
+    gestor.añadirOModificarPuntuacionDOM("C99", new Puntuacion(2024, (float)54.3));
+    System.out.println("\nListado de corredores tras las modificaciones de puntuación:\n");
     gestor.listarCorredoresDOM();
 
 

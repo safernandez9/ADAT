@@ -146,6 +146,16 @@ public class GestorCorredores {
         }
     }
 
+    public void añadirOModificarPuntuacionDOM(String ID, Puntuacion nuevaPuntuacion){
+        try{
+            if(gestorDOM.modificarPuntuacion(ID, nuevaPuntuacion)) {
+                System.out.println("Puntuación añadida/modificada correctamente para el corredor con ID " + ID);
+            }
+        }catch(ExcepcionXML ex){
+            System.err.println("Error al añadir/modificar puntuación: " + ex.getMessage());
+        }
+    }
+
 
 
 
