@@ -80,7 +80,7 @@ public static void main(String[] args) {
     // Guardar documento XML
 
     System.out.println("\n\nGuardando el documento XML tras las modificaciones...\n");
-    gestor.guardarDocumentoDOM("ArchivosXMLDTD/Corredores_Modificado.xml");
+    gestor.guardarDocumentoDOM("ArchivosXMLDTD/CorredoresParaSobreescribir.xml");
     gestor.listarCorredoresDOM();
 
 
