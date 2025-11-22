@@ -54,7 +54,6 @@ public class XMLDOMUtils {
 
 // ===============================================================
 
-
     /**
      * Siempre es el mismo método. Carga un XML en el Document. LLama a ConfigurarFactory.
      *
@@ -155,9 +154,12 @@ public class XMLDOMUtils {
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer();
 
+            // Configuraciones de salida. No obligatoria. Probar primero a quitarla en el examen.
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
             // Evitar espacios excesivos
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("(http://xml.apache.org/xslt) indent-amount", "4");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new FileWriter(rutaDestino));

@@ -175,7 +175,6 @@ public class CorredorXML {
 
     }
 
-    // RECIBE UN CORREDOR O SOLO ALGUNOOS PARAMETROS? POR EL TEMA DE AUTOINCREMENTAR EL DORSAL
     /**
       * Inserta un nuevo corredor en el Document XML(El dorsal es autoIncremental)
       * @param corredor
@@ -291,6 +290,42 @@ public class CorredorXML {
         nuevaPuntuacionElem.setTextContent(Float.toString(nuevaPuntuacion.getPuntos()));
         return true; // Indica que se añadió
 
+    }
+
+    /**
+     * Eliminar un único registro de puntuación del historial de un corredor, utilizando su
+     * codigo y el anio de la puntuación a borrar como claves.
+     *
+     * @param ID
+     * @param anio
+     * @throws ExcepcionXML
+     */
+    public boolean eliminarPuntuacionDOM(String ID, int anio) throws ExcepcionXML {
+        Element corredorElem = XMLDOMUtils.buscarElementoPorID(documentoXML, ID);
+        if(corredorElem == null){
+            throw new ExcepcionXML("Corredor con ID " + ID + " no existe.");
+        }
+
+        Element historialElem = (Element) corredorElem.getElementsByTagName("historial").item(0);
+        if(historialElem == null){
+            throw new ExcepcionXML("El corredor con ID " + ID + " no tiene historial.");
+        }
+
+        NodeList puntuaciones = historialElem.getElementsByTagName("puntuacion");
+        for (int i = 0; i < puntuaciones.getLength(); i++) {
+            Element puntuacionElem = (Element) puntuaciones.item(i);
+            int anioPuntuacion = Integer.parseInt(puntuacionElem.getAttribute("anio"));
+            if(anioPuntuacion == anio){
+                XMLDOMUtils.eliminarElemento(puntuacionElem);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void guardarDocumentoDOM(String rutaXML) throws ExcepcionXML {
+        XMLDOMUtils.guardarDocumentoXML(documentoXML, rutaXML);
     }
 
 }

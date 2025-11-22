@@ -137,6 +137,10 @@ public class GestorCorredores {
         }
     }
 
+    /**
+     * Elimina un corredor por su ID
+     * @param ID
+     */
     public void eliminarCorredorPorIDDOM(String ID){
         try{
             gestorDOM.eliminarCorredorPorCodigo(ID);
@@ -146,6 +150,11 @@ public class GestorCorredores {
         }
     }
 
+    /**
+     * Añade o modifica la puntuación de un corredor por su ID
+     * @param ID
+     * @param nuevaPuntuacion
+     */
     public void añadirOModificarPuntuacionDOM(String ID, Puntuacion nuevaPuntuacion){
         try{
             if(gestorDOM.modificarPuntuacion(ID, nuevaPuntuacion)) {
@@ -156,8 +165,32 @@ public class GestorCorredores {
         }
     }
 
+    /**
+     * Elimina la puntuación de un corredor por su ID y año
+     * @param ID
+     * @param año
+     */
+    public void eliminarPuntuacionDOM(String ID, int año){
+        try{
+            if(gestorDOM.eliminarPuntuacionDOM(ID, año)) {
+                System.out.println("Puntuación del año " + año + " eliminada correctamente para el corredor con ID " + ID);
+            }
+            else{
+                System.out.println("No se encontró la puntuación del año " + año + " para el corredor con ID " + ID);
+            }
+        }catch(ExcepcionXML ex){
+            System.err.println("Error al eliminar puntuación: " + ex.getMessage());
+        }
+    }
 
-
+    public void guardarDocumentoDOM(String rutaXML){
+        try{
+            gestorDOM.guardarDocumentoDOM(rutaXML);
+            System.out.println("Documento XML guardado correctamente en: " + rutaXML);
+        }catch(ExcepcionXML ex){
+            System.err.println("Error al guardar documento XML: " + ex.getMessage());
+        }
+    }
 
 
 

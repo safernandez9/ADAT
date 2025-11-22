@@ -66,7 +66,22 @@ public static void main(String[] args) {
     System.out.println("\nListado de corredores tras las modificaciones de puntuación:\n");
     gestor.listarCorredoresDOM();
 
+    // Eliminar puntuacion corredor
 
+    System.out.println("\n\nElimino la puntuación del año 2022 del corredor con ID 'C01'...\n");
+    gestor.eliminarPuntuacionDOM("C01", 2022);
+    System.out.println("\n\nIntento eliminar la puntuación del año 2025 del corredor con ID 'C01' (no existente)...\n");
+    gestor.eliminarPuntuacionDOM("C01", 2025);
+    System.out.println("\n\nIntento eliminar la puntuación del año 2022 del corredor con ID 'C99' (corredor no existente)...\n");
+    gestor.eliminarPuntuacionDOM("C99", 2022);
+    System.out.println("\nListado de corredores tras las eliminaciones de puntuación:\n");
+    gestor.listarCorredoresDOM();
+
+    // Guardar documento XML
+
+    System.out.println("\n\nGuardando el documento XML tras las modificaciones...\n");
+    gestor.guardarDocumentoDOM("ArchivosXMLDTD/Corredores_Modificado.xml");
+    gestor.listarCorredoresDOM();
 
 
 
