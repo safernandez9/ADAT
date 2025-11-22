@@ -1,6 +1,6 @@
 package logica;
 
-/**
+/*
  * La capa Lógica:
  * Responsabilidad: Gestionar la lógica de feedback
  * al usuario, y coordinar la persistencia. Es como el director de orquesta de la aplicación.
@@ -12,12 +12,6 @@ import clases.Corredor;
 import clases.Fondista;
 import clases.Puntuacion;
 import clases.Velocista;
-import jakarta.xml.bind.JAXBException;
-import persistenciaJAXB.XMLJAXBUtils;
-import persistenciaJAXB.clasesJAXB.CorredorJAXB;
-import persistenciaJAXB.clasesJAXB.CorredoresJAXB;
-import persistenciaJAXB.clasesJAXB.EquipoJAXB;
-import persistenciaJAXB.clasesJAXB.EquiposJAXB;
 import org.w3c.dom.Document;
 import persistenciaDOM.CorredorXML;
 import persistenciaDOM.ExcepcionXML;
@@ -39,6 +33,7 @@ public class GestorCorredores {
 
     private final CorredorXML gestorDOM;
     private Document documentoXML;
+    private String rutaGuardado = "ArchivosXMLDTD/Corredores_Modificado.xml";
     private final CorredoresSAX gestorSAX;
     private final CorredoresStAXCursor gestorStAXCursor;
     private final CorredoresStAXEventos gestorStAXEventos;
@@ -62,7 +57,7 @@ public class GestorCorredores {
      *
      * @param rutaXML    String con la ruta del fichero
      * @param validacion Enum con el tipo de validacion (DTD, XSD o ninguna)
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML lanzada si hay un error al cargar el documento
      */
     public void cargarDocumentoDOM(String rutaXML, TipoValidacion validacion) throws ExcepcionXML {
         try {
@@ -89,7 +84,7 @@ public class GestorCorredores {
 
     /**
      * Muestra un corredor por su ID
-     * @param ID
+     * @param ID id del corredor a mostrar
      */
     public void mostrarCorredorPorIDDOM(String ID){
         try{
@@ -102,7 +97,7 @@ public class GestorCorredores {
 
     /**
      * Muestra un corredor por su dorsal
-     * @param dorsal
+     * @param dorsal dorsal del corredor a mostrar
      */
     public void mostrarCorredorPorDorsalDOM(int dorsal){
         try{
@@ -132,6 +127,7 @@ public class GestorCorredores {
             gestorDOM.insertarCorredor(nuevoCorredor);
             gestorDOM.insertarCorredor(nuevoCorredor2);
             System.out.println("Corredor añadido correctamente.");
+            guardarDocumentoDOM(rutaGuardado);
         }catch(ExcepcionXML ex){
             System.err.println("Error al añadir nuevo corredor: " + ex.getMessage());
         }
@@ -139,12 +135,13 @@ public class GestorCorredores {
 
     /**
      * Elimina un corredor por su ID
-     * @param ID
+     * @param ID id del corredor a eliminar
      */
     public void eliminarCorredorPorIDDOM(String ID){
         try{
             gestorDOM.eliminarCorredorPorCodigo(ID);
             System.out.println("Corredor con ID " + ID + " eliminado correctamente.");
+            guardarDocumentoDOM(rutaGuardado);
         }catch(ExcepcionXML ex){
             System.err.println("Error al eliminar corredor por ID: " + ex.getMessage());
         }
@@ -152,13 +149,14 @@ public class GestorCorredores {
 
     /**
      * Añade o modifica la puntuación de un corredor por su ID
-     * @param ID
-     * @param nuevaPuntuacion
+     * @param ID id del corredor a modificar
+     * @param nuevaPuntuacion nueva puntuación a añadir o modificar
      */
     public void añadirOModificarPuntuacionDOM(String ID, Puntuacion nuevaPuntuacion){
         try{
             if(gestorDOM.modificarPuntuacion(ID, nuevaPuntuacion)) {
                 System.out.println("Puntuación añadida/modificada correctamente para el corredor con ID " + ID);
+                guardarDocumentoDOM(rutaGuardado);
             }
         }catch(ExcepcionXML ex){
             System.err.println("Error al añadir/modificar puntuación: " + ex.getMessage());
@@ -167,22 +165,27 @@ public class GestorCorredores {
 
     /**
      * Elimina la puntuación de un corredor por su ID y año
-     * @param ID
-     * @param año
+     * @param ID id del corredor a modificar
+     * @param anho año por el que filtrar la puntuación a eliminar
      */
-    public void eliminarPuntuacionDOM(String ID, int año){
+    public void eliminarPuntuacionDOM(String ID, int anho){
         try{
-            if(gestorDOM.eliminarPuntuacionDOM(ID, año)) {
-                System.out.println("Puntuación del año " + año + " eliminada correctamente para el corredor con ID " + ID);
+            if(gestorDOM.eliminarPuntuacionDOM(ID, anho)) {
+                System.out.println("Puntuación del año " + anho + " eliminada correctamente para el corredor con ID " + ID);
+                guardarDocumentoDOM(rutaGuardado);
             }
             else{
-                System.out.println("No se encontró la puntuación del año " + año + " para el corredor con ID " + ID);
+                System.out.println("No se encontró la puntuación del año " + anho + " para el corredor con ID " + ID);
             }
         }catch(ExcepcionXML ex){
             System.err.println("Error al eliminar puntuación: " + ex.getMessage());
         }
     }
 
+    /**
+     * Guarda el documento XML modificado en una ruta dada
+     * @param rutaXML String con la ruta del fichero
+     */
     public void guardarDocumentoDOM(String rutaXML){
         try{
             gestorDOM.guardarDocumentoDOM(rutaXML);
@@ -192,15 +195,13 @@ public class GestorCorredores {
         }
     }
 
-
-
     /**
      * Este método solo sirve para testear la carga.
      * LLama a cargarDocumento de CorredorSAX
      *
      * @param rutaXML    String con la ruta del fichero
      * @param validacion Enum con el tipo de validación
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML lanzada si hay un error al cargar el documento
      */
     public void cargarDocumentoSAX(String rutaXML, TipoValidacion validacion) throws ExcepcionXML {
         try {

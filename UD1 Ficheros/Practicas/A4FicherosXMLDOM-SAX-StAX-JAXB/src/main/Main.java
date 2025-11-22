@@ -7,81 +7,88 @@ private static final GestorCorredores gestor = new GestorCorredores();
 
 public static void main(String[] args) {
 
+    //Lidiar con cambios de formato en fechas
+    // DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    // LocalDate fecha = LocalDate.parse(fechaTexto, formato);
+    // En todas las partes donde antes tenia el parseo básico de LocalDate.parse(fechaTexto);
+
+
     System.out.println("=============================");
     System.out.println("TRABAJO CON DOM");
     System.out.println("============================");
 
-    System.out.println("\nCargando documento XML con validación DTD...\n");
-    gestor.cargarDocumentoDOM(RUTA, TipoValidacion.DTD);
-
-    System.out.println("\nListado de corredores cargados desde el documento XML:\n");
-    gestor.listarCorredoresDOM();
-
-
-    // Corredores por ID 2 válidos y 1 inválido
-
-    System.out.println("\n\nImprimir corredor con el ID 'C03':\n");
-    gestor.mostrarCorredorPorIDDOM("C03");
-
-    System.out.println("\n\nImprimir corredor con el ID 'C02':\n");
-    gestor.mostrarCorredorPorIDDOM("C02");
-
-    System.out.println("\n\nImprimir corredor con el ID 'C99' (no existente):\n");
-    gestor.mostrarCorredorPorIDDOM("C99");
-
-    // Corredores por dorsal 2 válidos y 1 inválido
-
-    System.out.println("\n\nImprimir corredor con el dorsal 2:\n");
-    gestor.mostrarCorredorPorDorsalDOM(2);
-
-    System.out.println("\n\nImprimir corredor con el dorsal 3:\n");
-    gestor.mostrarCorredorPorDorsalDOM(3);
-
-    System.out.println("\n\nImprimir corredor con el dorsal 999 (no existente):\n");
-    gestor.mostrarCorredorPorDorsalDOM(999);
-
-    // Añadir corredores
-
-    System.out.println("\n\nAñadiendo nuevos corredores al documento XML...\n");
-    gestor.añadirNuevoCorredorDOM();
-    gestor.listarCorredoresDOM();
-
-    // Eliminar corredores por codigo
-    System.out.println("\n\nElimino corredor con ID 'C08' del documento XML...\n");
-    gestor.eliminarCorredorPorIDDOM("C08");
-    gestor.eliminarCorredorPorIDDOM("C09");
-    gestor.eliminarCorredorPorIDDOM("C99"); // No existente
-
-    System.out.println("\nListado de corredores tras las eliminaciones:\n");
-    gestor.listarCorredoresDOM();
-
-    // Modificar puntuacion corredor
-
-    System.out.println("\n\nModifico la puntuación del corredor con ID 'C01'...\n");
-    gestor.añadirOModificarPuntuacionDOM("C01", new Puntuacion(2023, (float)48.7));
-    System.out.println("\n\nAñado una puntuación del corredor con ID 'C01'\n");
-    gestor.añadirOModificarPuntuacionDOM("C01", new Puntuacion(2024, (float)54.3));
-    System.out.println("\n\nAñado una puntuación del corredor con ID 'C99' (no existente)\n");
-    gestor.añadirOModificarPuntuacionDOM("C99", new Puntuacion(2024, (float)54.3));
-    System.out.println("\nListado de corredores tras las modificaciones de puntuación:\n");
-    gestor.listarCorredoresDOM();
-
-    // Eliminar puntuacion corredor
-
-    System.out.println("\n\nElimino la puntuación del año 2022 del corredor con ID 'C01'...\n");
-    gestor.eliminarPuntuacionDOM("C01", 2022);
-    System.out.println("\n\nIntento eliminar la puntuación del año 2025 del corredor con ID 'C01' (no existente)...\n");
-    gestor.eliminarPuntuacionDOM("C01", 2025);
-    System.out.println("\n\nIntento eliminar la puntuación del año 2022 del corredor con ID 'C99' (corredor no existente)...\n");
-    gestor.eliminarPuntuacionDOM("C99", 2022);
-    System.out.println("\nListado de corredores tras las eliminaciones de puntuación:\n");
-    gestor.listarCorredoresDOM();
-
-    // Guardar documento XML
-
-    System.out.println("\n\nGuardando el documento XML tras las modificaciones...\n");
-    gestor.guardarDocumentoDOM("ArchivosXMLDTD/CorredoresParaSobreescribir.xml");
-    gestor.listarCorredoresDOM();
+//
+//    System.out.println("\nCargando documento XML con validación DTD...\n");
+//    gestor.cargarDocumentoDOM(RUTA, TipoValidacion.DTD);
+//
+//    System.out.println("\nListado de corredores cargados desde el documento XML:\n");
+//    gestor.listarCorredoresDOM();
+//
+//
+//    // Corredores por ID 2 válidos y 1 inválido
+//
+//    System.out.println("\n\nImprimir corredor con el ID 'C03':\n");
+//    gestor.mostrarCorredorPorIDDOM("C03");
+//
+//    System.out.println("\n\nImprimir corredor con el ID 'C02':\n");
+//    gestor.mostrarCorredorPorIDDOM("C02");
+//
+//    System.out.println("\n\nImprimir corredor con el ID 'C99' (no existente):\n");
+//    gestor.mostrarCorredorPorIDDOM("C99");
+//
+//    // Corredores por dorsal 2 válidos y 1 inválido
+//
+//    System.out.println("\n\nImprimir corredor con el dorsal 2:\n");
+//    gestor.mostrarCorredorPorDorsalDOM(2);
+//
+//    System.out.println("\n\nImprimir corredor con el dorsal 3:\n");
+//    gestor.mostrarCorredorPorDorsalDOM(3);
+//
+//    System.out.println("\n\nImprimir corredor con el dorsal 999 (no existente):\n");
+//    gestor.mostrarCorredorPorDorsalDOM(999);
+//
+//    // Añadir corredores
+//
+//    System.out.println("\n\nAñadiendo nuevos corredores al documento XML...\n");
+//    gestor.añadirNuevoCorredorDOM();
+//    gestor.listarCorredoresDOM();
+//
+//    // Eliminar corredores por codigo
+//    System.out.println("\n\nElimino corredor con ID 'C08' del documento XML...\n");
+//    gestor.eliminarCorredorPorIDDOM("C08");
+//    gestor.eliminarCorredorPorIDDOM("C09");
+//    gestor.eliminarCorredorPorIDDOM("C99"); // No existente
+//
+//    System.out.println("\nListado de corredores tras las eliminaciones:\n");
+//    gestor.listarCorredoresDOM();
+//
+//    // Modificar puntuación corredor
+//
+//    System.out.println("\n\nModifico la puntuación del corredor con ID 'C01'...\n");
+//    gestor.añadirOModificarPuntuacionDOM("C01", new Puntuacion(2023, (float)48.7));
+//    System.out.println("\n\nAñado una puntuación del corredor con ID 'C01'\n");
+//    gestor.añadirOModificarPuntuacionDOM("C01", new Puntuacion(2024, (float)54.3));
+//    System.out.println("\n\nAñado una puntuación del corredor con ID 'C99' (no existente)\n");
+//    gestor.añadirOModificarPuntuacionDOM("C99", new Puntuacion(2024, (float)54.3));
+//    System.out.println("\nListado de corredores tras las modificaciones de puntuación:\n");
+//    gestor.listarCorredoresDOM();
+//
+//    // Eliminar puntuación corredor
+//
+//    System.out.println("\n\nElimino la puntuación del año 2022 del corredor con ID 'C01'...\n");
+//    gestor.eliminarPuntuacionDOM("C01", 2022);
+//    System.out.println("\n\nIntento eliminar la puntuación del año 2025 del corredor con ID 'C01' (no existente)...\n");
+//    gestor.eliminarPuntuacionDOM("C01", 2025);
+//    System.out.println("\n\nIntento eliminar la puntuación del año 2022 del corredor con ID 'C99' (corredor no existente)...\n");
+//    gestor.eliminarPuntuacionDOM("C99", 2022);
+//    System.out.println("\nListado de corredores tras las eliminaciones de puntuación:\n");
+//    gestor.listarCorredoresDOM();
+//
+//    // Guardar documento XML (Para probarlo, está tambien en la capa lógica de las funciones que se piden)
+//
+//    System.out.println("\n\nGuardando el documento XML tras las modificaciones...\n");
+//    gestor.guardarDocumentoDOM("ArchivosXMLDTD/CorredoresParaSobreescribir.xml");
+//    gestor.listarCorredoresDOM();
 
 
 
