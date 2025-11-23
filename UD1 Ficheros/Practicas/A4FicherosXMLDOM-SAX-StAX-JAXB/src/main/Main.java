@@ -17,9 +17,9 @@ public static void main(String[] args) {
     System.out.println("TRABAJO CON DOM");
     System.out.println("============================");
 
-//
-//    System.out.println("\nCargando documento XML con validación DTD...\n");
-//    gestor.cargarDocumentoDOM(RUTA, TipoValidacion.DTD);
+
+    System.out.println("\nCargando documento XML con validación DTD...\n");
+    gestor.cargarDocumentoDOM(RUTA, TipoValidacion.DTD);
 //
 //    System.out.println("\nListado de corredores cargados desde el documento XML:\n");
 //    gestor.listarCorredoresDOM();
@@ -90,18 +90,100 @@ public static void main(String[] args) {
 //    gestor.guardarDocumentoDOM("ArchivosXMLDTD/CorredoresParaSobreescribir.xml");
 //    gestor.listarCorredoresDOM();
 
+      // Buscar con XPath
 
-
+//    System.out.println("\n\nBúsqueda de corredores con velocidad media superior a 25.0:\n");
+//    gestor.buscarCorredoresPorVelocidadMediaXPath((float)10.0);
 
     // TRABAJO SAX
 
-//    System.out.println("\n\n=============================");
-//    System.out.println("TRABAJO CON SAX");
-//    System.out.println("============================");
+    System.out.println("\n\n=============================");
+    System.out.println("TRABAJO CON SAX");
+    System.out.println("============================");
+
+//    // Cargar corredores SAX
 //
+//    System.out.println("\n\nCargando documento XML con validación DTD...\n");
 //    gestor.cargarDocumentoSAX(RUTA, TipoValidacion.DTD);
+//
+//    // Listar corredores SAX
+//
+//    System.out.println("\n\nListado de corredores cargados desde el documento XML:\n");
+//    gestor.mostrarCorredoresSAX(RUTA, TipoValidacion.DTD);
+//
+//    // Corredores por equipo SAX 1 válidos y 1 inválido
+//
+//    System.out.println("\n\nListado de corredores del equipo 'E3' cargados desde el documento XML:\n");
+//    gestor.mostrarCorredoresPorEquipoSAX(RUTA, "E3", TipoValidacion.DTD);
+//    System.out.println("\n\nListado de corredores del equipo 'E99' (no existente) cargados desde el documento XML:\n");
+//    gestor.mostrarCorredoresPorEquipoSAX(RUTA, "E99", TipoValidacion.DTD);
+//
+//    // Corredores por equipo con DOM 1 válidos y 1 inválido
+//
+//    System.out.println("\n\nListado de corredores del equipo 'E3' cargados desde el documento XML con DOM:\n");
+//    gestor.mostrarCorredoresPorEquipoDOM("E3");
+//    System.out.println("\n\nListado de corredores del equipo 'E99' (no existente) cargados desde el documento XML con DOM:\n");
+//    gestor.mostrarCorredoresPorEquipoDOM("E99");
+
+    // LEER CON DOM UN ARCHIVO, LEER OTRO CON SAX, ACTUALIZAR LOS VALORES DEL DOM CON LOS DEL SAX Y REESCRIBIR EL DOM A UN XML
+
+    String rutaAActualizar = "ArchivosXMLDTD/Corredores.xml";
+    String rutaActualizaciones = "ArchivosXMLDTD/Actualizaciones.xml";
+
+    System.out.println("\n\nActualizando el documento XML con los datos cargados por SAX...\n");
+    gestor.actualizarDOMconSAX(rutaAActualizar, rutaActualizaciones, TipoValidacion.DTD, TipoValidacion.NO_VALIDAR);
 
 
+
+
+
+
+//    public List<Corredor> leerCorredoresDesdeArchivo(String rutaArchivo) {
+//        List<Corredor> corredores = new ArrayList<>();
+//        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+//            String linea;
+//            while ((linea = br.readLine()) != null) {
+//// Ignorar líneas vacías
+//                if (linea.trim().isEmpty()) continue;
+//
+//```
+//                // Suponiendo formato: tipo;codigo;dorsal;nombre;fecha_nacimiento;equipo;valor
+//                // valor = velocidad_media para velocista, distancia_max para fondista
+//                String[] campos = linea.split(";");
+//                if (campos.length < 7) continue; // ignorar líneas mal formadas
+//
+//                String tipo = campos[0].trim().toLowerCase();
+//                String codigo = campos[1].trim();
+//                int dorsal = Integer.parseInt(campos[2].trim());
+//                String nombre = campos[3].trim();
+//                LocalDate fecha = LocalDate.parse(campos[4].trim());
+//                String equipo = campos[5].trim();
+//                float valor = Float.parseFloat(campos[6].trim());
+//
+//                Corredor c;
+//                if (tipo.equals("velocista")) {
+//                    c = new Velocista();
+//                    ((Velocista) c).setVelocidadMedia(valor);
+//                } else if (tipo.equals("fondista")) {
+//                    c = new Fondista();
+//                    ((Fondista) c).setDistanciaMax(valor);
+//                } else {
+//                    continue; // tipo desconocido
+//                }
+//
+//                c.setCodigo(codigo);
+//                c.setDorsal(dorsal);
+//                c.setNombre(nombre);
+//                c.setEquipo(equipo);
+//                c.setFechaNacimiento(fecha);
+//
+//                corredores.add(c);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return corredores;
+//}
 
 
 }

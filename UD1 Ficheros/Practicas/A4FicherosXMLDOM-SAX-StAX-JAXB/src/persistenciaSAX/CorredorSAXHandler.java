@@ -1,5 +1,4 @@
 package persistenciaSAX;
-// hola
 
 import clases.Corredor;
 import clases.Fondista;
@@ -13,6 +12,12 @@ import javax.xml.namespace.QName;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+
+/*
+    Manejador SAX para procesar corredores desde un documento XML
+    Simpre crea una ista con todo el documento en este caso, para leer de otra forma habría que tener otro manejador
+ */
 
 public class CorredorSAXHandler extends DefaultHandler {
 
@@ -68,6 +73,7 @@ public class CorredorSAXHandler extends DefaultHandler {
                 case "puntuacion" ->{
                     p = new Puntuacion();
                     p.setAnio(Integer.parseInt(attributes.getValue("anio")));
+                    contenidoActual = "";
                 }
             }
     }
@@ -111,7 +117,10 @@ public class CorredorSAXHandler extends DefaultHandler {
                 // Si no entra un Velocista, al añadir el if con el instanceof no guarda pero
                 // tampoco peta:
                 if(corredorActual instanceof Velocista){
-                    ((Velocista) corredorActual).setVelocidadMedia(Float.parseFloat(contenidoActual));
+                    String valor = contenidoActual.trim();
+                    if(!valor.isEmpty()) {
+                        ((Velocista) corredorActual).setVelocidadMedia(Float.parseFloat(contenidoActual));
+                    }
                 }
             }
             case "distancia_max" -> {

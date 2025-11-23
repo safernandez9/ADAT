@@ -10,6 +10,7 @@ import clases.Puntuacion;
 import clases.Velocista;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.time.LocalDate;
@@ -70,8 +71,12 @@ public class CorredorXML {
      * @param corredorElem
      * @return
      */
-    public Corredor crearCorredor(Element corredorElem) throws ExcepcionXML {
+    public Corredor crearCorredor(Element corredorElem) {
 
+        // Comprobar que el elemento no es null
+        if(corredorElem == null){
+            return null;
+        }
         // Tener en cuenta que de un XML todo viene en forma de String, por ello habrá datos que parsear.
 
         // Datos en forma de atributos
@@ -132,25 +137,23 @@ public class CorredorXML {
     }
 
     /**
+     * PARA CAMPOS UNICOS CON ID
      * Busca un corredor en el document por su ID, lo crea y lo devuelve como objeto
      * @param ID id del Corredor
-     * @return
+     * @return Corredor buscado
      */
-    public Corredor mostrarCorredorPorIdDOM(String ID) throws ExcepcionXML {
+    public Corredor mostrarCorredorPorIdDOM(String ID) {
         Element elem = XMLDOMUtils.buscarElementoPorID(documentoXML, ID);
 
         if (elem == null) {
-            throw new ExcepcionXML("No existe corredor con el ID " + ID);
+            return null;
         }
 
-        try {
-            return crearCorredor(elem);
-        } catch (ExcepcionXML ex) {
-            throw new ExcepcionXML(ex.getMessage());
-        }
+        return crearCorredor(elem);
     }
 
     /**
+     * PARA CAMPOS UNICOS
      * Usa el método de XMLDOMUtils obtenerElementoPorAtributo() para buscar un corredor
      * por su dorsal, crearlo si existe y devolverlo
      * @param dorsal Dorsal del corredor buscado
@@ -158,6 +161,8 @@ public class CorredorXML {
      * @throws ExcepcionXML
      */
     public Corredor mostrarCorredorPorDorsal(int dorsal) throws ExcepcionXML {
+
+        // Si no lo encuentra como velocista, lo busca como fondista, podría usar un ternario, pero requiere buscar 1 vez más.
         Element e = buscarElementoPorAtributo(documentoXML, "velocista", "dorsal", Integer.toString(dorsal));
         if(e == null){
             e = buscarElementoPorAtributo(documentoXML, "fondista", "dorsal", Integer.toString(dorsal));
@@ -172,6 +177,58 @@ public class CorredorXML {
         } catch (ExcepcionXML ex) {
             throw new ExcepcionXML("Error al crear corredor por dorsal: " + ex.getMessage());
         }
+
+    }
+
+    /**
+     * PARA CAMPOS MULTIPLES INCLUSO ENTRE ELEMENTOS DE DISTINTO TIPO
+     * Usa el método de XMLDOMUtils obtenerElementoPorAtributo() para buscar un corredor
+     * por su equipo, crearlo si existe y devolverlo
+     * @param equipo Equipo del corredor buscado
+     * @return Corredor buscado
+     * @throws ExcepcionXML exception si no existe el corredor
+     */
+    public List<Corredor> mostrarCorredoresPorEquipo(String equipo) throws ExcepcionXML {
+        List<Corredor> corredoresEncontrados = new ArrayList<>();
+
+        // MÉTODO 1 (MAS CONCRETO PERO NO LOS MUESTRA ORDENADOS)
+
+        /* Busca velocistas y fondistas por separado y los añade a la misma lista.
+         * Esto permite reutilizar el método de XMLDOMUtil y va a crear una lista
+         * donde primero añade los velocistas y luego los fondistas.
+         */
+//        List<Element> listaEncontrados = XMLDOMUtils.buscarElementosMultiplesPorAtributo(documentoXML,
+//                "velocista", "dorsal", equipo);
+//        listaEncontrados.addAll(XMLDOMUtils.buscarElementosMultiplesPorAtributo(documentoXML,
+//                "fondista", "dorsal", equipo));
+
+        // MÉTODO 2 (MAS GENERAL PERO MANTIENE EL ORDEN DEL XML)
+
+        /*
+         * Alternativa: Buscar el nodo corredores (unico), ver todos los corredores con ese equipo y
+         * que se dividan en su tipo en la creación del objeto corredor.
+         * Esto permite que la lista esté ordenada según el XML.
+         */
+
+        List<Element> listaEncontrados = XMLDOMUtils.buscarHijosDirectosPorAtributo((Element)documentoXML.getElementsByTagName("corredores").item(0),
+                "equipo", equipo);
+
+        /*
+         * Puedo manejarlo con excepciones o devolver una lista vacía y comprobando en la capa lógica si está vacía
+         */
+//        if(listaEncontrados.isEmpty()){
+//            throw new ExcepcionXML("No existen corredores para el equipo " + equipo);
+//        }
+
+        try{
+            for(Element e : listaEncontrados){
+                corredoresEncontrados.add(crearCorredor(e));
+            }
+        } catch (ExcepcionXML ex) {
+            throw new ExcepcionXML("Error al crear corredor por equipo: " + ex.getMessage());
+        }
+
+        return corredoresEncontrados;
 
     }
 
@@ -323,6 +380,30 @@ public class CorredorXML {
 
         return false;
     }
+
+    /**
+     * Buscar corredores utilizando una expresión XPath proporcionada.
+     * Permite búsquedas complejas y específicas en el documento XML.
+     *
+     * @param expresion Expresión XPath para buscar corredores
+     * @return Lista de corredores que coinciden con la expresión XPath
+     * @throws ExcepcionXML
+     */
+    public List<Corredor> buscarPorXPath(String expresion) throws ExcepcionXML {
+        List<Corredor> resultado = new ArrayList<>();
+
+        NodeList nodos = XMLDOMUtils.evaluarXPathNodeList(documentoXML, expresion);
+
+        for (int i = 0; i < nodos.getLength(); i++) {
+            Node nodo = nodos.item(i);
+            if (nodo instanceof Element e) {
+                Corredor c = crearCorredor(e);
+                if (c != null) resultado.add(c);
+            }
+        }
+        return resultado;
+    }
+
 
     public void guardarDocumentoDOM(String rutaXML) throws ExcepcionXML {
         XMLDOMUtils.guardarDocumentoXML(documentoXML, rutaXML);

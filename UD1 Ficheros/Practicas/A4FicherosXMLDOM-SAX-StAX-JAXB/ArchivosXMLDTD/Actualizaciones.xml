@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actualizaciones>
+    <!-- Caso 1: Actualizar velocidad o distancia de un corredor existente -->
+    <corredor codigo="C01" equipo="E1">
+        <velocidad_media>10.9</velocidad_media>
+        <historial>
+            <puntuacion anio="2024">87.0</puntuacion>
+        </historial>
+    </corredor>
+
+    <corredor codigo="C05" equipo="E2">
+        <distancia_max>15500.0</distancia_max>
+        <historial>
+            <puntuacion anio="2020">77.0</puntuacion>
+        </historial>
+    </corredor>
+
+    <!-- Caso 2: Añadir un nuevo corredor a equipo existente -->
+    <corredor codigo="C21" equipo="E3">
+        <nombre>Laura Méndez</nombre>
+        <velocidad_media>10.2</velocidad_media>
+    </corredor>
+
+    <corredor codigo="C22" equipo="E5">
+        <nombre>Roberto Sánchez</nombre>
+        <distancia_max>11000.0</distancia_max>
+    </corredor>
+
+    <!-- Caso 3: Añadir un corredor a equipo nuevo -->
+    <corredor codigo="C23" equipo="E9">
+        <nombre>Marcos Fernández</nombre>
+        <velocidad_media>9.8</velocidad_media>
+    </corredor>
+
+    <corredor codigo="C24" equipo="E10">
+        <nombre>Patricia López</nombre>
+        <distancia_max>13000.0</distancia_max>
+    </corredor>
+</actualizaciones>

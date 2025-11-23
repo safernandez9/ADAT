@@ -20,6 +20,8 @@ import javax.xml.xpath.XPathFactory;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contiene métodos genéricos y reutilizables para el manejo del DOM y XPath
@@ -299,6 +301,7 @@ public class XMLDOMUtils {
 
     /**
      * Busca un elemento por uno de sus atributos.
+     * Devuelve el primero que encuentra.
      *
      * @param doc            Raiz del Document
      * @param nombreElemento Nombre del elemento
@@ -319,6 +322,81 @@ public class XMLDOMUtils {
         return null;
     }
 
+    /**
+     * Busca varios elementos en todo el DOC por uno de sus atributos comunes independientemente de como se llamen.
+     *
+     * @param doc            Raiz del Document
+     * @param nombreElemento Nombre del elemento
+     * @param nombreAtributo Nombre del atributo
+     * @param valorBuscado   Valor del atributo buscado
+     * @return Lista de Elementos
+     */
+    public static List<Element> buscarElementosMultiplesPorAtributo(Document doc, String nombreElemento, String nombreAtributo, String valorBuscado) {
+        NodeList lista = doc.getElementsByTagName(nombreElemento);
+        List<Element> elementosEncontrados = new ArrayList<>();
+
+        for (int i = 0; i < lista.getLength(); i++) {
+            Element e = (Element) lista.item(i);
+            if (e.hasAttribute(nombreAtributo) && e.getAttribute(nombreAtributo).equals(valorBuscado)) {
+                elementosEncontrados.add(e);
+            }
+        }
+
+        return elementosEncontrados;
+    }
+
+    /**
+     * Busca varios elementos hijos directos de un elemento padre por uno de sus atributos comunes independientemente de su tipo.
+     *
+     * @param padre          Elemento padre desde el que buscar
+     * @param nombreAtributo Nombre del atributo
+     * @param valorBuscado   Valor del atributo buscado
+     * @return Lista de Elementos
+     */
+    public static List<Element> buscarHijosDirectosPorAtributo(Element padre,  String nombreAtributo, String valorBuscado) {
+        NodeList nodos = padre.getChildNodes();
+        List<Element> resultado = new ArrayList<>();
+
+        for(int i = 0; i < nodos.getLength(); i++) {
+            if(nodos.item(i) instanceof Element) {
+                Element e = (Element) nodos.item(i);
+                if(e.hasAttribute(nombreAtributo) && e.getAttribute(nombreAtributo).equals(valorBuscado)) {
+                    resultado.add(e);
+                }
+            }
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Busca varios elementos descendientes de un elemento padre por uno de sus atributos comunes independientemente de su tipo.
+     *
+     * @param padre          Elemento padre desde el que buscar
+     * @param nombreAtributo Nombre del atributo
+     * @param valorBuscado   Valor del atributo buscado
+     * @return Lista de Elementos
+     */
+    public static List<Element> buscarDescendientesPorAtributo(Element padre, String nombreAtributo, String valorBuscado) {
+        List<Element> resultado = new ArrayList<>();
+        NodeList nodos = padre.getChildNodes();
+
+        for (int i = 0; i < nodos.getLength(); i++) {
+            if (nodos.item(i) instanceof Element) {
+                Element e = (Element) nodos.item(i);
+
+                // Comprueba el elemento actual
+                if (e.hasAttribute(nombreAtributo) && e.getAttribute(nombreAtributo).equals(valorBuscado)) {
+                    resultado.add(e);
+                }
+
+                // Llamada recursiva para los hijos de este nodo
+                resultado.addAll(buscarDescendientesPorAtributo(e, nombreAtributo, valorBuscado));
+            }
+        }
+
+        return resultado;
+    }
 
     // EVALUAR XPATH
 
@@ -343,7 +421,7 @@ public class XMLDOMUtils {
 
     /**
      * Llama a evaluarXPath esperando un NodeList, castea el Object recibido a NodeList y
-     * lo devuelve.
+     * lo devuelve. Cuando espero un conjunto de nodos.
      *
      * @param contexto
      * @param expresion
@@ -355,7 +433,7 @@ public class XMLDOMUtils {
 
     /**
      * Llama a evaluarXPath esperando un Node, castea el Object recibido a Node y
-     * lo devuelve.
+     * lo devuelve. Cuando espero un único nodo.
      *
      * @param contexto
      * @param expresion
@@ -367,7 +445,7 @@ public class XMLDOMUtils {
 
     /**
      * Llama a evaluarXPath esperando un Boolean, castea el Object recibido a Boolean y
-     * lo devuelve.
+     * lo devuelve. Cuando espero un valor true/false.
      *
      * @param contexto
      * @param expresion
@@ -379,7 +457,7 @@ public class XMLDOMUtils {
 
     /**
      * Llama a evaluarXPath esperando un String, castea el Object recibido a String y
-     * lo devuelve.
+     * lo devuelve. Cuando espero un valor en texto.
      *
      * @param contexto
      * @param expresion
@@ -391,7 +469,7 @@ public class XMLDOMUtils {
 
     /**
      * Llama a evaluarXPath esperando un Double, castea el Object recibido a Double y
-     * lo devuelve.
+     * lo devuelve. Cuando espero un valor numérico.
      *
      * @param contexto
      * @param expresion
@@ -401,5 +479,132 @@ public class XMLDOMUtils {
         return (Double) evaluarXPath(contexto, expresion, XPathConstants.NUMBER);
     }
 
+    // CHULETA DE XPATH PARA CORREDORES
+
+    /*
+
+```
+        CHULETA COMPLETA DE XPATH PARA CORREDORES
+```
+
+=======================================================
+
+1. Selección básica de nodos
+
+---
+
+//velocista
+→ Todos los elementos <velocista> en cualquier parte del documento
+/fondistas/fondista
+→ Todos los <fondista> hijos directos de <fondistas>
+
+2. Seleccionar atributos
+
+---
+
+//velocista/@codigo
+→ Obtiene el atributo “codigo” de todos los velocistas
+/fondista[@codigo='F03']
+→ Selecciona el <fondista> con atributo codigo="F03"
+
+3. Seleccionar nodos por valor de hijo
+
+---
+
+//velocista[nombre='Juan']
+→ Velocista cuyo hijo <nombre> sea "Juan"
+//fondista[distancia_max > 10]
+→ Fondista con distancia_max > 10
+
+4. Selección de un hijo concreto
+
+---
+
+//velocista/nombre
+→ El hijo <nombre> de cada <velocista>
+//fondista/velocidad_media
+→ Hijo <velocidad_media> de cada fondista
+
+5. Funciones XPath útiles
+
+---
+
+count(//velocista)                  → Número total de velocistas
+sum(//fondista/distancia_max)       → Suma de todas las distancias máximas
+max(//velocista/velocidad_media)    → Velocidad máxima
+min(//fondista/distancia_max)       → Distancia mínima
+
+6. Combinación de filtros
+
+---
+
+//velocista[velocidad_media > 25 and equipo='Rojo']
+→ Velocistas con velocidad_media > 25 y del equipo "Rojo"
+//fondista[distancia_max > 10 or equipo='Azul']
+→ Fondistas con distancia máxima > 10 o equipo "Azul"
+
+7. Selección por índice
+
+---
+
+//velocista[1]           → Primer velocista
+//fondista[last()]       → Último fondista
+
+8. Obtener texto de un nodo
+
+---
+
+//velocista/nombre/text()
+→ Devuelve el texto dentro del <nombre> del velocista
+//fondista/distancia_max/text()
+→ Devuelve el texto dentro de <distancia_max>
+
+9. Obtener nodos hijos o descendientes
+
+---
+
+//Corredor/*
+→ Todos los hijos directos de <Corredor>
+//Corredor//puntuacion
+→ Todos los <puntuacion> descendientes de <Corredor>, a cualquier nivel
+
+10. Resumen rápido de símbolos
+
+---
+
+/          → hijo directo
+//         → cualquier descendiente
+@          → atributo
+[]         → filtro / condición
+text()     → texto dentro del nodo
+
+* ```
+       → cualquier hijo
+  ```
+
+last()     → último elemento del conjunto
+count(), sum(), max(), min() → funciones XPath numéricas
+
+11. Aplicación práctica a tu XML de corredores
+
+---
+
+//velocista[@codigo='V01']/nombre/text()
+→ Nombre del velocista con código V01
+
+//fondista[distancia_max>15]/nombre/text()
+→ Nombres de fondistas cuya distancia_max > 15
+
+//Corredor[puntuacion/@anio=2023]/nombre/text()
+→ Nombres de corredores que tengan una puntuación en el año 2023
+
+//velocista[velocidad_media>25]/@codigo
+→ Códigos de velocistas con velocidad_media > 25
+
+//fondista[distancia_max>10]/puntuacion[@anio=2022]/text()
+→ Puntos de fondistas con distancia_max > 10 en el año 2022
+
+=======================================================
+*/
 
 }

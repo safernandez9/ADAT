@@ -34,7 +34,10 @@ public class GestorCorredores {
     private final CorredorXML gestorDOM;
     private Document documentoXML;
     private String rutaGuardado = "ArchivosXMLDTD/Corredores_Modificado.xml";
+
     private final CorredoresSAX gestorSAX;
+
+
     private final CorredoresStAXCursor gestorStAXCursor;
     private final CorredoresStAXEventos gestorStAXEventos;
 
@@ -71,129 +74,171 @@ public class GestorCorredores {
     /**
      * Función que recibe de CorredorXML un List de Corredores y la muestra en función de su método toString()
      */
-    public void listarCorredoresDOM(){
-        try{
+    public void listarCorredoresDOM() {
+        try {
             List<Corredor> listaCorredores = gestorDOM.cargarCorredores(documentoXML);
-            for(Corredor c : listaCorredores){
+            for (Corredor c : listaCorredores) {
                 System.out.println(c);
             }
-        }catch(ExcepcionXML ex){
+        } catch (ExcepcionXML ex) {
             System.err.println(ex.getMessage() + " " + ex.getCause());
         }
     }
 
     /**
      * Muestra un corredor por su ID
+     *
      * @param ID id del corredor a mostrar
      */
-    public void mostrarCorredorPorIDDOM(String ID){
-        try{
+    public void mostrarCorredorPorIDDOM(String ID) {
+        try {
             Corredor c = gestorDOM.mostrarCorredorPorIdDOM(ID);
-            System.out.println(c.toString());
-        }catch(ExcepcionXML ex){
+            if (c != null) {
+                System.out.println(c.toString());
+            }
+            else {
+                System.err.println("No existe el corredor con el id: " + ID);
+            }
+
+        } catch (ExcepcionXML ex) {
             System.err.println("Error al mostrar corredor por ID: " + ex.getMessage());
         }
     }
 
     /**
      * Muestra un corredor por su dorsal
+     *
      * @param dorsal dorsal del corredor a mostrar
      */
-    public void mostrarCorredorPorDorsalDOM(int dorsal){
-        try{
+    public void mostrarCorredorPorDorsalDOM(int dorsal) {
+        try {
             Corredor c = gestorDOM.mostrarCorredorPorDorsal(dorsal);
             System.out.println(c.toString());
-        }catch(ExcepcionXML ex){
+        } catch (ExcepcionXML ex) {
             System.err.println("Error al mostrar corredor por dorsal: " + ex.getMessage());
+        }
+    }
+
+    /**
+     * Muestra los corredores de un equipo concreto
+     *
+     * @param equipo equipo a buscar
+     */
+    public void mostrarCorredoresPorEquipoDOM(String equipo) {
+        try {
+            List<Corredor> listaCorredores = gestorDOM.mostrarCorredoresPorEquipo(equipo);
+            if (listaCorredores.isEmpty()) {
+                System.out.println("No se han encontrado corredores para el equipo " + equipo);
+            } else {
+                System.out.println("Lista de corredores del equipo " + equipo + ":");
+                for (Corredor c : listaCorredores) {
+                    System.out.println(c);
+                }
+            }
+        } catch (ExcepcionXML ex) {
+            System.err.println("Error al mostrar corredores por equipo: " + ex.getMessage());
         }
     }
 
     /**
      * Añade un nuevo corredor al documento XML
      */
-    public void añadirNuevoCorredorDOM(){
+    public void añadirNuevoCorredorDOM() {
 
         // Creo 2 corredores para testear, 1 velocista y un fondista
 
-        List <Puntuacion> historial = List.of(
-            new Puntuacion(2022, 150),
-            new Puntuacion(2023, 200)
+        List<Puntuacion> historial = List.of(
+                new Puntuacion(2022, 150),
+                new Puntuacion(2023, 200)
         );
 
-        Corredor nuevoCorredor = new Fondista("C08", "Nuevo Corredor", LocalDate.of(1992,7,10), "Equipo H", historial, (float) 10000);
-        Corredor nuevoCorredor2 = new Velocista("C09", "Nuevo Velocista", LocalDate.of(1996,8,25), "Equipo I", historial, (float) 10.5);
+        Corredor nuevoCorredor = new Fondista("C08", "Nuevo Corredor", LocalDate.of(1992, 7, 10), "Equipo H", historial, (float) 10000);
+        Corredor nuevoCorredor2 = new Velocista("C09", "Nuevo Velocista", LocalDate.of(1996, 8, 25), "Equipo I", historial, (float) 10.5);
 
-        try{
+        try {
             gestorDOM.insertarCorredor(nuevoCorredor);
             gestorDOM.insertarCorredor(nuevoCorredor2);
             System.out.println("Corredor añadido correctamente.");
             guardarDocumentoDOM(rutaGuardado);
-        }catch(ExcepcionXML ex){
+        } catch (ExcepcionXML ex) {
             System.err.println("Error al añadir nuevo corredor: " + ex.getMessage());
         }
     }
 
     /**
      * Elimina un corredor por su ID
+     *
      * @param ID id del corredor a eliminar
      */
-    public void eliminarCorredorPorIDDOM(String ID){
-        try{
+    public void eliminarCorredorPorIDDOM(String ID) {
+        try {
             gestorDOM.eliminarCorredorPorCodigo(ID);
             System.out.println("Corredor con ID " + ID + " eliminado correctamente.");
             guardarDocumentoDOM(rutaGuardado);
-        }catch(ExcepcionXML ex){
+        } catch (ExcepcionXML ex) {
             System.err.println("Error al eliminar corredor por ID: " + ex.getMessage());
         }
     }
 
     /**
      * Añade o modifica la puntuación de un corredor por su ID
-     * @param ID id del corredor a modificar
+     *
+     * @param ID              id del corredor a modificar
      * @param nuevaPuntuacion nueva puntuación a añadir o modificar
      */
-    public void añadirOModificarPuntuacionDOM(String ID, Puntuacion nuevaPuntuacion){
-        try{
-            if(gestorDOM.modificarPuntuacion(ID, nuevaPuntuacion)) {
+    public void añadirOModificarPuntuacionDOM(String ID, Puntuacion nuevaPuntuacion) {
+        try {
+            if (gestorDOM.modificarPuntuacion(ID, nuevaPuntuacion)) {
                 System.out.println("Puntuación añadida/modificada correctamente para el corredor con ID " + ID);
                 guardarDocumentoDOM(rutaGuardado);
             }
-        }catch(ExcepcionXML ex){
+        } catch (ExcepcionXML ex) {
             System.err.println("Error al añadir/modificar puntuación: " + ex.getMessage());
         }
     }
 
     /**
      * Elimina la puntuación de un corredor por su ID y año
-     * @param ID id del corredor a modificar
+     *
+     * @param ID   id del corredor a modificar
      * @param anho año por el que filtrar la puntuación a eliminar
      */
-    public void eliminarPuntuacionDOM(String ID, int anho){
-        try{
-            if(gestorDOM.eliminarPuntuacionDOM(ID, anho)) {
+    public void eliminarPuntuacionDOM(String ID, int anho) {
+        try {
+            if (gestorDOM.eliminarPuntuacionDOM(ID, anho)) {
                 System.out.println("Puntuación del año " + anho + " eliminada correctamente para el corredor con ID " + ID);
                 guardarDocumentoDOM(rutaGuardado);
-            }
-            else{
+            } else {
                 System.out.println("No se encontró la puntuación del año " + anho + " para el corredor con ID " + ID);
             }
-        }catch(ExcepcionXML ex){
+        } catch (ExcepcionXML ex) {
             System.err.println("Error al eliminar puntuación: " + ex.getMessage());
         }
     }
 
     /**
      * Guarda el documento XML modificado en una ruta dada
+     *
      * @param rutaXML String con la ruta del fichero
      */
-    public void guardarDocumentoDOM(String rutaXML){
-        try{
+    public void guardarDocumentoDOM(String rutaXML) {
+        try {
             gestorDOM.guardarDocumentoDOM(rutaXML);
             System.out.println("Documento XML guardado correctamente en: " + rutaXML);
-        }catch(ExcepcionXML ex){
+        } catch (ExcepcionXML ex) {
             System.err.println("Error al guardar documento XML: " + ex.getMessage());
         }
     }
+
+    public void buscarCorredoresPorVelocidadMediaXPath(float velocidadMinima) throws ExcepcionXML {
+        String expr = "//velocista[velocidad_media > " + velocidadMinima + "]";
+        List<Corredor> lista = gestorDOM.buscarPorXPath(expr);
+
+        lista.forEach(System.out::println);
+    }
+
+
+    // SAX METODOS
 
     /**
      * Este método solo sirve para testear la carga.
@@ -206,20 +251,17 @@ public class GestorCorredores {
     public void cargarDocumentoSAX(String rutaXML, TipoValidacion validacion) throws ExcepcionXML {
         try {
             gestorSAX.cargarCorredores(rutaXML, validacion);
+            System.out.println("Documento XML cargado correctamente");
         } catch (ExcepcionXML e) {
             System.err.println("Error al cargar documento XML: " + e.getMessage());
-            ;
         }
     }
-
-    // LOS SIGUIENTES MÉTODOS ASUMEN Y REQUIEREN QUE PRIMERO SE HAYA REALIZADO EL MÉTODO cargarDocumento()
-
 
     /**
      * Función que recibe de CorredorXML un List de Corredores y la muestra en función de su método toString()
      *
-     * @param ruta
-     * @param validacion
+     * @param ruta ruta del fichero XML
+     * @param validacion tipo de validación
      */
     public void mostrarCorredoresSAX(String ruta, TipoValidacion validacion) {
         try {
@@ -232,6 +274,54 @@ public class GestorCorredores {
         }
 
     }
+
+    /**
+     * Función que recibe de CorredorXML un List de Corredores filtrados por equipo y la muestra en función de su método toString()
+     *
+     * @param ruta ruta del fichero XML
+     * @param equipo equipo a buscar
+     * @param validacion tipo de validación
+     */
+    public void mostrarCorredoresPorEquipoSAX(String ruta, String equipo, TipoValidacion validacion) {
+        try {
+            List<Corredor> lista = gestorSAX.cargarCorredoresPorEquipo(ruta, equipo, validacion);
+            if (lista.isEmpty()) {
+                System.out.println("No se han encontrado corredores para el equipo " + equipo);
+            } else {
+                System.out.println("Lista de corredores del equipo " + equipo + ":");
+                for (Corredor c : lista) {
+                    System.out.println(c);
+                }
+            }
+        } catch (ExcepcionXML e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void actualizarDOMconSAX(String ruta1, String ruta2, TipoValidacion validacion1, TipoValidacion validacion2) {
+        try {
+            documentoXML = gestorDOM.cargarDocumentoDOM(ruta1, validacion1);
+
+            List<Corredor> corredoresOriginal = gestorDOM.cargarCorredores(documentoXML);
+            List<Corredor> corredoresActualizacion = gestorSAX.cargarCorredoresActualizacion(ruta2, validacion2);
+
+            for(Corredor cActualizaciones : corredoresActualizacion){
+                Corredor cOriginal = gestorDOM.mostrarCorredorPorIdDOM(cActualizaciones.getCodigo());
+                // No hay aun corredor con ese ID,
+                if(cOriginal == null){
+                    validarCorredor(cActualizaciones);
+                }
+            }
+
+
+            System.out.println("Documento DOM actualizado correctamente con los datos de SAX.");
+            guardarDocumentoDOM(rutaGuardado);
+        } catch (ExcepcionXML e) {
+            System.err.println("Error al actualizar DOM con SAX: " + e.getMessage());
+        }
+    }
+
 
     /**
      *
@@ -289,8 +379,6 @@ public class GestorCorredores {
 //            System.err.println("Error al leer: " + ruta + " con JAXB. " + e.getMessage());
 //        }
 //    }
-
-
 
 
 }

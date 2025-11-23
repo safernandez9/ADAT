@@ -5,6 +5,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import persistenciaDOM.ExcepcionXML;
+import persistenciaDOM.SimpleErrorHandler;
 import persistenciaDOM.TipoValidacion;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,6 +14,13 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
 
 public class XMLSAXUtils {
+
+    /*
+     * Manera auxiliar para validar con XSD
+     * XMLReader reader = parser.getXMLReader();
+     * reader.setFeature("http://xml.org/sax/features/validation", true);
+     * reader.setFeature("http://apache.org/xml/features/validation/schema", true);
+     */
 
     /**
      * Carga y lee el documento SAX con una manejadora que recibe.
@@ -44,9 +52,18 @@ public class XMLSAXUtils {
             // Creo el xmlReader desde el SAXParser, le añado mi manejador y le hago el parse a la ruta.
             XMLReader xmlReader = saxParser.getXMLReader();
             xmlReader.setContentHandler(miHandler);
+            xmlReader.setErrorHandler(new SimpleErrorHandler()); // Si quiero manejar errores personalizados
 
-            xmlReader.parse(new InputSource(new BufferedInputStream(new FileInputStream(rutaFichero))));
+            /**
+             * Por el funcionamiento de SAX, la ruta del DTD se coge con base en la raiz del programa.
+             * CorredoresDTD.dtd aunque tiene logica para el DOCTYPE SYSTEM "CorredoresDTD.dtd", ya que están en la
+             * misma carpeta, el parse busca el DTD en la raiz del proyecto. Para evitarlo pongo este codigo.
+             */
+            File archivo = new File(rutaFichero);
+            InputSource is = new InputSource(new BufferedInputStream(new FileInputStream(archivo)));
+            is.setSystemId(new File(rutaFichero).toURI().toASCIIString());
 
+            xmlReader.parse(is);
         } catch (IOException e) {
             throw new ExcepcionXML("Error en la lectura del archivo XML: " + e.getMessage());
         } catch (SAXException | ParserConfigurationException e) {
@@ -75,9 +92,11 @@ public class XMLSAXUtils {
         // <!DOCTYPE Actores SYSTEM "nombre.dtd"> para DTD
         // <Actores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         // xsi:noNamespaceSchemaLocation="nombre.xsd"> PARA XSD
+
         switch (validacion) {
             case DTD ->  {
                 factory.setValidating(true);
+                factory.setNamespaceAware(false);       // NO NECESARIO PARA DTD
             }
             case XSD ->  {
                 factory.setValidating(true);
@@ -87,6 +106,7 @@ public class XMLSAXUtils {
 
         return factory;
     }
+
 
 
 }

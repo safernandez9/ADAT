@@ -6,11 +6,10 @@ import persistenciaDOM.TipoValidacion;
 
 import java.util.List;
 
-// COMO DE MAL ESTARIA METER AQUI UN DEFAULTHANDLER GENERAL E IR SOBRESCRIBIENDOLO);
 
-
-//EJERCICIO LEER LISTADO DE ALGO EN SAX Y ACTUALIZAR OTRO ARCHIVO CON ESTOS DATOS (LETENDO Y ACTUALIAZNDO CON DOM)
 public class CorredoresSAX {
+
+    // Podria hacer aqui una CorredorSAXHandler como atributo si quisiera reutilizarlo;
 
     /**
      *
@@ -19,7 +18,7 @@ public class CorredoresSAX {
      * @param rutaFichero ruta del XML en String
      * @param validacion  Enum con el tipo de validación
      * @return Lista de Corredores en el Handler al cargar
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML Excepción al cargar el XML
      */
     public List<Corredor> cargarCorredores(String rutaFichero, TipoValidacion validacion) throws ExcepcionXML {
 
@@ -28,5 +27,29 @@ public class CorredoresSAX {
         return miHandler.getCorredores();
     }
 
-    
+    /**
+     *
+     * Devuelve una List recibida del Handler de corredores a partir de un fichero XML con una manejadora que devuelve
+     * todos sus datos en una List de objetos Corredor que pertenecen a un equipo concreto
+     * @param rutaFichero ruta del XML en String
+     * @param equipo Equipo a buscar en String
+     * @param validacion  Enum con el tipo de validación
+     * @return Lista de Corredores en el Handler al cargar que pertenecen al equipo buscado
+     * @throws ExcepcionXML excepción al cargar el XML
+     */
+    public List<Corredor> cargarCorredoresPorEquipo(String rutaFichero, String equipo, TipoValidacion validacion) throws ExcepcionXML {
+        CorredorPorEquipoSAXHandler miHandler = new CorredorPorEquipoSAXHandler(equipo);
+        XMLSAXUtils.cargarDocumentoXMLSAX(rutaFichero, validacion, miHandler);
+        return miHandler.getCorredores();
+    }
+
+    public List<Corredor> cargarCorredoresActualizacion(String rutaFichero, TipoValidacion validacion) throws ExcepcionXML {
+        try {
+            CorredoresActualizacionSAXHandler miHandler = new CorredoresActualizacionSAXHandler();
+            XMLSAXUtils.cargarDocumentoXMLSAX(rutaFichero, validacion, miHandler);
+            return miHandler.getCorredores();
+        } catch (Exception e) {
+            throw new ExcepcionXML("Error al cargar los corredores de actualizacion: " + e.getMessage());
+        }
+    }
 }
