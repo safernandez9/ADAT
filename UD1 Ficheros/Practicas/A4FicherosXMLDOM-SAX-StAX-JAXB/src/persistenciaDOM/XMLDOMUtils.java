@@ -504,7 +504,8 @@ public class XMLDOMUtils {
 
 //velocista/@codigo
 → Obtiene el atributo “codigo” de todos los velocistas
-/fondista[@codigo='F03']
+/habitacion[@numero='F03']
+
 → Selecciona el <fondista> con atributo codigo="F03"
 
 3. Seleccionar nodos por valor de hijo

@@ -1,0 +1,31 @@
+<!ELEMENT Alojamientos ((Habitacion | Suite)*)>
+
+<!ELEMENT Habitacion (Reservas?)>
+<!ATTLIST Habitacion
+    numero ID #REQUIRED
+    estado (ocupada | disponible) #REQUIRED
+    precio CDATA #REQUIRED
+    tipo CDATA #REQUIRED>
+
+<!ELEMENT Suite (Reservas?)>
+<!ATTLIST Suite
+    numero ID #REQUIRED
+    estado (ocupada | disponible) #REQUIRED
+    precio CDATA #REQUIRED
+    terraza (S | N) #REQUIRED
+    categoria CDATA #REQUIRED>
+
+<!ELEMENT Reservas (Reserva*)>
+
+<!ELEMENT Reserva (Usuario , FechaInicio , FechaFin?)>
+<!ATTLIST Reserva
+    codigo ID #REQUIRED>
+
+<!ELEMENT Usuario (#PCDATA)>
+<!ATTLIST Usuario
+    dni CDATA #REQUIRED>
+
+<!ELEMENT FechaInicio (#PCDATA)>
+<!ELEMENT FechaFin (#PCDATA)>
+
+

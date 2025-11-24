@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Alojamientos>
+    <Habitacion estado="ocupada" numero="H101" precio="58.00" tipo="individual">
+        <Reservas>
+            <Reserva codigo="R021">
+                <Usuario dni="87654321P">Elena Castro</Usuario>
+                <FechaInicio>2025-10-20</FechaInicio>
+                <FechaFin>2025-10-24</FechaFin>
+            </Reserva>
+            <Reserva codigo="R026">
+                <Usuario dni="66665555Z">Alicia Rios</Usuario>
+                <FechaInicio>2025-11-10</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Suite categoria="Junior" estado="ocupada" numero="S201" precio="190.00" terraza="N">
+        <Reservas>
+            <Reserva codigo="ABCD">
+                <Usuario dni="77013586H">Saul fernandez</Usuario>
+                <FechaInicio>2020-12-12</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Suite>
+    <Suite categoria="Presidencial" estado="disponible" numero="S202" precio="250.00" terraza="S">
+        <Reservas>
+            <Reserva codigo="R001">
+                <Usuario dni="44445555H">Noa Souto Iglesias</Usuario>
+                <FechaInicio>2024-02-01</FechaInicio>
+                <FechaFin>2024-02-05</FechaFin>
+            </Reserva>
+            <Reserva codigo="R014">
+                <Usuario dni="12121212J">Daniel Vazquez Torres</Usuario>
+                <FechaInicio>2025-08-05</FechaInicio>
+                <FechaFin>2025-08-15</FechaFin>
+            </Reserva>
+            <Reserva codigo="R019">
+                <Usuario dni="70707070Y">Roberto Alonso</Usuario>
+                <FechaInicio>2025-10-10</FechaInicio>
+                <FechaFin>2025-10-15</FechaFin>
+            </Reserva>
+        </Reservas>
+    </Suite>
+    <Habitacion estado="ocupada" numero="H102" precio="65.50" tipo="doble">
+        <Reservas>
+            <Reserva codigo="R005">
+                <Usuario dni="12345678A">Maria Lopez Fernandez</Usuario>
+                <FechaInicio>2024-11-01</FechaInicio>
+                <FechaFin>2024-11-05</FechaFin>
+            </Reserva>
+            <Reserva codigo="R010">
+                <Usuario dni="11111111X">Juan Perez</Usuario>
+                <FechaInicio>2025-01-20</FechaInicio>
+                <FechaFin>2025-01-25</FechaFin>
+            </Reserva>
+            <Reserva codigo="R011">
+                <Usuario dni="11111111X">Juan Perez</Usuario>
+                <FechaInicio>2025-02-10</FechaInicio>
+                <FechaFin>2025-02-15</FechaFin>
+            </Reserva>
+            <Reserva codigo="R020">
+                <Usuario dni="44556677B">Pedro Gomez Sanchez</Usuario>
+                <FechaInicio>2025-10-15</FechaInicio>
+                <FechaFin>2025-10-25</FechaFin>
+            </Reserva>
+            <Reserva codigo="R031">
+                <Usuario dni="99998888T">Javier Losada</Usuario>
+                <FechaInicio>2025-11-20</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Habitacion estado="ocupada" numero="H103" precio="72.00" tipo="doble">
+        <Reservas>
+            <Reserva codigo="R007">
+                <Usuario dni="99887766C">Lucia Fernandez Lamas</Usuario>
+                <FechaInicio>2025-01-05</FechaInicio>
+                <FechaFin>2025-01-10</FechaFin>
+            </Reserva>
+            <Reserva codigo="R009">
+                <Usuario dni="11223344D">Sofia Lago Varela</Usuario>
+                <FechaInicio>2025-01-15</FechaInicio>
+                <FechaFin>2025-01-20</FechaFin>
+            </Reserva>
+            <Reserva codigo="R027">
+                <Usuario dni="55667788E">Iago Ribeiro Paz</Usuario>
+                <FechaInicio>2025-11-12</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Suite categoria="Junior" estado="ocupada" numero="S203" precio="180.00" terraza="N">
+        <Reservas>
+            <Reserva codigo="R024">
+                <Usuario dni="34567890T">Pablo Garcia</Usuario>
+                <FechaInicio>2025-11-08</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Suite>
+    <Suite categoria="Familiar" estado="disponible" numero="S204" precio="200.00" terraza="S">
+        <Reservas>
+            <Reserva codigo="R012">
+                <Usuario dni="98765432K">Carla Montes Pineiro</Usuario>
+                <FechaInicio>2025-07-01</FechaInicio>
+                <FechaFin>2025-07-05</FechaFin>
+            </Reserva>
+            <Reserva codigo="R015">
+                <Usuario dni="45554433L">Marco Soutelo Freire</Usuario>
+                <FechaInicio>2025-08-06</FechaInicio>
+                <FechaFin>2025-08-10</FechaFin>
+            </Reserva>
+        </Reservas>
+    </Suite>
+    <Habitacion estado="disponible" numero="H104" precio="50.00" tipo="individual">
+        <Reservas>
+            <Reserva codigo="R002">
+                <Usuario dni="20202020G">Felipe Rey</Usuario>
+                <FechaInicio>2024-05-10</FechaInicio>
+                <FechaFin>2024-05-15</FechaFin>
+            </Reserva>
+            <Reserva codigo="R003">
+                <Usuario dni="30303030H">Laura Nunez</Usuario>
+                <FechaInicio>2024-08-01</FechaInicio>
+                <FechaFin>2024-08-05</FechaFin>
+            </Reserva>
+            <Reserva codigo="R013">
+                <Usuario dni="11111111X">Juan Perez</Usuario>
+                <FechaInicio>2025-08-01</FechaInicio>
+                <FechaFin>2025-08-05</FechaFin>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Habitacion estado="ocupada" numero="H105" precio="90.00" tipo="triple">
+        <Reservas>
+            <Reserva codigo="R006">
+                <Usuario dni="33322211F">Ramon Castro Alvarez</Usuario>
+                <FechaInicio>2024-12-01</FechaInicio>
+                <FechaFin>2024-12-10</FechaFin>
+            </Reserva>
+            <Reserva codigo="R018">
+                <Usuario dni="11111111X">Juan Perez</Usuario>
+                <FechaInicio>2025-10-01</FechaInicio>
+                <FechaFin>2025-10-05</FechaFin>
+            </Reserva>
+            <Reserva codigo="R023">
+                <Usuario dni="12345678A">Maria Lopez Fernandez</Usuario>
+                <FechaInicio>2025-11-01</FechaInicio>
+                <FechaFin>2025-11-05</FechaFin>
+            </Reserva>
+            <Reserva codigo="R028">
+                <Usuario dni="77766655G">Ana Martinez Otero</Usuario>
+                <FechaInicio>2025-11-12</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Habitacion estado="ocupada" numero="H106" precio="85.00" tipo="doble">
+        <Reservas>
+            <Reserva codigo="R017">
+                <Usuario dni="60606060P">Elena Sanz</Usuario>
+                <FechaInicio>2025-09-01</FechaInicio>
+                <FechaFin>2025-09-06</FechaFin>
+            </Reserva>
+            <Reserva codigo="R029">
+                <Usuario dni="23456789Q">Miguel Rey</Usuario>
+                <FechaInicio>2025-11-13</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Suite categoria="Premium" estado="ocupada" numero="S205" precio="300.00" terraza="N">
+        <Reservas>
+            <Reserva codigo="R025">
+                <Usuario dni="11112222M">Paula Bouzas Castro</Usuario>
+                <FechaInicio>2025-11-10</FechaInicio>
+                <FechaFin>2025-11-15</FechaFin>
+            </Reserva>
+            <Reserva codigo="R033">
+                <Usuario dni="11111111X">Juan Perez</Usuario>
+                <FechaInicio>2025-11-21</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Suite>
+    <Suite categoria="Junior" estado="disponible" numero="S206" precio="170.00" terraza="N">
+        <Reservas>
+            <Reserva codigo="R016">
+                <Usuario dni="56789012W">Laura Diaz</Usuario>
+                <FechaInicio>2025-08-21</FechaInicio>
+                <FechaFin>2025-08-30</FechaFin>
+            </Reserva>
+        </Reservas>
+    </Suite>
+    <Suite categoria="Familiar" estado="disponible" numero="S207" precio="210.00" terraza="S"/>
+    <Habitacion estado="disponible" numero="H107" precio="60.00" tipo="individual">
+        <Reservas>
+            <Reserva codigo="R004">
+                <Usuario dni="50505050M">Pablo Hermoso</Usuario>
+                <FechaInicio>2024-10-10</FechaInicio>
+                <FechaFin>2024-10-15</FechaFin>
+            </Reserva>
+            <Reserva codigo="R008">
+                <Usuario dni="40404040Q">Nuria Vazquez</Usuario>
+                <FechaInicio>2025-01-10</FechaInicio>
+                <FechaFin>2025-01-15</FechaFin>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Habitacion estado="disponible" numero="H108" precio="55.00" tipo="individual"/>
+    <Habitacion estado="ocupada" numero="H109" precio="70.00" tipo="doble">
+        <Reservas>
+            <Reserva codigo="EFGH">
+                <Usuario dni="77013586H">Saul fernandez</Usuario>
+                <FechaInicio>2020-12-12</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Habitacion estado="ocupada" numero="H110" precio="50.00" tipo="individual">
+        <Reservas>
+            <Reserva codigo="R032">
+                <Usuario dni="90909090S">Sara Perez</Usuario>
+                <FechaInicio>2025-11-20</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Habitacion estado="disponible" numero="H111" precio="50.00" tipo="individual">
+        <Reservas>
+            <Reserva codigo="R022">
+                <Usuario dni="90909090S">Sara Perez</Usuario>
+                <FechaInicio>2025-10-20</FechaInicio>
+                <FechaFin>2025-10-25</FechaFin>
+            </Reserva>
+        </Reservas>
+    </Habitacion>
+    <Suite categoria="Familiar" estado="ocupada" numero="S208" precio="220.00" terraza="N">
+        <Reservas>
+            <Reserva codigo="R030">
+                <Usuario dni="67890123L">Javier Torres</Usuario>
+                <FechaInicio>2025-11-18</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Suite>
+    <Suite categoria="Presidencial" estado="ocupada" numero="S209" precio="350.00" terraza="S">
+        <Reservas>
+            <Reserva codigo="R034">
+                <Usuario dni="78901234F">Marta Ruiz</Usuario>
+                <FechaInicio>2025-11-22</FechaInicio>
+            </Reserva>
+        </Reservas>
+    </Suite>
+</Alojamientos>
