@@ -310,9 +310,35 @@ public class GestorCorredores {
                 Corredor cOriginal = gestorDOM.mostrarCorredorPorIdDOM(cActualizaciones.getCodigo());
                 // No hay aun corredor con ese ID,
                 if(cOriginal == null){
-                    validarCorredor(cActualizaciones);
+                    if(cActualizaciones.getEquipo() != null && cActualizaciones.getCodigo() != null
+                    && cActualizaciones.getNombre() != null && cActualizaciones.getFechaNacimiento() != null){
+                        gestorDOM.insertarCorredor(cActualizaciones);
+                    }
+                }
+                else{
+                    // Actualizo los datos del corredor original con los del de actualizaciones
+                    if(cActualizaciones.getNombre() != null){
+                        cOriginal.setNombre(cActualizaciones.getNombre());
+                    }
+                    if(cActualizaciones.getFechaNacimiento() != null){
+                        cOriginal.setFechaNacimiento(cActualizaciones.getFechaNacimiento());
+                    }
+                    if(cActualizaciones.getEquipo() != null){
+                        cOriginal.setEquipo(cActualizaciones.getEquipo());
+                    }
+                    if(cActualizaciones instanceof Velocista && cOriginal instanceof Velocista){
+                        ((Velocista) cOriginal).setVelocidadMedia(((Velocista) cActualizaciones).getVelocidadMedia());
+                    }
+                    if(cActualizaciones instanceof Fondista && cOriginal instanceof Fondista){
+                        ((Fondista) cOriginal).setDistanciaMax(((Fondista) cActualizaciones).getDistanciaMax());
+                    }
+                    if(cActualizaciones.getHistorial() != null){
+                        cOriginal.setHistorial(cActualizaciones.getHistorial());
+                    }
                 }
             }
+
+            guardarDocumentoDOM(ruta1);
 
 
             System.out.println("Documento DOM actualizado correctamente con los datos de SAX.");

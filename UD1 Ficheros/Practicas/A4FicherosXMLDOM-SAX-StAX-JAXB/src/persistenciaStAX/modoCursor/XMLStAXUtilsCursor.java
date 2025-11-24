@@ -11,10 +11,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -73,7 +70,7 @@ public class XMLStAXUtilsCursor {
             return inputFactory.createXMLStreamReader(new FileInputStream(file), "UTF-8");
 
         } catch (Exception e) {
-            throw new ExcepcionXML("");
+            throw new ExcepcionXML("Error al crear XMLStreamReader: " + e.getMessage(), e);
         }
     }
 
@@ -144,83 +141,69 @@ public class XMLStAXUtilsCursor {
         }
     }
 
-//    public static XMLStreamWriter crearWriterStAX(String rutaSalida) {
-//
-//    }
 
 
     /**
-     *
-     *
-     * @param rutaEntrada
-     * @return
+     * Calcula el total de donaciones por patrocinador desde un XML usando modelo Cursor
+     * @param rutaEntrada ruta del fichero XML
+     * @return TreeMap con clave=NombrePatrocinador y valor=totalDonado
      * @throws ExcepcionXML
      */
     public static Map<String, Double> calcularDonaciones(String rutaEntrada) throws ExcepcionXML {
-        XMLStreamReader reader;
-        try{
-            // Apetura del lector StAX y Validación
-            reader = XMLStAXUtilsCursor.cargarDocumentoStAXCursor(rutaEntrada, TipoValidacion.XSD);
-
-            // Estructura de datos para guardar los datos finales que será un TreeMap para que se ordenen alfabeticamente de forma automatica
-            Map<String, Double> mapaDonaciones = new TreeMap<>();
+        XMLStreamReader reader = null;
+        Map<String, Double> mapaDonaciones = new TreeMap<>();
+        try {
+            reader = XMLStAXUtilsCursor.cargarDocumentoStAXCursor(rutaEntrada, persistenciaDOM.TipoValidacion.XSD);
 
             String nombrePatrocinador = "";
             Double donacionActual = 0.0;
             boolean esPatrocinador = false;
 
-            while(reader.hasNext()){
+            while (reader.hasNext()) {
                 int tipo = reader.next();
 
-                switch(tipo){
+                switch (tipo) {
                     case XMLStreamConstants.START_ELEMENT -> {
-                        String nombreEtiqueta = XMLStAXUtilsCursor.leerTexto(reader);
-                        switch (nombreEtiqueta) {
-                            case "Patrocinador" -> {
-                                nombrePatrocinador = "";
-                                donacionActual = Double.valueOf(XMLStAXUtilsCursor.leerAtributo(reader, "donacion"));
-
-                                // Patrocinador a true para que el siguiente CHARACTERS que se encuentre se guarde
-                                esPatrocinador = true;
-                            }
+                        String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
+                        if ("Patrocinador".equals(nombreEtiqueta)) {
+                            nombrePatrocinador = "";
+                            String don = XMLStAXUtilsCursor.leerAtributo(reader, "donacion");
+                            donacionActual = don != null ? Double.parseDouble(don) : 0.0;
+                            esPatrocinador = true;
                         }
                     }
                     case XMLStreamConstants.CHARACTERS -> {
-                        // Concateno con += porque a veces los parsers dan el texto a cachos y pueden dar problemas
-                        if(esPatrocinador)
+                        if (esPatrocinador) {
                             nombrePatrocinador += XMLStAXUtilsCursor.leerTexto(reader);
-
+                        }
                     }
                     case XMLStreamConstants.END_ELEMENT -> {
-                        String nombreEtiqueta = XMLStAXUtilsCursor.leerTexto(reader);
-                        switch (nombreEtiqueta) {
-                            case "Patrocinador" -> {
-                                // Salgo de un patrocinador, asi que lo pongo a false
-                                esPatrocinador = false;
-                                // Limpio el texto de espacios innecesarios antes de guardarlo
-                                nombrePatrocinador += nombrePatrocinador.trim();
-                                // Guardo en el mapa
-                                mapaDonaciones.merge(nombrePatrocinador, donacionActual, Double::sum);
-
-                            }
+                        String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
+                        if ("Patrocinador".equals(nombreEtiqueta)) {
+                            esPatrocinador = false;
+                            nombrePatrocinador = nombrePatrocinador.trim();
+                            mapaDonaciones.merge(nombrePatrocinador, donacionActual, Double::sum);
                         }
-                    } //RESETEAR DONACIONES EN ALGUN PUNTO
-
                     }
                 }
-            } catch (XMLStreamException ex) {
-            throw new RuntimeException(ex);
             }
-        finally {
-            //Creear lector?
+        } catch (Exception e) {
+            throw new ExcepcionXML("Error al calcular donaciones: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (reader != null) reader.close();
+            } catch (XMLStreamException e) {
+                // Ignorar cierre
+            }
         }
-        return null;  //PARA COMPILAR SOLO
 
+        return mapaDonaciones;
     }
 
 
 
     // SOLO FALTA EXCEPCIONES
+
      /**
      *
      * @param rutaSalida
@@ -240,6 +223,22 @@ public class XMLStAXUtilsCursor {
 //        }
 //    }
 
+
+    /**
+     * Crea un XMLStreamWriter para la ruta indicada (UTF-8)
+     * Metodo acabado con ia
+     */
+    public static XMLStreamWriter crearWriterStAX(String rutaSalida) throws ExcepcionXML {
+        try {
+            XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
+            // Usar FileOutputStream para poder pasar encoding
+            return outputFactory.createXMLStreamWriter(new FileOutputStream(rutaSalida), "UTF-8");
+        } catch (IOException e) {
+            throw new ExcepcionXML("No se pudo crear el fichero XML: " + rutaSalida, e);
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al crear XMLStreamWriter: " + e.getMessage(), e);
+        }
+    }
 
     /**
      * Añade la declaración de cabecera XML al nuevo archivo mediante el XMLStreamWriter
@@ -365,4 +364,9 @@ public class XMLStAXUtilsCursor {
 //            throw new ExcepcionXML();
 //        }
 //    }
+
+
+
+
+
 }

@@ -6,8 +6,7 @@ import persistenciaDOM.TipoValidacion;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.*;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
@@ -17,6 +16,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
 // ESTO LISTO
@@ -81,6 +81,7 @@ public class XMLStAXUtilsEventos {
      */
     private static void validarConDTD(File xmlfile) {
 
+        // SOLO VALIDAR CON DOM, Si valida lo creo en stax sin validacion
 
     }
 
@@ -156,7 +157,59 @@ public class XMLStAXUtilsEventos {
         return null;
     }
 
+    /** Crea un XMLEventWriter para escribir un XML usando StAX (Eventos) *
+     * @param rutaSalida Ruta del fichero de salida
+     * @return XMLEventWriter configurado
+     * @throws ExcepcionXML
+     * */
+    public static XMLEventWriter crearWriterStAXEventos(String rutaSalida) throws ExcepcionXML {
+        try {
+            XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+            return outputFactory.createXMLEventWriter(new FileWriter(rutaSalida));
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("No se pudo crear XMLEventWriter: " + e.getMessage(), e);
+        } catch (Exception e){
+            throw new ExcepcionXML("Error general al crear XMLEventWriter: " + e.getMessage(), e);
+        }
+    }
 
+    /** Añade la declaración XML inicial al documento */
+    public static void ADDDeclaracion(XMLEventWriter writer) throws ExcepcionXML {
+        try {
+            writer.add(XMLEventFactory.newInstance().createStartDocument("UTF-8","1.0"));
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al escribir la declaración XML.", e);
+        }
+    }
 
+    /** * Añade un salto de línea e indentación */
+    public static void ADDSaltoLinea(XMLEventWriter writer, int nivel) throws ExcepcionXML {
+        try {
+            String indent = "\n" + " ".repeat(nivel); writer.add(XMLEventFactory.newInstance().createCharacters(indent));
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al añadir salto de línea/indentación.", e);
+        }
+    }
 
+    /** * Añade un elemento con valor de texto */
+    public static void ADDElemento(XMLEventWriter writer, String nombre, String valor) throws ExcepcionXML {
+        try {
+            var ef = XMLEventFactory.newInstance();
+            writer.add(ef.createStartElement("", "", nombre));
+            writer.add(ef.createCharacters(valor));
+            writer.add(ef.createEndElement("", "", nombre));
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al añadir elemento: " + nombre, e);
+        }
+    }
+
+    /** * Añade un elemento vacío */
+    public static void ADDElementoVacio(XMLEventWriter writer, String nombre) throws ExcepcionXML {
+        try { var ef = XMLEventFactory.newInstance();
+            writer.add(ef.createStartElement("", "", nombre));
+            writer.add(ef.createEndElement("", "", nombre));
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al añadir elemento vacío: " + nombre, e);
+        }
+    }
 }

@@ -7,6 +7,7 @@ import clases.Velocista;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class CorredoresActualizacionSAXHandler extends DefaultHandler {
     private String nombreTemp;
     private Float velocidadMediaTemp;
     private Float distanciaMaxTemp;
+    private String fechaNacimientoTemp;
 
     // Historial de puntuaciones temporal
     private List<Puntuacion> historialActual;
@@ -64,13 +66,17 @@ public class CorredoresActualizacionSAXHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         switch (qName) {
+            case "actualizaciones" -> {
+                // No se necesita hacer nada especial al iniciar el documento de actualizaciones
+                // se pone para evitar el default
+            }
             case "corredor" -> {
                 // Guardo temporalmente los atributos comunes
                 codigoTemporal = attributes.getValue("codigo");
                 equipoTemporal = attributes.getValue("equipo");
                 // Podrías almacenar estos datos en variables temporales para luego inicializar el objeto correcto
             }
-            case "nombre", "velocidad_media", "distancia_max" -> contenidoActual = "";
+            case "fecha_nacimiento", "nombre", "velocidad_media", "distancia_max" -> contenidoActual = "";
             case "historial" -> historialActual = new ArrayList<>();
             case "puntuacion" -> {
                 puntuacionTemp = new Puntuacion();
@@ -109,6 +115,11 @@ public class CorredoresActualizacionSAXHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName) {
         switch (qName) {
+
+            case "actualizaciones" -> {
+                // No se necesita hacer nada especial al finalizar el documento de actualizaciones
+                // se pone para evitar el default
+            }
             case "corredor" -> {
                     if (velocidadMediaTemp != null) {
                         corredorActual = new Velocista();
@@ -124,9 +135,8 @@ public class CorredoresActualizacionSAXHandler extends DefaultHandler {
 
                         // Si no hay nombre, asignara null
                         corredorActual.setNombre(nombreTemp);
-                        if (historialActual != null) {
-                            corredorActual.setHistorial(historialActual);
-                        }
+                        // Asignar el historial
+                        corredorActual.setHistorial(historialActual);
                         corredores.add(corredorActual);
                     }
 
@@ -141,9 +151,13 @@ public class CorredoresActualizacionSAXHandler extends DefaultHandler {
             case "nombre" -> nombreTemp = contenidoActual;
             case "velocidad_media" -> velocidadMediaTemp = Float.parseFloat(contenidoActual);
             case "distancia_max" -> distanciaMaxTemp = Float.parseFloat(contenidoActual);
+            case "fecha_nacimiento" -> corredorActual.setFechaNacimiento(LocalDate.parse(contenidoActual));
             case "puntuacion" -> {
                 puntuacionTemp.setPuntos(Float.parseFloat(contenidoActual));
                 historialActual.add(puntuacionTemp);
+            }
+            case "historial" -> {
+                // No hace nada ya que lo asigno en la etiqueta de cierrre del corredor
             }
             default -> throw new ExcepcionXML("Elemento inesperado en endElement: " + qName);
         }
