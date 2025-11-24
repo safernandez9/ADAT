@@ -3,39 +3,38 @@ package persistencia;
 import modelo.Corredor;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 
+/**
+ * Clase para la lectura de corredores desde un archivo binario de manera secuencial
+ */
 public class CorredorRead extends Archivo {
 
-    ObjectInputStream ois;
+    private ObjectInputStream ois;
 
     public CorredorRead(String ruta) {
         super(ruta);
     }
 
-
     @Override
     public void abrirArchivo() {
         if (!this.archivoExiste()) {
-            throw new RuntimeException("Archivo no encontrado" + ruta.getPath());
+            throw new RuntimeException("Archivo no encontrado" + file.getPath());
         }
         try {
-            ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(ruta));
+            ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             ois = null;
-            throw new RuntimeException("Error al abrir el archivo de corredores" + e.getMessage());
+            throw new RuntimeException("Error al abrir el archivo de corredores" + e.getMessage(), e);
         }
     }
 
-    //Ready
     @Override
     public void cerrarArchivo() {
         if (ois != null) {
             try {
                 ois.close();
             } catch (IOException e) {
-                throw new RuntimeException("Error al cerrar el archivo de corredores" + e.getMessage());
+                throw new RuntimeException("Error al cerrar el archivo de corredores" + e.getMessage(), e);
             }
         }
 
@@ -44,15 +43,14 @@ public class CorredorRead extends Archivo {
     /**
      * Lee un corredor desde la posición actual del stream
      *
-     * @return
+     * @return El corredor leído, o null si se llega al final del archivo
      */
-    public Corredor leer() {
+    public Corredor leerCorredor() {
         try {
             return (Corredor) ois.readObject();
         } catch (EOFException e) {
             return null;
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error al leer el corredor");
             return null;
         }
     }
@@ -60,16 +58,17 @@ public class CorredorRead extends Archivo {
     /**
      * Devuelve el dorsal mas alto encontrado en el fichero
      *
-     * @return
+     * @return Ultimo dorsal o 0 si está vacío o no se puede leerCorredor
      */
     public int obtenerUltimoDorsal() {
+
         int ultimoDorsal = 0;
 
         try {
             abrirArchivo();
             if (ois == null)  return 0;
             Corredor c;
-            while (((c = leer()) != null)) {
+            while (((c = leerCorredor()) != null)) {
                 ultimoDorsal = c.getDorsal();
             }
         } finally {
@@ -81,8 +80,8 @@ public class CorredorRead extends Archivo {
 
     /**
      * Busca un corredor por su dorsal
-     * @param dorsal
-     * @return
+     * @param dorsal Dorsal a buscar
+     * @return El corredor encontrado o null si no existe
      */
     public Corredor buscarPorDorsal(int dorsal) {
         Corredor encontrado = null;
@@ -91,7 +90,7 @@ public class CorredorRead extends Archivo {
             abrirArchivo();
             if (ois == null)  return null;
             Corredor c;
-            while (((c = leer()) != null) && encontrado == null) {
+            while (((c = leerCorredor()) != null) && encontrado == null) {
                 if (c.getDorsal() == dorsal) {
                     encontrado = c;
                 }
@@ -101,37 +100,6 @@ public class CorredorRead extends Archivo {
         }
         return encontrado;
     }
-
-
-    /* PARA RECORRER COMO UNA LISTA, lo descubrio hace nada no lo usa hay que ver como funciona
-    public Iterator<Corredor> leerIterativo() {
-        this.abrirArchivo();
-        if (in == null) {
-            return new ArrayList<>();
-        }
-
-        return () -> new Iterator<Corredor>() {
-            Corredor siguiente = leer();
-            boolean fin = (siguiente == null);
-
-            @Override
-            public boolean hasNext() {
-                return !fin;
-            }
-
-            @Override
-            public Corredor next() {
-                Corredor actual = siguiente;
-                siguiente = leer();
-                if (siguiente == null) {
-                    fin = true;
-                    cerrarArchivo();
-                }
-                return actual;
-            }
-        };
-    }
-    */
 
     public void iniciarLectura() {
         abrirArchivo();

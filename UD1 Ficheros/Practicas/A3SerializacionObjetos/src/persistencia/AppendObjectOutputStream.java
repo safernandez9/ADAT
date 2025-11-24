@@ -2,14 +2,14 @@ package persistencia;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+
 
 /**
- *  LA GESTION DE ERRORES: CAPTURO EN PERSISTENCIA LA EXCEPCION Y LANZO UN RUNTIMEEXCEPTION
- *  EN EL GESTOR LO CAPTURO Y LANZO EL MENSAJE CORRESPONDIENTE
- *
- *  O LANZO UN THROW HASTA EL GESTOR DIRECTAMENTE
+ * Clase que extiende ObjectOutputStream para permitir la
+ * escritura de objetos en un archivo existente sin sobrescribir
+ * la cabecera del archivo.
  */
-
 public class AppendObjectOutputStream extends ObjectOutputStream {
 
     /**
@@ -17,7 +17,7 @@ public class AppendObjectOutputStream extends ObjectOutputStream {
      * @param out
      * @throws IOException
      */
-    public AppendObjectOutputStream(ObjectOutputStream out) throws IOException {
+    public AppendObjectOutputStream(OutputStream out) throws IOException {
         super(out);
     }
 

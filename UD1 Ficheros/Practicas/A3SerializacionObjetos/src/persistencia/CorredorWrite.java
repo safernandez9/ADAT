@@ -8,7 +8,7 @@ import java.io.*;
 /**
  * Clase encargada de la escritura secuencial de objetos corredor en el fichero
  * binario correspondiente.
- * <p>
+ *
  * Solo gestiona apertura, escritura y cierre del flujo ObjectOutputStream
  */
 public class CorredorWrite extends Archivo {
@@ -17,16 +17,13 @@ public class CorredorWrite extends Archivo {
     /*
     OOS escribe una cabecera directamente la primera vez que abre un archivo, escribo objertos y cuando acabo y lo cierro y lo
     vuelvo a abrir, abre con una cabecera nueva.
-    Al leer con OIS usa la primera cabecera para reconstruir los objetos de byte a clase, al encontrarse una segnda cabecera en medio del archivo
-     en vez de mas objetos da error
-    de archivo corrupto
+    Al leerCorredor con OIS usa la primera cabecera para reconstruir los objetos de byte a clase, al encontrarse una segnuda cabecera en
+    medio del archivo en vez de mas objetos da error de archivo corrupto
      */
-
 
     /*
     Tambien menciono algo de true. al abrirlo en el campo FOS pongo segundo parametro false ña primera vez
      */
-
     private ObjectOutputStream oos;
 
     public CorredorWrite(String ruta) {
@@ -36,22 +33,22 @@ public class CorredorWrite extends Archivo {
     @Override
     public void abrirArchivo() {
         //Compruebo si existe el archivo y no esta vacío
-        boolean appendMode = archivoExiste() && this.f.length() > 0;
+        boolean appendMode = archivoExiste() && this.file.length() > 0;
         try {
             if (appendMode) {
-                // CASO 1: El archivo existe y no está vacío, añado sin cabecera
+                // CASO 1: El archivo existe y no está vacío, añado sin cabecera. (new AppendObjectOutputStream)
                 oos = new AppendObjectOutputStream(
                         new BufferedOutputStream(
-                                new FileOutputStream(this.f, appendMode)));
+                                new FileOutputStream(this.file, appendMode)));
                 System.out.println("Archivo de escritura abierto");
             } else {
-                // CASO 2: Archivo nuevo o vacío. Añado con cabecera.
-                oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(this.f, appendMode)));
+                // CASO 2: Archivo nuevo o vacío. Añado con cabecera. (new ObjectOutputStream)
+                oos = new ObjectOutputStream(
+                        new BufferedOutputStream(
+                                new FileOutputStream(this.file, appendMode)));
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al abrir el archivo de corredores: " + e.getMessage(), e);
         }
 
     }
@@ -64,7 +61,7 @@ public class CorredorWrite extends Archivo {
             try {
                 oos.close();
             } catch (IOException e) {
-                throw new RuntimeException("Error al cerrar el archivo de corredores: " + e.getMessage());
+                throw new RuntimeException("Error al cerrar el archivo de corredores: " + e.getMessage(),e);
             }
         }
     }
@@ -88,14 +85,17 @@ public class CorredorWrite extends Archivo {
     }
 
     /**
-     * Escribe un objeto corredor usando el OOS
+     * Escribe un objeto corredor usando el OOS.
      * @param corredor
      * @return
      */
     public boolean escribir(Corredor corredor) {
         if (oos == null) {
-            System.out.println("Error: El stream de escritura no está abierto");
-            return false;
+            throw new IllegalStateException("El archivo no está abierto para escritura");
+        }
+        if(!verificarEquipoValido(corredor.getEquipo())){
+            throw new IllegalArgumentException("El equipo con ID " + corredor.getEquipo()
+                    + " no existe o está marcado como borrado.");
         }
         try {
             oos.writeObject(corredor);

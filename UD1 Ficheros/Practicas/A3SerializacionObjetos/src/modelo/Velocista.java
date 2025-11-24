@@ -1,13 +1,28 @@
 package modelo;
 
+import java.time.LocalDate;
+
 public class Velocista extends Corredor{
 
-    private static final long serialVersionUID = 1L; //pOR QUE SE METE AQUI TB SI SE SUPONE QUE HEREDA?
+    private static final long serialVersionUID = 1L;
     float velocidadMedia;
 
-    public Velocista(){
-
+    public Velocista(String nombre, LocalDate fechaNacimiento, int equipo, float velocidadMedia) {
+        super(nombre, fechaNacimiento, equipo);
+        this.velocidadMedia = velocidadMedia;
     }
+
+    // Getters y Setters
+
+    public float getVelocidadMedia() {
+        return velocidadMedia;
+    }
+
+    public void setVelocidadMedia(float velocidadMedia) {
+        this.velocidadMedia = velocidadMedia;
+    }
+
+    // toString
 
     @Override
     public String toString() {

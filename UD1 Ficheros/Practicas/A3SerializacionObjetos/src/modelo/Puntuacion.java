@@ -13,6 +13,8 @@ public class Puntuacion implements Serializable {
         this.puntos = puntos;
     }
 
+    // Getters y Setters
+
     public int getAnio() {
         return anio;
     }
@@ -28,6 +30,8 @@ public class Puntuacion implements Serializable {
     public void setPuntos(float puntos) {
         this.puntos = puntos;
     }
+
+    // toString
 
     @Override
     public String toString() {

@@ -1,4 +1,4 @@
-package servicio;
+package logica;
 
 import modelo.Corredor;
 import modelo.Fondista;
@@ -11,177 +11,166 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestorCorredores {
-
-    private final String rutaArchivo = "Corredores.dat";
+    private final String rutaArchivo = "corredores.dat";
 
     /**
-     * Guarda un corredor en un archivo binario asignandole un nuevo dorsal.
-     * Aquí capturo las excepciones que lanza persistencia
+     * Guarda un corredor en el archivo binario, asignándole un dorsal único
      *
-     * @param c
+     * @param c El corredor a guardar
      */
     public void guardarCorredor(Corredor c) {
-
         if (c == null) {
-            System.out.println("Corredor Inválido");
+            System.out.println("Corredor inválido (null).");
             return;
         }
 
-        // Instancio las clases necesarias del paquete persistencia
         CorredorWrite write = new CorredorWrite(rutaArchivo);
         CorredorRead read = new CorredorRead(rutaArchivo);
 
         try {
-            // Obtengo último dorsal
+            // Obtener el último dorsal asignado, dárselo al corredor y guardarlo
             int ultimoDorsal = read.obtenerUltimoDorsal();
             c.setDorsal(ultimoDorsal + 1);
 
-            // Escribo el nuevo corredor
             write.iniciarEscritura();
-            if (write.escribir(c)) {
-                System.out.println("Corredor guardado correctamente");
-            }
-
-
+            write.escribir(c);
+            System.out.println("Corredor " + c.getNombre() + " guardado con dorsal: " + c.getDorsal());
         } catch (IllegalArgumentException e) {
-            // Error lógico (equipo no existe o está borrado)
-            System.out.println("Error guardando corredor" + e.getMessage());
+            System.out.println("Error al guardar corredor: " + e.getMessage());
         } catch (IllegalStateException e) {
-            // Error de flujo o archivo no abierto
             System.out.println("Error de estado del archivo: " + e.getMessage());
         } catch (RuntimeException e) {
-            // Error general de E/S u otro problema en la capa persistencia
-            System.out.println("Error inesperado al guardar corredor" + e.getMessage());
+            System.out.println("Error inesperado al guardar corredor: " + e.getMessage());
         } finally {
             try {
                 write.finalizarEscritura();
             } catch (Exception ignored) {
-
+                // Si falla el cierre, no podemos hacer mucho más asi que me da igual, lo importante está hecho
+                System.out.println("Error al cerrar el archivo de corredores después de guardar la lista.");
             }
         }
+
+
     }
 
     /**
-     * Guarda una List de objetos corredor en el fichero de persistencia
+     * Guarda una lista de corredores en el archivo binario, asignándoles dorsales únicos
      *
-     * @param lista
+     * @param listaCorredores La lista de corredores a guardar
      */
-    public void guardarListaCorredores(List<Corredor> lista) {
-        if (lista == null || lista.isEmpty()) {
-            System.out.println("Lista Vacia o Nula");
+    public void guardarListaCorredores(List<Corredor> listaCorredores) {
+
+        if (listaCorredores == null || listaCorredores.isEmpty()) {
+            System.out.println("La lista de corredores está vacía o es nula.");
             return;
         }
 
-        CorredorRead read = new CorredorRead(rutaArchivo);
         CorredorWrite write = new CorredorWrite(rutaArchivo);
+        CorredorRead read = new CorredorRead(rutaArchivo);
 
         try {
-            int dorsal = read.obtenerUltimoDorsal();
-
+            // Obtener el último dorsal asignado
+            int ultimoDorsal = read.obtenerUltimoDorsal();
             write.iniciarEscritura();
             try {
-                for (Corredor c : lista) {
-                    dorsal++;
-                    c.setDorsal(dorsal);
-
-                    try {
-                        write.escribir(c);
-                        System.out.println("Corredor guardado :" + c.getDorsal() + " - " + c.getNombre());
-                    } catch (IllegalArgumentException e) {
-                        // Error lógico (equipo no existe o está borrado)
-                        System.out.println("Error guardando corredor" + e.getMessage());
-                        dorsal--;
-                    } catch (IllegalStateException e) {
-                        // Error de flujo o archivo no abierto
-                        System.out.println("Error de estado del archivo: " + e.getMessage());
-                        dorsal--;
-                        throw e;
-                    } catch (RuntimeException e) {
-                        // Error general de E/S u otro problema en la capa persistencia
-                        System.out.println("Error inesperado al guardar corredor" + c.getNombre() + ": " + e.getMessage());
-                        dorsal--;
+                // Por cada corredor le doy un dorsal nuevo y lo guardo
+                for (Corredor c : listaCorredores) {
+                    if (c != null) {
+                        ultimoDorsal++;
+                        c.setDorsal(ultimoDorsal);
+                        try {
+                            write.escribir(c);
+                            System.out.println("Corredor " + c.getNombre() + " guardado con dorsal: " + c.getDorsal());
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Error lógico al guardar corredor " + c.getNombre() + ": " + e.getMessage());
+                            ultimoDorsal--; // Revertir incremento si no se guarda
+                        } catch (IllegalStateException e) {
+                            System.out.println("Error de estado escribir: " + e.getMessage());
+                            ultimoDorsal--; // Revertir incremento si no se guarda
+                        } catch (RuntimeException e) {
+                            System.out.println("Error inesperado al guardar corredor " + c.getNombre() + ": " + e.getMessage());
+                        }
+                        ultimoDorsal--; // Revertir incremento si no se guarda
                     }
                 }
             } finally {
                 try {
                     write.finalizarEscritura();
-                } catch (Exception e) {
-                    System.out.println("Error al cerrar el archivo tras guardar la lista: " + e.getMessage());
+                } catch (Exception ignored) {
+                    // Si falla el cierre, no podemos hacer mucho más asi que me da igual, lo importante está hecho
+                    System.out.println("Error al cerrar el archivo de corredores después de guardar la lista.");
                 }
             }
         } catch (RuntimeException e) {
-            // Error al iniciar lectura o escritura
-            System.out.println("No se pudo iniciar la operación de guardado" + e.getMessage());
+            System.out.println("No se pudo iniciar la operación de guardado: " + e.getMessage());
         }
     }
 
     /**
-     * Busca un corredor por dorsal. No imprime, solo devuelve el objeto o null
+     * Busca un corredor por su dorsal.
+     * Llama a la clase de persistencia correspondiente
      *
-     * @param dorsal
-     * @return
+     * @param dorsal Dorsal a buscar
+     * @return El corredor encontrado o null si no existe
      */
     public Corredor buscarCorredorPorDorsal(int dorsal) {
-        CorredorRead reader = new CorredorRead(rutaArchivo);
-        return reader.buscarPorDorsal(dorsal);
+        CorredorRead read = new CorredorRead(rutaArchivo);
+        return read.buscarPorDorsal(dorsal);
     }
 
     /**
-     * Busca un corredor por dorsal y muestra su info si lo encuentra.
+     * Muestra por consola la información de un corredor dado su dorsal
+     * Llama a buscarCorredorPorDorsal y visualizaCorredor
      *
-     * @param dorsal
+     * @param dorsal Dorsal del corredor a mostrar
      */
     public void mostrarCorredorPorDorsal(int dorsal) {
+        Corredor corredor = buscarCorredorPorDorsal(dorsal);
 
-        // Busco al corredor
-        Corredor c = buscarCorredorPorDorsal(dorsal);
-        if (c == null) {
-            System.out.println("No se pudo mostrar la información. El objeto corredor es nulo");
+        if (corredor == null) {
+            System.out.println("El corredor es nulo. No se encontró ningún corredor con el dorsal: " + dorsal);
             return;
         }
 
-        // Creo el encabezado según su tipo
-
+        // Compruebo el tipo de corredor para mostrarlo
         String tipoCorredor = "";
-        if (c instanceof Fondista) {
-            tipoCorredor = "Fondista";
-        } else if (c instanceof Velocista) {
-            tipoCorredor = "Velocista";
+
+        if(corredor instanceof Fondista) {
+            tipoCorredor = "CORREDOR FONDISTA";
+        } else if (corredor instanceof Velocista){
+            tipoCorredor = "CORREDOR VELOCISTA";
         }
 
-        // Imprimo el encabezado y visualizo al corredor
-        System.out.println(tipoCorredor + ": " + c.getDorsal());
-        visualizarCorredor(c);
+        //  Doy formato a la visualización e imprimo con visualizarCorredor
+        System.out.println(tipoCorredor + ": DORSAL " + corredor.getDorsal());
+        visualizarCorredor(corredor);
     }
 
     /**
-     * Se vale del método toString de Corredor para mostrar la información de un corredor
-     * y muestra su historial de puntuaciones si lo tiene
+     * Muestra por consola la información detallada de un corredor
      *
-     * @param c
+     * @param corredor Corredor a visualizar
      */
-    public void visualizarCorredor(Corredor c) {
-        if (c == null) {
-            System.out.println("No se puede mostrar información: El objeto corredores es nulo.");
+    public void visualizarCorredor(Corredor corredor) {
+        if (corredor == null) {
+            System.out.println("Corredor nulo. No se puede visualizar.");
             return;
         }
-        System.out.println("========================================================================");
 
-        // 1. Imprime el toString() o de la subclase
-        System.out.println(c.toString());
+        // Doy formato a la visualización
+        System.out.println("==========================================");
+        System.out.println(corredor.toString());
 
-        // 2. Muestra el historial en la línea de abajo.
-        if (c.getHistorial() != null && !c.getHistorial().isEmpty()) {
-            // Usa List.toString() para imprimir el historial detallado.
-            int numPuntuaciones = c.getHistorial().size();
-            // Define la etiqueta singular o plural
+        // Como el historial no está en el toString, lo muestro aparte
+        if (corredor.getHistorial() != null && !corredor.getHistorial().isEmpty()) {
+            System.out.println("Historial de Puntuaciones:");
+            int numPuntuaciones = corredor.getHistorial().size();
             String etiqueta = (numPuntuaciones == 1) ? "PUNTUACIÓN" : "PUNTUACIONES";
-            System.out.printf("Msg: %s%n", etiqueta, c.getHistorial().toString());
+            System.out.printf("%s: %s\n", etiqueta, corredor.getHistorial().toString());
         } else {
-            System.out.println("PUNTUACIONES: Sin datos registrados.");
+            System.out.println("No hay puntuaciones en el historial.");
         }
-
-        System.out.println("===========================================================================");
+        System.out.println("==========================================");
     }
 
     /**
@@ -199,7 +188,7 @@ public class GestorCorredores {
         reader.iniciarLectura();
         try {
             // 2. Bucle de lectura y procesamiento.
-            while ((c = reader.leer()) != null) {
+            while ((c = reader.leerCorredor()) != null) {
                 // Muestra cada corredor inmediatamente después de leerlo
 
                 // Crear el Encabezado ---
@@ -211,16 +200,15 @@ public class GestorCorredores {
                 }
 
                 // Mostrar encabezado
-                System.out.println("\n" + tipoCorredor + ": DORSAL " + c.getDorsal());
+                System.out.println("\n" + tipoCorredor + " : DORSAL " + c.getDorsal());
 
                 // Llama al método de visualización que formatea la salida.
                 visualizarCorredor(c);
                 contador++;
             }
         } catch (Exception e) {
-            System.out.println("Error inesperado durante la lectura de corredores: " + e.getMessage());
+            System.err.println("Error inesperado durante la lectura de corredores: " + e.getMessage());
         } finally {
-            // Finaliza la lectura (cierra el ObjectInputStream).
             reader.finalizarLectura();
         }
 
@@ -235,7 +223,7 @@ public class GestorCorredores {
      * Elimina un corredor del archivo binario por su dorsal. Se usa un archivo auxiliar para escribir
      * los corredores a excepción del que se desea borrar.
      *
-     * @param dorsal
+     * @param dorsal Número de dorsal del corredor a eliminar
      */
     public void eliminarCorredor(int dorsal) {
         if (dorsal <= 0) {
@@ -243,7 +231,7 @@ public class GestorCorredores {
             return;
         }
 
-        final String ARCHIVO_AUX = "auxiliar.dat";
+        final String ARCHIVO_AUX = "auxiliar.dat"; // Constante para archivo auxiliar
 
         // Compruebo que el corredor exista
         CorredorRead readCheck = new CorredorRead(rutaArchivo);
@@ -253,14 +241,14 @@ public class GestorCorredores {
         }
 
         CorredorRead read = new CorredorRead(rutaArchivo);
-        CorredorWrite write = new CorredorWrite(rutaArchivo);
+        CorredorWrite write = new CorredorWrite(ARCHIVO_AUX);
         try {
             read.iniciarLectura();
             write.iniciarEscritura();
             Corredor c;
 
-            // Reescribo todos los corredores menos el que quiero borrar
-            while ((c = read.leer()) != null) {
+            // Reescribo todos los corredores menos el que quiero borrar (El del mismo dorsal)
+            while ((c = read.leerCorredor()) != null) {
                 if (c.getDorsal() != dorsal) {
                     write.escribir(c);
                 }
@@ -281,6 +269,7 @@ public class GestorCorredores {
 
         if (!write.renombrarArchivo(rutaArchivo)) {
             System.out.println("No se pudo renombrar el archivo auxiliar: " + ARCHIVO_AUX);
+            return;
         }
 
         System.out.println("Corredor con dorsal: " + dorsal + " borrado");
@@ -315,14 +304,15 @@ public class GestorCorredores {
         Corredor c;
 
         try {
-            while ((c = read.leer()) != null) {
+            while ((c = read.leerCorredor()) != null) {
                 if (c.getDorsal() == dorsal) {
                     // Inicializo historial si está vacío
                     List<Puntuacion> historial = c.getHistorial();
-                    if (historial == null)
+                    if (historial == null) {
                         historial = new ArrayList<>();
-
+                    }
                     boolean actualizado = false;
+                    // Si el historial está vacío el bucle no hace nada y se añade la nueva puntuación directamente
                     for (Puntuacion p : historial) {
                         if (p.getAnio() == nuevaPuntuacion.getAnio()) {
                             // Año ya existe: actualizamos
@@ -362,10 +352,10 @@ public class GestorCorredores {
 
         if (!write.renombrarArchivo(rutaArchivo)) {
             System.out.println("No se pudo renombrar el archivo auxiliar: " + ARCHIVO_AUX);
+            return;
         }
 
         System.out.println("Puntuación agregada o actualizada correctamente para el corredor " + dorsal);
 
     }
 }
-

@@ -13,19 +13,25 @@ public class Equipo {
     private boolean borrado = false;
     private Set<Patrocinador> patrocinadores = new HashSet<>();
 
+    public Equipo(int id, String nombre) {
+        this.idEquipo = id;
+        this.nombre = nombre;
+    }
+
     public void addPatrocinador(Patrocinador p){
         patrocinadores.add(p);      // Use equals/hashcode para ver la duplicidad por nombre de patrocinador
     }
 
     /**
-     * RELLENAR
-     * equals lo otros se refiere a sobreescribir los metodos para decir cuando son iguales
-     * @return
+     * Calcula el número de bytes que ocuparia la serializacion del objeto Equipo.
+     * @return Número de bytes aproximados del objeto Equipo.
      */
     public int bytesSerializacionEquipo(){
         int camposEnterosBytes = Integer.BYTES * 2;     // Id y numpatrocinadores
         int borradoBytes = 1;                           // Boolean
-        int contenidoUtf = 0;
+        int contenidoUtf = 0;                           // Para el nombre en UTF-8
+
+        // NOMBRE
 
         if(this.nombre != null && !this.nombre.isEmpty()){
             // StandardCharsets.UTF_8 garantiza que no se lanza UnsupportedEncodingException
@@ -36,6 +42,7 @@ public class Equipo {
         if(contenidoUtf > 0xFFFF){
             throw new IllegalArgumentException("Nombre demasiado largo para writeUTF: " + contenidoUtf + " bytes");
         }
+
 
         // Aproximamos writeUTF como 2 bytes de prefijo + longitud en bytes UTF-8
         int nombreTotal = 2 + contenidoUtf;
@@ -51,6 +58,42 @@ public class Equipo {
         return nombreTotal + camposEnterosBytes + borradoBytes + bytesPatrocinadores;
 
     }
+
+    // Getters y setters
+
+    public int getIdEquipo() {
+        return idEquipo;
+    }
+
+    public void setIdEquipo(int idEquipo) {
+        this.idEquipo = idEquipo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getNumPatrocinadores() {
+        return numPatrocinadores;
+    }
+
+    public void setNumPatrocinadores(int numPatrocinadores) {
+        this.numPatrocinadores = numPatrocinadores;
+    }
+
+    public Set<Patrocinador> getPatrocinadores() {
+        return patrocinadores;
+    }
+
+    public void setPatrocinadores(Set<Patrocinador> patrocinadores) {
+        this.patrocinadores = patrocinadores;
+    }
+
+    // toString
 
     @Override
     public String toString(){
@@ -72,11 +115,11 @@ public class Equipo {
         return sb.toString();
     }
 
-    public int getIdEquipo() {
-        return idEquipo;
+    public boolean isBorrado() {
+        return borrado;
     }
 
-    public void setIdEquipo(int idEquipo) {
-        this.idEquipo = idEquipo;
+    public void setBorrado(boolean borrado) {
+        this.borrado = borrado;
     }
 }
