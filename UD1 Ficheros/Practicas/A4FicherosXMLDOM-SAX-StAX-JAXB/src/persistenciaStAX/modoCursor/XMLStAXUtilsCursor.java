@@ -3,7 +3,6 @@ package persistenciaStAX.modoCursor;
 import org.xml.sax.SAXException;
 import persistenciaDOM.ExcepcionXML;
 import persistenciaDOM.TipoValidacion;
-import persistenciaStAX.modoEventos.XMLStAXUtilsEventos;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.*;
@@ -12,11 +11,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
-// Por ahora al día.
 
 public class XMLStAXUtilsCursor {
 
@@ -26,7 +20,7 @@ public class XMLStAXUtilsCursor {
      * @param rutaFichero Ruta del fichero XML
      * @param validacion  Tipo de validació que se aplicará
      * @return XMLStreamReader para leer el documento XML en modelo cursor
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML excepción en el procesamiento del XML
      */
     public static XMLStreamReader cargarDocumentoStAXCursor(String rutaFichero, TipoValidacion validacion) throws ExcepcionXML {
         try {
@@ -62,10 +56,10 @@ public class XMLStAXUtilsCursor {
 
             inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
             // b) Restringir el acceso a DTDs externos y otros recursos (propiedad JAXP estándar)
-            // El String vacío significa que no se permite el acceso a URLs externas
-            inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-            // c) Activar el procesamiento seguro: impone límites de recursos y restricciones generales
-            inputFactory.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            // El String vacío significa que no se permite el acceso a URLs externas (COMENTO POR ERRORES EN CASA)
+            // inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            // c) Activar el procesamiento seguro: impone límites de recursos y restricciones generales (COMENTO POR ERRORES EN CASA)
+            // inputFactory.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
 
             return inputFactory.createXMLStreamReader(new FileInputStream(file), "UTF-8");
 
@@ -91,7 +85,7 @@ public class XMLStAXUtilsCursor {
      * Requiere referencia interna al XSD en el XML
      *
      * @param xmlFile Archivo XML a validar
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error en la validación
      */
     private static void validarConXSD(File xmlFile) throws ExcepcionXML {
         try {
@@ -107,8 +101,8 @@ public class XMLStAXUtilsCursor {
 
     /**
      * Extrae el texto del evento actual si es de tipo CHARACTER
-     * @param lector
-     * @return
+     * @param lector XMLStreamReader lector StAX
+     * @return Texto del evento actual o cadena vacía si no es CHARACTER
      */
     public static String leerTexto(XMLStreamReader lector) {
         return lector.getEventType() == XMLStreamConstants.CHARACTERS ? lector.getText().trim() : "";
@@ -117,9 +111,9 @@ public class XMLStAXUtilsCursor {
     /**
      * Extrae el valor de un atributo dado en la etiqueta actual
      *
-     * @param lector
-     * @param nombre
-     * @return
+     * @param lector XMLStreamReader, lector StAX
+     * @param nombre Nombre del atributo a leer
+     * @return Valor del atributo o null si no existe
      */
     public static String leerAtributo(XMLStreamReader lector, String nombre) {
         return lector.getAttributeValue(null, nombre);
@@ -142,91 +136,14 @@ public class XMLStAXUtilsCursor {
     }
 
 
+    // ESCRITURA DE ELEMENTOS XML CON STAX
 
     /**
-     * Calcula el total de donaciones por patrocinador desde un XML usando modelo Cursor
-     * @param rutaEntrada ruta del fichero XML
-     * @return TreeMap con clave=NombrePatrocinador y valor=totalDonado
-     * @throws ExcepcionXML
-     */
-    public static Map<String, Double> calcularDonaciones(String rutaEntrada) throws ExcepcionXML {
-        XMLStreamReader reader = null;
-        Map<String, Double> mapaDonaciones = new TreeMap<>();
-        try {
-            reader = XMLStAXUtilsCursor.cargarDocumentoStAXCursor(rutaEntrada, persistenciaDOM.TipoValidacion.XSD);
-
-            String nombrePatrocinador = "";
-            Double donacionActual = 0.0;
-            boolean esPatrocinador = false;
-
-            while (reader.hasNext()) {
-                int tipo = reader.next();
-
-                switch (tipo) {
-                    case XMLStreamConstants.START_ELEMENT -> {
-                        String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
-                        if ("Patrocinador".equals(nombreEtiqueta)) {
-                            nombrePatrocinador = "";
-                            String don = XMLStAXUtilsCursor.leerAtributo(reader, "donacion");
-                            donacionActual = don != null ? Double.parseDouble(don) : 0.0;
-                            esPatrocinador = true;
-                        }
-                    }
-                    case XMLStreamConstants.CHARACTERS -> {
-                        if (esPatrocinador) {
-                            nombrePatrocinador += XMLStAXUtilsCursor.leerTexto(reader);
-                        }
-                    }
-                    case XMLStreamConstants.END_ELEMENT -> {
-                        String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
-                        if ("Patrocinador".equals(nombreEtiqueta)) {
-                            esPatrocinador = false;
-                            nombrePatrocinador = nombrePatrocinador.trim();
-                            mapaDonaciones.merge(nombrePatrocinador, donacionActual, Double::sum);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new ExcepcionXML("Error al calcular donaciones: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (reader != null) reader.close();
-            } catch (XMLStreamException e) {
-                // Ignorar cierre
-            }
-        }
-
-        return mapaDonaciones;
-    }
-
-
-
-    // SOLO FALTA EXCEPCIONES
-
-     /**
+     * Crea un XMLStreamWriter para escribir en el fichero de salida
      *
-     * @param rutaSalida
-     * @return
-     * @throws ExcepcionXML
-     */
-//    public static XMLStreamWriter crearWriterStAX (String rutaSalida) throws ExcepcionXML {
-//        try{
-//            XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-//            return outputFactory.createXMLStreamWriter(new FileWriter(rutaSalida));
-//        } catch (IOException e) {
-//            throw new ExcepcionXML("No se pude crear el fichero XML: " + rutaSalida, e);
-//        } catch (XMLStreamException e) {
-//            throw new ExcepcionXML();
-//        } catch (Exception e){
-//            throw new ExcepcionXML();
-//        }
-//    }
-
-
-    /**
-     * Crea un XMLStreamWriter para la ruta indicada (UTF-8)
-     * Metodo acabado con ia
+     * @param rutaSalida Ruta del fichero XML de salida
+     * @return XMLStreamWriter para escribir el documento XML
+     * @throws ExcepcionXML excepción en el procesamiento del XML
      */
     public static XMLStreamWriter crearWriterStAX(String rutaSalida) throws ExcepcionXML {
         try {
@@ -244,7 +161,7 @@ public class XMLStAXUtilsCursor {
      * Añade la declaración de cabecera XML al nuevo archivo mediante el XMLStreamWriter
      *
      * @param writer XMLStreamWriter que escribe el documento
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error al escribir la declaración XML
      */
     public static void ADDDeclaracion(XMLStreamWriter writer) throws ExcepcionXML {
         try{
@@ -255,17 +172,16 @@ public class XMLStAXUtilsCursor {
         }
     }
 
-    // VER LO DE NIVEL
     /**
      * Añade un salto de línea y espacios de indentación al XML.
      *
      * @param writer XMLStreamWriter que escribe el documento
      * @param nivel ?
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error al añadir el salto de línea
      */
     public static void ADDSaltoLinea(XMLStreamWriter writer, int nivel) throws ExcepcionXML {
         try{
-            String indentacion = "\n" + "   ".repeat(nivel);
+            String indentacion = "\n" + "\t".repeat(nivel);
             writer.writeCharacters(indentacion);
         } catch (XMLStreamException e) {
             throw new ExcepcionXML("Error al añadir saldo de línea o indentación.", e);
@@ -278,7 +194,7 @@ public class XMLStAXUtilsCursor {
      * @param writer XMLStreamWriter que escribe el documento
      * @param nombre nombre del atributo
      * @param valor valor del atributo
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error al añadir el atributo
      */
     public static void ADDAtributo(XMLStreamWriter writer, String nombre, String valor) throws  ExcepcionXML {
         try {
@@ -288,13 +204,12 @@ public class XMLStAXUtilsCursor {
         }
     }
 
-
     /**
      * Añade un elemento sin valor en texto a al XML mediante el XMLStreamWriter
      *
      * @param writer XMLStreamWriter que escribe el documento
      * @param nombre LocalName del elemento
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error al crear el elemento
      */
     public static void ADDStartElemento(XMLStreamWriter writer, String nombre) throws ExcepcionXML {
         try{
@@ -310,7 +225,7 @@ public class XMLStAXUtilsCursor {
      * @param writer XMLStreamWriter que escribe el documento
      * @param nombre nombre del elemento
      * @param valor valor textual del elemento
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error al crear el elemento
      */
     public static void ADDElemento(XMLStreamWriter writer, String nombre, String valor) throws ExcepcionXML {
         try {
@@ -327,7 +242,7 @@ public class XMLStAXUtilsCursor {
      * Cierra el elemento actual escribiendo la etiqueta de cierre
      *
      * @param writer XMLStreamWriter que escribe el documento
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error al cerrar el elemento
      */
     public static void ADDEndElemento(XMLStreamWriter writer) throws ExcepcionXML {
         try {
@@ -342,7 +257,7 @@ public class XMLStAXUtilsCursor {
      *
      * @param writer XMLStreamWriter que escribe el documento
      * @param nombre nombre de la etiqueta a crear
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error al crear el elemento vacío
      */
     public static void ADDElementoVacio(XMLStreamWriter writer, String nombre) throws ExcepcionXML {
         try {
@@ -351,22 +266,5 @@ public class XMLStAXUtilsCursor {
             throw new ExcepcionXML("Error al crear el elemento vacío: " + nombre, e);
         }
     }
-
-    /**
-     *
-     * @param writer XMLStreamWriter que escribe el documento
-     * @throws ExcepcionXML
-     */
-//    public static void ADDEndDocumento(XMLStreamWriter writer) throws ExcepcionXML {
-//        try {
-//            writer.writeEndElement();
-//        } catch (XMLStreamException e) {
-//            throw new ExcepcionXML();
-//        }
-//    }
-
-
-
-
 
 }

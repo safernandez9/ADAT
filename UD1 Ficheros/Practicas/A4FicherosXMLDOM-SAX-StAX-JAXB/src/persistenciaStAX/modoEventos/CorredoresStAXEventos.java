@@ -17,9 +17,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-//POR QUE ESTAS CLASES NO PUEDEN SER ESTÁTICAS?
 
 public class CorredoresStAXEventos {
+
+    // Constructor vacío
+    public CorredoresStAXEventos() {
+    }
 
     public List<Corredor> leerCorredores(XMLEventReader reader){
 
@@ -37,6 +40,9 @@ public class CorredoresStAXEventos {
                 if (event.isStartElement()) {
                     String nombreEtiqueta = XMLStAXUtilsEventos.obtenerNombreEtiqueta(event);
                     switch (nombreEtiqueta) {
+                        case "corredores" -> {
+                            // No hacer nada especial al inicio del contenedor principal
+                        }
                         case "velocista", "fondista" -> {
                             corredorActual = nombreEtiqueta.equals("velocista") ? new Velocista() : new Fondista();
                             corredorActual.setCodigo(XMLStAXUtilsEventos.leerAtributo(event, "codigo"));
@@ -63,6 +69,9 @@ public class CorredoresStAXEventos {
                 if (event.isEndElement()) {
                     String nombreEtiqueta = XMLStAXUtilsEventos.obtenerNombreEtiqueta(event);
                     switch (nombreEtiqueta) {
+                        case "corredores" -> {
+                            // No hacer nada especial al final del contenedor principal
+                        }
                         case "velocista", "fondista" -> {
                             corredores.add(corredorActual);
                         }

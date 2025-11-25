@@ -126,14 +126,16 @@ public static void main(String[] args) {
 //    gestor.mostrarCorredoresPorEquipoDOM("E99");
 
     // LEER CON DOM UN ARCHIVO, LEER OTRO CON SAX, ACTUALIZAR LOS VALORES DEL DOM CON LOS DEL SAX Y REESCRIBIR EL DOM A UN XML
-
     String rutaAActualizar = "ArchivosXMLDTD/Corredores.xml";
-    String rutaActualizaciones = "ArchivosXMLDTD/Actualizaciones.xml";
+//    String rutaActualizaciones = "ArchivosXMLDTD/Actualizaciones.xml";
+//
+//    System.out.println("\n\nActualizando el documento XML con los datos cargados por SAX...\n");
+//    gestor.actualizarDOMconSAX(rutaAActualizar, rutaActualizaciones, TipoValidacion.DTD, TipoValidacion.NO_VALIDAR);
+//
 
-    System.out.println("\n\nActualizando el documento XML con los datos cargados por SAX...\n");
-    gestor.actualizarDOMconSAX(rutaAActualizar, rutaActualizaciones, TipoValidacion.DTD, TipoValidacion.NO_VALIDAR);
 
-
+    gestor.mostrarCorredoresStAXCursor(RUTA, TipoValidacion.XSD);
+    gestor.mostrarCorredoresStAXEventos(RUTA, TipoValidacion.XSD);
 
 
 

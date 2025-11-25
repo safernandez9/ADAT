@@ -349,6 +349,9 @@ public class GestorCorredores {
     }
 
 
+    // STAX METODOS
+
+
     /**
      *
      * @param ruta

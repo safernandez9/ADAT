@@ -19,7 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
-// ESTO LISTO
 
 public class XMLStAXUtilsEventos {
 
@@ -62,9 +61,9 @@ public class XMLStAXUtilsEventos {
             inputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
             // b) Restringir el acceso a DTDs externos y otros recursos (propiedad JAXP estándar)
             // El String vacío significa que no se permite el acceso a URLs externas
-            inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            // inputFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Comentado porque da error en algunas implementaciones
             // c) Activar el procesamiento seguro: impone límites de recursos y restricciones generales
-            inputFactory.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            // inputFactory.setProperty(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE); // Comentado porque da error en algunas implementaciones
 
             return inputFactory.createXMLEventReader(new FileInputStream(file), "UTF-8");
 
@@ -90,7 +89,7 @@ public class XMLStAXUtilsEventos {
      * Requiere referencia interna al XSD en el XML
      *
      * @param xmlFile Archivo XML a validar
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error de validación
      */
     private static void validarConXSD(File xmlFile) throws ExcepcionXML {
         try {
@@ -157,12 +156,16 @@ public class XMLStAXUtilsEventos {
         return null;
     }
 
+    // ESCRITURA XML CON StAX EVENTOS
+
     /** Crea un XMLEventWriter para escribir un XML usando StAX (Eventos) *
      * @param rutaSalida Ruta del fichero de salida
      * @return XMLEventWriter configurado
-     * @throws ExcepcionXML
+     * @throws ExcepcionXML en caso de error
      * */
     public static XMLEventWriter crearWriterStAXEventos(String rutaSalida) throws ExcepcionXML {
+        // Usa la codificación del sistema por defecto, para cambiar debo envolver el FileWriter en un
+        // OutputStreamWriter con la codificación deseada (VER CURSOR)
         try {
             XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
             return outputFactory.createXMLEventWriter(new FileWriter(rutaSalida));
@@ -173,7 +176,39 @@ public class XMLStAXUtilsEventos {
         }
     }
 
-    /** Añade la declaración XML inicial al documento */
+    /**
+     * Añade la etiqueta de inicio (start element) al XML
+     * @param writer XMLEventWriter donde se escribirá la etiqueta
+     * @param nombre Nombre de la etiqueta a abrir
+     * @throws ExcepcionXML en caso de error
+     */
+    public static void ADDStartElemento(XMLEventWriter writer, String nombre) throws ExcepcionXML {
+        try {
+            writer.add(XMLEventFactory.newInstance().createStartElement("", "", nombre));
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al escribir start element: " + nombre, e);
+        }
+    }
+
+    /**
+     * Añade la etiqueta de cierre (end element) al XML
+     * @param writer XMLEventWriter donde se escribirá la etiqueta
+     * @param nombre Nombre de la etiqueta a cerrar
+     * @throws ExcepcionXML en caso de error
+     */
+    public static void ADDEndElemento(XMLEventWriter writer, String nombre) throws ExcepcionXML {
+        try {
+            writer.add(XMLEventFactory.newInstance().createEndElement("", "", nombre));
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al escribir end element: " + nombre, e);
+        }
+    }
+
+    /**
+     * Añade la declaración XML al inicio del documento
+     * @param writer XMLEventWriter donde se escribirá la declaración
+     * @throws ExcepcionXML en caso de error
+     */
     public static void ADDDeclaracion(XMLEventWriter writer) throws ExcepcionXML {
         try {
             writer.add(XMLEventFactory.newInstance().createStartDocument("UTF-8","1.0"));
@@ -182,7 +217,12 @@ public class XMLStAXUtilsEventos {
         }
     }
 
-    /** * Añade un salto de línea e indentación */
+    /**
+     * Añade un salto de línea con la indentación adecuada
+     * @param writer XMLEventWriter donde se añadirá el salto de línea
+     * @param nivel Nivel de indentación (número de espacios)
+     * @throws ExcepcionXML en caso de error
+     */
     public static void ADDSaltoLinea(XMLEventWriter writer, int nivel) throws ExcepcionXML {
         try {
             String indent = "\n" + " ".repeat(nivel); writer.add(XMLEventFactory.newInstance().createCharacters(indent));
@@ -191,7 +231,13 @@ public class XMLStAXUtilsEventos {
         }
     }
 
-    /** * Añade un elemento con valor de texto */
+    /**
+     * Añade un elemento con texto
+     * @param writer XMLEventWriter donde se añadirá el elemento
+     * @param nombre Nombre del elemento
+     * @param valor Texto del elemento
+     * @throws ExcepcionXML en caso de error
+     */
     public static void ADDElemento(XMLEventWriter writer, String nombre, String valor) throws ExcepcionXML {
         try {
             var ef = XMLEventFactory.newInstance();
@@ -203,7 +249,12 @@ public class XMLStAXUtilsEventos {
         }
     }
 
-    /** * Añade un elemento vacío */
+    /**
+     * Añade un elemento vacío
+     * @param writer XMLEventWriter donde se añadirá el elemento
+     * @param nombre Nombre del elemento
+     * @throws ExcepcionXML en caso de error
+     */
     public static void ADDElementoVacio(XMLEventWriter writer, String nombre) throws ExcepcionXML {
         try { var ef = XMLEventFactory.newInstance();
             writer.add(ef.createStartElement("", "", nombre));
