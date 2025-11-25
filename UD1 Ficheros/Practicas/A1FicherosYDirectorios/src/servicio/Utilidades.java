@@ -165,6 +165,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 public class Utilidades {
 
+
     // METODOS IO
 
     /**
@@ -178,6 +179,7 @@ public class Utilidades {
      * @throws NoEsArchivoException
      */
     public static void validarArchivoIO(File file) throws ArchivoNoExisteException, NoEsArchivoException {
+
 
         if (!file.exists()) {
             throw new ArchivoNoExisteException(file.getPath());

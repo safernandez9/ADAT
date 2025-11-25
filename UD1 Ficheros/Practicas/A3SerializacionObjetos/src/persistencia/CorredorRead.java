@@ -4,8 +4,19 @@ import modelo.Corredor;
 
 import java.io.*;
 
+/*
+DECIRLA QUE SE AÑADA EN LOS SECEUENCIALES PARA NO MACHACAR?
+ */
+
 /**
- * Clase para la lectura de corredores desde un archivo binario de manera secuencial
+ * Clase para la lectura de corredores desde un archivo binario de manera secuencial P30
+ * Leer con la misma codificacion que esta escrito? -> En los file input Stream
+ * InputStreamReader para pasar de byte a texto. Util por que la codificacion solo puede cambiarse en bytes.
+ * InouteStrea,Reader ver ejemplos de uso en los apuntes
+ * DATAOUTPUT PARA QUE?
+ * Secuenciales directamente de archivo
+ * Ver p48
+ *
  */
 public class CorredorRead extends Archivo {
 

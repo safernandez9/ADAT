@@ -7,6 +7,43 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
+/**
+ * FileVisitor<T> Interfaz para recorrer directorios
+ * recursivamente.
+ * - Métodos:
+ * preVisitDirectory, visitFile, postVisitDirectory,
+ * visitFileFailed.
+ * - Se usa con Files.walkFileTree(path, visitor)
+ *
+ *
+ * Contiene metadatos de un archivo
+ * (tamaño, fechas, tipo, etc.).
+ * - size() → tamaño en bytes.
+ * - creationTime(), lastModifiedTime().
+ * - isDirectory(), isRegularFile().
+ *
+ * (path)
+ * Itera sobre el contenido de un
+ * directorio (no recursivo).
+ * Devuelve un
+ * DirectoryStream<Path>
+ * Path dir =
+ * Paths.get("documentos");
+ * try (DirectoryStream<Path> stream =
+ *  Files.newDirectoryStream(dir))
+ * //para recorrer
+ *  { for (Path p : stream)
+ *  {
+ *  System.out.println
+ *  (p.getFileName());
+ *  }
+ * }
+ *
+ *
+ * Apuntes de p28 tipos de flujo
+ *
+ *
+ */
 public class OperacionesNIO {
 
     /** visualizarContenidoNIO(String)

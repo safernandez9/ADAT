@@ -57,7 +57,7 @@ public class EquipoRandom extends Archivo {
 
             // Calcular posición del registro
             // -1L porque los equipos se numeran desde 1, pero las posiciones en bytes empiezan desde 0. La L
-            // es para forzar que la operación se haga en long y no en int
+            // es para forzar que la operación se haga en long y no en int ya que los bytes se guardan en long.
             long posicion = (equipo.getIdEquipo() - 1L) * TAM_REGISTRO;
             raf.seek(posicion);
 

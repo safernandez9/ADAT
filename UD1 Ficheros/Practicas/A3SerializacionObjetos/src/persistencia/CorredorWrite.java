@@ -75,7 +75,7 @@ public class CorredorWrite extends Archivo {
         EquipoRandom archivoEquipos = new EquipoRandom("equipos.dat");
         archivoEquipos.abrirArchivo();
         try{
-            Equipo equipo = archivoEquipos.leerEquipo(idEquipo);
+            Equipo equipo = archivoEquipos.leerEquipoPorID(idEquipo);
             return equipo  != null && !equipo.isBorrado();
 
             //Finally garantiza el cierre aunque haya return;

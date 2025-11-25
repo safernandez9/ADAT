@@ -105,6 +105,7 @@ public class Patrocinador {
      * Cada vez que sobrescribes equals(), también debes sobrescribir hashCode().
      * Si no lo haces:
      * Las colecciones basadas en hash (HashSet, HashMap, HashTable) no detectarán duplicados correctamente.
+     * Solo con base en su referencia.
      * Puedes tener objetos que equals() considera iguales, pero que el Set permite añadir varias veces.
      *
      * @return Devuelve el hashcode basado en el nombre en minúsculas para que coincida con equals().
