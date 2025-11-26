@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<empleados>
+	<empleado id="1">
+		<nombre>Juan Pérez</nombre>
+		<edad>37</edad>
+		<salario>25000.5</salario>
+		<departamento>D01</departamento>
+		<localizacion>A Coruña</localizacion>
+		</empleado>
+	<empleado id="2">
+		<nombre>Ana Gómez</nombre>
+		<edad>29</edad>
+		<salario>32000.0</salario>
+		<departamento>D02</departamento>
+		<localizacion>Vigo</localizacion>
+		</empleado>
+	<empleado id="3">
+		<nombre>Luis Robles</nombre>
+		<edad>41</edad>
+		<salario>28500.75</salario>
+		<departamento>D01</departamento>
+		<localizacion></localizacion>
+		</empleado>
+	<empleado id="4">
+		<nombre>Marta Lago</nombre>
+		<edad>26</edad>
+		<salario>19800.0</salario>
+		<departamento>D03</departamento>
+		<localizacion>Santiago</localizacion>
+		</empleado>
+	<empleado id="5">
+		<nombre>Carlos Sendón</nombre>
+		<edad>52</edad>
+		<salario>41000.25</salario>
+		<departamento>D02</departamento>
+		<localizacion></localizacion>
+		</empleado>
+	</empleados>
