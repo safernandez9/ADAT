@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Fotografos>
+       <Fotografo NumeroLicencia="LIC-1001">
+        <Nombre>Laura Jiménez</Nombre>
+        <Estudio>Foco Creativo</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-01-15">Atardecer en la playa</Fotografia>
+            <Fotografia Formato="Blanco y Negro" fecha="2023-02-10">Calle antigua</Fotografia>
+        </Fotografias>
+    </Fotografo>
+    <Fotografo NumeroLicencia="LIC-2002">
+        <Nombre>Javier Sánchez</Nombre>
+        <Estudio>Enfoque</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-03-05">Playa tranquila</Fotografia>
+            <Fotografia Formato="Color" fecha="2023-03-15">Montañas verdes</Fotografia>
+        </Fotografias>
+    </Fotografo>
+       <Fotografo NumeroLicencia="LIC-1004">
+        <Nombre>Ana Morales</Nombre>
+        <Estudio>Fotoarte</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Blanco y Negro" fecha="2023-04-01">Puente antiguo</Fotografia>
+            <Fotografia Formato="Color" fecha="2023-04-20">Atardecer en el río</Fotografia>
+        </Fotografias>
+    </Fotografo>
+    <Fotografo NumeroLicencia="LIC-2004">
+        <Nombre>Carlos Ruiz</Nombre>
+        <Estudio>Mirada Creativa</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-05-05">Puente iluminado</Fotografia>
+            <Fotografia Formato="Blanco y Negro" fecha="2023-05-20">Callejón antiguo</Fotografia>
+        </Fotografias>
+    </Fotografo>
+    <Fotografo NumeroLicencia="LIC-1007">
+        <Nombre>María Gómez</Nombre>
+        <Estudio>Instantánea</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-06-10">Vida urbana</Fotografia>
+            <Fotografia Formato="Blanco y Negro" fecha="2023-06-25">Río al atardecer</Fotografia>
+        </Fotografias>
+    </Fotografo>
+    <Fotografo NumeroLicencia="LIC-2006">
+        <Nombre>Pablo Martínez</Nombre>
+        <Estudio>Foco Creativo</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-07-12">Montañas rocosas</Fotografia>
+            <Fotografia Formato="Color" fecha="2023-07-20">Lago cristalino</Fotografia>
+        </Fotografias>
+    </Fotografo>
+    <Fotografo NumeroLicencia="LIC-1010">
+        <Nombre>Lucía Moreno</Nombre>
+        <Estudio>Enfoque</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-08-05">Parque primaveral</Fotografia>
+            <Fotografia Formato="Blanco y Negro" fecha="2023-08-15">Montañas nevadas</Fotografia>
+        </Fotografias>
+    </Fotografo>
+    <Fotografo NumeroLicencia="LIC-2008">
+        <Nombre>David Torres</Nombre>
+        <Estudio>Fotoarte</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-09-01">Ciudad nocturna</Fotografia>
+            <Fotografia Formato="Color" fecha="2023-09-12">Bosque otoñal</Fotografia>
+        </Fotografias>
+    </Fotografo>
+    <Fotografo NumeroLicencia="LIC-1015">
+        <Nombre>Sara López</Nombre>
+        <Estudio>Mirada Creativa</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-10-10">Puente antiguo</Fotografia>
+            <Fotografia Formato="Color" fecha="2023-10-20">Lago cristalino</Fotografia>
+        </Fotografias>
+    </Fotografo>
+    <Fotografo NumeroLicencia="LIC-2010">
+        <Nombre>Andrés Díaz</Nombre>
+        <Estudio>Instantánea</Estudio>
+        <Fotografias>
+            <Fotografia Formato="Color" fecha="2023-11-05">Ciudad iluminada</Fotografia>
+            <Fotografia Formato="Blanco y Negro" fecha="2023-11-15">Atardecer en la montaña</Fotografia>
+        </Fotografias>
+    </Fotografo>
+</Fotografos>
