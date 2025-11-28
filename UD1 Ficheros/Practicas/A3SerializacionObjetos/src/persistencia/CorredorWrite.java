@@ -30,10 +30,13 @@ public class CorredorWrite extends Archivo {
         super(ruta);
     }
 
+
     @Override
     public void abrirArchivo() {
         //Compruebo si existe el archivo y no esta vacío
         boolean appendMode = archivoExiste() && this.file.length() > 0;
+
+
         try {
             if (appendMode) {
                 // CASO 1: El archivo existe y no está vacío, añado sin cabecera. (new AppendObjectOutputStream)
@@ -43,6 +46,7 @@ public class CorredorWrite extends Archivo {
                 System.out.println("Archivo de escritura abierto");
             } else {
                 // CASO 2: Archivo nuevo o vacío. Añado con cabecera. (new ObjectOutputStream)
+                System.out.println("Ruta final a abrir: [" + this.file.getAbsolutePath() + "]");
                 oos = new ObjectOutputStream(
                         new BufferedOutputStream(
                                 new FileOutputStream(this.file, appendMode)));

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestorCorredores {
+
     private final String rutaArchivo = "corredores.dat";
 
     /**
@@ -26,6 +27,7 @@ public class GestorCorredores {
 
         CorredorWrite write = new CorredorWrite(rutaArchivo);
         CorredorRead read = new CorredorRead(rutaArchivo);
+        write.iniciarEscritura(); // HAGO ESTO O CREO EL ARCHIVO ANTES DE LEER EL ULTIMO DORSAL?
 
         try {
             // Obtener el último dorsal asignado, dárselo al corredor y guardarlo

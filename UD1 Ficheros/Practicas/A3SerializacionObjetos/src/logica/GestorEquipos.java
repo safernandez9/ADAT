@@ -4,7 +4,6 @@ import modelo.Equipo;
 import modelo.Patrocinador;
 import persistencia.EquipoRandom;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
