@@ -1,30 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<actualizaciones>
-    <!-- Caso 1: Actualizar velocidad o distancia de un corredor existente -->
-    <corredor codigo="C01" equipo="E1">
-        <velocidad_media>10.9</velocidad_media>
-        <historial>
-            <puntuacion anio="2024">87.0</puntuacion>
-        </historial>
-    </corredor>
-
-    <corredor codigo="C05" equipo="E2">
-        <distancia_max>15500.0</distancia_max>
-        <historial>
-            <puntuacion anio="2020">77.0</puntuacion>
-        </historial>
-    </corredor>
-
-    <!-- Caso 2: Añadir un nuevo corredor a equipo existente -->
-    <corredor codigo="C21" equipo="E77">
-        <nombre>Laura Méndez</nombre>
-        <fecha_nacimiento>2000-10-20</fecha_nacimiento>
-        <velocidad_media>10.2</velocidad_media>
-    </corredor>
-
-    <corredor codigo="C22" equipo="E77">
-        <nombre>Roberto Sánchez</nombre>
-        <fecha_nacimiento>2000-10-20</fecha_nacimiento>
-        <distancia_max>11000.0</distancia_max>
-    </corredor>
-</actualizaciones>
+<Actualizaciones>
+    <!-- Caso 1: Actualizar donación y fecha de un patrocinador existente -->
+    <Patrocinador idEquipo="E1" nombreEquipo="Rápidos del Norte">
+        <nombre>Adidas</nombre>
+        <Donacion fecha="2024-10-12">2500.0</Donacion>
+    </Patrocinador>
+    <!-- Caso 2: Añadir nuevo patrocinador a equipo existente -->
+    <Patrocinador idEquipo="E2" nombreEquipo="Truenos del Oeste">
+        <nombre>Columbia</nombre>
+        <Donacion fecha="2025-03-01">1800.0</Donacion>
+    </Patrocinador>
+    …………………………………………….
+    <!-- Caso 5: Añadir patrocinador a equipo nuevo -->
+    <Patrocinador idEquipo="E9" nombreEquipo="Relámpagos del Este">
+        <nombre>Joma</nombre>
+        <Donacion fecha="2025-05-10">1200.0</Donacion>
+    </Patrocinador>
+</Actualizaciones>

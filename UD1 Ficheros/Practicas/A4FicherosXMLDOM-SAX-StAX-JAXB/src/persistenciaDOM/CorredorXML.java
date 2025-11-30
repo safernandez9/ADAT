@@ -12,6 +12,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import utilidades.ExcepcionXML;
+import utilidades.TipoValidacion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -216,9 +218,9 @@ public class CorredorXML {
         /*
          * Puedo manejarlo con excepciones o devolver una lista vacía y comprobando en la capa lógica si está vacía
          */
-//        if(listaEncontrados.isEmpty()){
-//            throw new ExcepcionXML("No existen corredores para el equipo " + equipo);
-//        }
+        if(listaEncontrados.isEmpty()){
+            throw new ExcepcionXML("No existen corredores para el equipo " + equipo);
+        }
 
         try{
             for(Element e : listaEncontrados){
@@ -269,10 +271,12 @@ public class CorredorXML {
         // Añadir el historial
 
         Element historialElem = XMLDOMUtils.addElement(documentoXML, "historial", nodoCorredor);
-        for (Puntuacion p : corredor.getHistorial()) {
-            Element puntuacionElem = XMLDOMUtils.addElement(documentoXML, "puntuacion", historialElem);
-            XMLDOMUtils.añadirAtributo(documentoXML, "anio", Integer.toString(p.getAnio()), puntuacionElem);
-            puntuacionElem.setTextContent(Float.toString(p.getPuntos()));
+        if(corredor.getHistorial() != null){
+            for (Puntuacion p : corredor.getHistorial()) {
+                Element puntuacionElem = XMLDOMUtils.addElement(documentoXML, "puntuacion", historialElem);
+                XMLDOMUtils.añadirAtributo(documentoXML, "anio", Integer.toString(p.getAnio()), puntuacionElem);
+                puntuacionElem.setTextContent(Float.toString(p.getPuntos()));
+            }
         }
     }
 

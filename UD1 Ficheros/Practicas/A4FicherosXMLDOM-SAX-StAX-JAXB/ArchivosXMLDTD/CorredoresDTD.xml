@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<corredores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="CorredoresXSD.xsd">
+<!DOCTYPE corredores SYSTEM "CorredoresDTD.dtd">
+<corredores>
     <velocista codigo="C01" dorsal="1" equipo="E1">
         <nombre>Lucía Fernández Álvarez</nombre>
         <fecha_nacimiento>2000-10-20</fecha_nacimiento>

@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<corredores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="CorredoresXSD.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<corredores>
     <velocista codigo="C01" dorsal="1" equipo="E1">
         <nombre>Lucía Fernández Álvarez</nombre>
         <fecha_nacimiento>2000-10-20</fecha_nacimiento>
@@ -9,8 +8,8 @@
             <puntuacion anio="2019">78.5</puntuacion>
             <puntuacion anio="2020">85.0</puntuacion>
             <puntuacion anio="2021">69.4</puntuacion>
-            <puntuacion anio="2022">61.5</puntuacion>
-            <puntuacion anio="2023">83.5</puntuacion>
+            <puntuacion anio="2023">48.7</puntuacion>
+            <puntuacion anio="2024">54.3</puntuacion>
         </historial>
     </velocista>
     <fondista codigo="C02" dorsal="2" equipo="E2">
@@ -53,19 +52,6 @@
         <historial>
             <puntuacion anio="2016">65.0</puntuacion>
             <puntuacion anio="2018">70.0</puntuacion>
-        </historial>
-    </fondista>
-    <velocista codigo="C08" dorsal="8" equipo="E5">
-        <nombre>Iván Torres</nombre>
-        <fecha_nacimiento>2002-02-14</fecha_nacimiento>
-        <velocidad_media>10.7</velocidad_media>
-    </velocista>
-    <fondista codigo="C09" dorsal="9" equipo="E4">
-        <nombre>Rocío Méndez</nombre>
-        <fecha_nacimiento>1996-07-09</fecha_nacimiento>
-        <distancia_max>8000.0</distancia_max>
-        <historial>
-            <puntuacion anio="2019">77.0</puntuacion>
         </historial>
     </fondista>
     <velocista codigo="C10" dorsal="10" equipo="E1">
@@ -150,4 +136,22 @@
             <puntuacion anio="2023">73.5</puntuacion>
         </historial>
     </fondista>
+    <fondista codigo="C21" dorsal="21" equipo="Equipo H">
+        <nombre>Nuevo Corredor</nombre>
+        <fecha_nacimiento>1992-07-10</fecha_nacimiento>
+        <distancia_max>10000.0</distancia_max>
+        <historial>
+            <puntuacion anio="2022">150.0</puntuacion>
+            <puntuacion anio="2023">200.0</puntuacion>
+        </historial>
+    </fondista>
+    <velocista codigo="C22" dorsal="22" equipo="Equipo I">
+        <nombre>Nuevo Velocista</nombre>
+        <fecha_nacimiento>1996-08-25</fecha_nacimiento>
+        <velocidad_media>10.5</velocidad_media>
+        <historial>
+            <puntuacion anio="2022">150.0</puntuacion>
+            <puntuacion anio="2023">200.0</puntuacion>
+        </historial>
+    </velocista>
 </corredores>

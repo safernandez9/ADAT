@@ -1,8 +1,8 @@
 package persistenciaSAX;
 
 import clases.Corredor;
-import persistenciaDOM.ExcepcionXML;
-import persistenciaDOM.TipoValidacion;
+import utilidades.ExcepcionXML;
+import utilidades.TipoValidacion;
 
 import java.util.List;
 
@@ -42,14 +42,5 @@ public class CorredoresSAX {
         XMLSAXUtils.cargarDocumentoXMLSAX(rutaFichero, validacion, miHandler);
         return miHandler.getCorredores();
     }
-
-    public List<Corredor> cargarCorredoresActualizacion(String rutaFichero, TipoValidacion validacion) throws ExcepcionXML {
-        try {
-            CorredoresActualizacionSAXHandler miHandler = new CorredoresActualizacionSAXHandler();
-            XMLSAXUtils.cargarDocumentoXMLSAX(rutaFichero, validacion, miHandler);
-            return miHandler.getCorredores();
-        } catch (Exception e) {
-            throw new ExcepcionXML("Error al cargar los corredores de actualizacion: " + e.getMessage());
-        }
-    }
+    
 }

@@ -2,6 +2,8 @@ package persistenciaDOM;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
+import utilidades.TipoValidacion;
+import utilidades.ExcepcionXML;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
@@ -27,34 +29,6 @@ import java.util.List;
  * Contiene métodos genéricos y reutilizables para el manejo del DOM y XPath
  */
 public class XMLDOMUtils {
-
-    // ===================== CHULETA RÁPIDA DOM (JAVA) ======================
-
-// Insertar un nodo al final
-// parent.appendChild(nuevoNodo);
-
-// Insertar un nodo antes que un hermano
-// parent.insertBefore(nuevoNodo, nodoReferencia);
-
-// Insertar en una posición concreta
-// Node ref = parent.getChildNodes().item(indice);
-// parent.insertBefore(nuevoNodo, ref);
-
-// Insertar después de un nodo (no existe método directo → truco)
-// parent.insertBefore(nuevoNodo, nodoViejo.getNextSibling());
-
-// Reemplazar un nodo por otro
-// parent.replaceChild(nuevoNodo, nodoViejo);
-
-// Eliminar un nodo hijo
-// parent.removeChild(nodo);
-
-// Crear elementos y texto
-// Element e = doc.createElement("Tag");
-// Text t = doc.createTextNode("contenido");
-// e.appendChild(t);
-
-// ===============================================================
 
     /**
      * Siempre es el mismo método. Carga un XML en el Document. LLama a ConfigurarFactory.
@@ -101,7 +75,7 @@ public class XMLDOMUtils {
      * Activo también configuraciones generales.
      * En caso de validacion debo poner la linea correspondiente en el XML al DTD o XSD
      *
-     * @param validacion
+     * @param validacion Tipo de validacion, Enum
      * @return DocumentBuildeFactory creada y configurada
      */
     private static DocumentBuilderFactory configurarFactory(TipoValidacion validacion) {
@@ -132,8 +106,8 @@ public class XMLDOMUtils {
      * Obtiene el texto de una etiqueta hija dentro de un elemento padre
      *
      * @param padre    Padre de la etiqueda de la que quiero sacar texto
-     * @param etiqueta Nmobre de la etiqueta
-     * @return
+     * @param etiqueta Nmobre de la etiqueta de la que quiero sacar el texto
+     * @return Texto contenido en la etiqueta. Si no existe devuelve cadena vacia
      */
     public static String obtenerTexto(Element padre, String etiqueta) {
 
@@ -147,9 +121,22 @@ public class XMLDOMUtils {
     }
 
     /**
+     * Obtiene el texto del elemento actual
      *
+     * @param elemento Elemento del que quiero sacar el texto
+     * @return Texto contenido en el elemento. Si no existe devuelve cadena vacia
+     */
+    public static String ObtenerTextoElementoActual(Element elemento) {
+        if (elemento == null) {
+            return "";
+        }
+        return elemento.getTextContent();
+    }
+
+    /**
+     * Guarda el Document en un archivo XML en la ruta destino
      * @param doc         Raiz del Document
-     * @param rutaDestino
+     * @param rutaDestino Ruta donde se guardará el XML
      */
     public static void guardarDocumentoXML(Document doc, String rutaDestino) {
         try {
@@ -200,7 +187,7 @@ public class XMLDOMUtils {
      * @param nombre  Nombre del atributo
      * @param valorID Valor del atributo
      * @param padre   Elemento al que se le añadirá el atributo
-     * @return
+     * @return Atributo creado
      */
     public static Attr añadirAtributoID(Document doc, String nombre, String valorID, Element padre) {
         try {
@@ -225,7 +212,7 @@ public class XMLDOMUtils {
      * @param nombre Nombre del Element que voy a crear
      * @param valor  Valor (En texto) del Element que voy a crear
      * @param padre  Nombre del padre del que colgaré el Element
-     * @return
+     * @return Elemento creado
      */
     public static Element addElement(Document doc, String nombre, String valor, Element padre) {
 
@@ -246,7 +233,7 @@ public class XMLDOMUtils {
      * @param doc    Raiz del Document
      * @param nombre Nombre del Element que voy a crear
      * @param padre  Nombre del padre del que colgaré el Element
-     * @return
+     * @return Elemento creado
      */
     public static Element addElement(Document doc, String nombre, Element padre) {
 
@@ -257,10 +244,10 @@ public class XMLDOMUtils {
 
     /**
      * Elimina un elemento, cojo su padre y desde él elimino el hijo.
-     * El resto de nodos se borraran en cascada.
+     * El resto de nodos se borrarán en cascada.
      *
-     * @param elemento
-     * @return
+     * @param elemento Elemento a eliminar
+     * @return true si se eliminó, false si no
      */
     public static boolean eliminarElemento(Element elemento) {
         if (elemento != null && elemento.getParentNode() != null) {
@@ -273,9 +260,9 @@ public class XMLDOMUtils {
     /**
      * Modifica un atributo de un elemento. Si no existe lo crea.
      *
-     * @param elemento
-     * @param nombre
-     * @param valor    Es Object porque no se que tipo de dato recibiré
+     * @param elemento Elemento donde quiero modificar el atributo
+     * @param nombre  Nombre del atributo
+     * @param valor  Es Object porque no se que tipo de dato recibiré
      */
     public static void modificarAtributo(Element elemento, String nombre, Object valor) {
 
@@ -406,7 +393,7 @@ public class XMLDOMUtils {
      * @param contexto          Nodo desde el que busca
      * @param expresion         Expresión XPath
      * @param resultadoEsperado Tipo de objeto que espero recibir de mi XPath
-     * @return
+     * @return Object resultado de la evaluación
      */
     public static Object evaluarXPath(Object contexto, String expresion, QName resultadoEsperado) throws ExcepcionXML {
         try {
@@ -423,9 +410,9 @@ public class XMLDOMUtils {
      * Llama a evaluarXPath esperando un NodeList, castea el Object recibido a NodeList y
      * lo devuelve. Cuando espero un conjunto de nodos.
      *
-     * @param contexto
-     * @param expresion
-     * @return
+     * @param contexto Nodo desde el que buscar
+     * @param expresion Expresión XPath
+     * @return NodeList resultado de la evaluación
      */
     public static NodeList evaluarXPathNodeList(Object contexto, String expresion) {
         return (NodeList) evaluarXPath(contexto, expresion, XPathConstants.NODESET);
@@ -435,9 +422,9 @@ public class XMLDOMUtils {
      * Llama a evaluarXPath esperando un Node, castea el Object recibido a Node y
      * lo devuelve. Cuando espero un único nodo.
      *
-     * @param contexto
-     * @param expresion
-     * @return
+     * @param contexto Nodo desde el que buscar
+     * @param expresion Expresión XPath
+     * @return Node resultado de la evaluación
      */
     public static Node evaluarXPathNode(Object contexto, String expresion) {
         return (Node) evaluarXPath(contexto, expresion, XPathConstants.NODE);
@@ -447,9 +434,9 @@ public class XMLDOMUtils {
      * Llama a evaluarXPath esperando un Boolean, castea el Object recibido a Boolean y
      * lo devuelve. Cuando espero un valor true/false.
      *
-     * @param contexto
-     * @param expresion
-     * @return
+     * @param contexto Nodo desde el que buscar
+     * @param expresion Expresión XPath
+     * @return Boolean resultado de la evaluación
      */
     public static Boolean evaluarXPathBoolean(Object contexto, String expresion) {
         return (Boolean) evaluarXPath(contexto, expresion, XPathConstants.BOOLEAN);
@@ -459,9 +446,9 @@ public class XMLDOMUtils {
      * Llama a evaluarXPath esperando un String, castea el Object recibido a String y
      * lo devuelve. Cuando espero un valor en texto.
      *
-     * @param contexto
-     * @param expresion
-     * @return
+     * @param contexto Nodo desde el que buscar
+     * @param expresion Expresión XPath
+     * @return String resultado de la evaluación
      */
     public static String evaluarXPathString(Object contexto, String expresion) {
         return (String) evaluarXPath(contexto, expresion, XPathConstants.STRING);
@@ -471,141 +458,14 @@ public class XMLDOMUtils {
      * Llama a evaluarXPath esperando un Double, castea el Object recibido a Double y
      * lo devuelve. Cuando espero un valor numérico.
      *
-     * @param contexto
-     * @param expresion
-     * @return
+     * @param contexto Nodo desde el que buscar
+     * @param expresion Expresión XPath
+     * @return Double resultado de la evaluación
      */
     public static Double evaluarXPathNumber(Object contexto, String expresion) {
         return (Double) evaluarXPath(contexto, expresion, XPathConstants.NUMBER);
     }
 
-    // CHULETA DE XPATH PARA CORREDORES
-
-    /*
-
-```
-        CHULETA COMPLETA DE XPATH PARA CORREDORES
-```
-
-=======================================================
-
-1. Selección básica de nodos
-
----
-
-//velocista
-→ Todos los elementos <velocista> en cualquier parte del documento
-/fondistas/fondista
-→ Todos los <fondista> hijos directos de <fondistas>
-
-2. Seleccionar atributos
-
----
-
-//velocista/@codigo
-→ Obtiene el atributo “codigo” de todos los velocistas
-/habitacion[@numero='F03']
-
-→ Selecciona el <fondista> con atributo codigo="F03"
-
-3. Seleccionar nodos por valor de hijo
-
----
-
-//velocista[nombre='Juan']
-→ Velocista cuyo hijo <nombre> sea "Juan"
-//fondista[distancia_max > 10]
-→ Fondista con distancia_max > 10
-
-4. Selección de un hijo concreto
-
----
-
-//velocista/nombre
-→ El hijo <nombre> de cada <velocista>
-//fondista/velocidad_media
-→ Hijo <velocidad_media> de cada fondista
-
-5. Funciones XPath útiles
-
----
-
-count(//velocista)                  → Número total de velocistas
-sum(//fondista/distancia_max)       → Suma de todas las distancias máximas
-max(//velocista/velocidad_media)    → Velocidad máxima
-min(//fondista/distancia_max)       → Distancia mínima
-
-6. Combinación de filtros
-
----
-
-//velocista[velocidad_media > 25 and equipo='Rojo']
-→ Velocistas con velocidad_media > 25 y del equipo "Rojo"
-//fondista[distancia_max > 10 or equipo='Azul']
-→ Fondistas con distancia máxima > 10 o equipo "Azul"
-
-7. Selección por índice
-
----
-
-//velocista[1]           → Primer velocista
-//fondista[last()]       → Último fondista
-
-8. Obtener texto de un nodo
-
----
-
-//velocista/nombre/text()
-→ Devuelve el texto dentro del <nombre> del velocista
-//fondista/distancia_max/text()
-→ Devuelve el texto dentro de <distancia_max>
-
-9. Obtener nodos hijos o descendientes
-
----
-
-//Corredor/*
-→ Todos los hijos directos de <Corredor>
-//Corredor//puntuacion
-→ Todos los <puntuacion> descendientes de <Corredor>, a cualquier nivel
-
-10. Resumen rápido de símbolos
-
----
-
-/          → hijo directo
-//         → cualquier descendiente
-@          → atributo
-[]         → filtro / condición
-text()     → texto dentro del nodo
-
-* ```
-       → cualquier hijo
-  ```
-
-last()     → último elemento del conjunto
-count(), sum(), max(), min() → funciones XPath numéricas
-
-11. Aplicación práctica a tu XML de corredores
-
----
-
-//velocista[@codigo='V01']/nombre/text()
-→ Nombre del velocista con código V01
-
-//fondista[distancia_max>15]/nombre/text()
-→ Nombres de fondistas cuya distancia_max > 15
-
-//Corredor[puntuacion/@anio=2023]/nombre/text()
-→ Nombres de corredores que tengan una puntuación en el año 2023
-
-//velocista[velocidad_media>25]/@codigo
-→ Códigos de velocistas con velocidad_media > 25
-
-//fondista[distancia_max>10]/puntuacion[@anio=2022]/text()
-→ Puntos de fondistas con distancia_max > 10 en el año 2022
-
-=======================================================
-*/
+    // APUNTES DE XPATH PARA CORREDORES
 
 }

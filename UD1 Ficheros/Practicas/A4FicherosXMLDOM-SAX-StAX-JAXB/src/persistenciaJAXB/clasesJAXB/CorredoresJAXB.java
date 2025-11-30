@@ -4,7 +4,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElements;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import persistenciaDOM.ExcepcionXML;
+import utilidades.ExcepcionXML;
 import persistenciaJAXB.XMLJAXBUtils;
 
 import java.util.ArrayList;
@@ -32,14 +32,14 @@ public class CorredoresJAXB {
      * @return
      * @throws ExcepcionXML
      */
-//    public CorredoresJAXB leerCorredores(String rutaXML) throws ExcepcionXML {
-////        try{
-////            return XMLJAXBUtils.unmarshall(CorredoresJAXB.class, rutaXML);
-////        }
-////        catch (JAXBException e) {
-////            throw new ExcepcionXML(e.getMessage(), e);
-////        }
-//    }
+    public CorredoresJAXB leerCorredores(String rutaXML) throws ExcepcionXML {
+        try{
+            return XMLJAXBUtils.unmarshall(CorredoresJAXB.class, rutaXML);
+        }
+        catch (ExcepcionXML e) {
+            throw new ExcepcionXML(e.getMessage(), e);
+        }
+    }
 
 
     // GETTERS Y SETTERS
@@ -50,5 +50,15 @@ public class CorredoresJAXB {
 
     public void setCorredores(List<CorredorJAXB> corredores) {
         this.corredores = corredores;
+    }
+
+    // toString
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(CorredorJAXB c : corredores){
+            sb.append(c.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }

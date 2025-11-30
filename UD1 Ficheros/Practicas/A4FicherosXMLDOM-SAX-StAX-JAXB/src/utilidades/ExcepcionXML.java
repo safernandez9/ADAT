@@ -1,4 +1,4 @@
-package persistenciaSAX;
+package utilidades;
 
 /**
  * Lanzo en lugar de runtimeExceptions, facilita la legibilidad del codigo. Dos constructores según como la quiera usar.
