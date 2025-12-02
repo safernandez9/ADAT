@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<corredores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<corredores xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
            xsi:noNamespaceSchemaLocation="CorredoresXSD.xsd">
     <velocista codigo="C01" dorsal="1" equipo="E1">
         <nombre>Lucía Fernández Álvarez</nombre>

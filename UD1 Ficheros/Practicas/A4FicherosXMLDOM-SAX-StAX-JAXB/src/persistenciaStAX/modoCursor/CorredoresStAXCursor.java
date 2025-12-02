@@ -1,15 +1,12 @@
 package persistenciaStAX.modoCursor;
 
-import clases.Corredor;
-import clases.Fondista;
-import clases.Puntuacion;
-import clases.Velocista;
-import persistenciaDOM.ExcepcionXML;
-import persistenciaDOM.TipoValidacion;
+import clases.*;
+import utilidades.ExcepcionXML;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,8 +127,16 @@ public class CorredoresStAXCursor {
         return corredores;
     }
 
-    // INCOMPLETO: Método para leer corredores por equipo
-    public List<Corredor> leerCorredoresPorEquipo(XMLStreamReader reader, String equipoBuscado) throws Exception {
+    /**
+     * Lee los corredores de un XML utilizando la lectura de StAX con Cursor leyendo los elementos como
+     * tokens, pero solo los que pertenecen a un equipo concreto
+     *
+     * @param reader        Lector para recorrer el XML
+     * @param equipoBuscado Nombre del equipo a buscar
+     * @return Lista de corredores del XML que pertenecen al equipo buscado
+     * @throws ExcepcionXML Si ocurre un error durante la lectura del XML
+     */
+    public List<Corredor> leerCorredoresPorEquipo(XMLStreamReader reader, String equipoBuscado) throws ExcepcionXML {
 
         List<Corredor> lista = new ArrayList<>();
 
@@ -140,146 +145,315 @@ public class CorredoresStAXCursor {
         Puntuacion puntuacion = null;
         String contenidoActual = null;
 
-        while (reader.hasNext()) {
-            int tipo = reader.next();
+        try {
+            while (true) {
+
+                if (!reader.hasNext()) break;
+
+                int tipo = reader.next();
 
 
-            switch (tipo) {
-                case XMLStreamReader.START_ELEMENT -> {
+                switch (tipo) {
+                    case XMLStreamReader.START_ELEMENT -> {
 
-                    String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
+                        String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
 
-                    switch (nombreEtiqueta) {
-                        case "velocista", "fondista" -> {
-                            historialActual = new ArrayList<>();
-                            corredorActual = nombreEtiqueta.equals("velocista") ? new Velocista() : new Fondista();
+                        switch (nombreEtiqueta) {
+                            case "velocista", "fondista" -> {
+                                historialActual = new ArrayList<>();
+                                corredorActual = nombreEtiqueta.equals("velocista") ? new Velocista() : new Fondista();
 
-                            corredorActual.setCodigo(
-                                    XMLStAXUtilsCursor.leerAtributo(reader, "codigo")
-                            );
-                            corredorActual.setDorsal(Integer.parseInt(
-                                    XMLStAXUtilsCursor.leerAtributo(reader, "dorsal")
-                            ));
-                            corredorActual.setEquipo(
-                                    XMLStAXUtilsCursor.leerAtributo(reader, "equipo")
-                            );
-                        }
-                        case "puntuacion" -> {
-                            puntuacion = new Puntuacion();
-                            puntuacion.setAnio(Integer.parseInt(
-                                    XMLStAXUtilsCursor.leerAtributo(reader, "anio")
-                            ));
+                                corredorActual.setCodigo(
+                                        XMLStAXUtilsCursor.leerAtributo(reader, "codigo")
+                                );
+                                corredorActual.setDorsal(Integer.parseInt(
+                                        XMLStAXUtilsCursor.leerAtributo(reader, "dorsal")
+                                ));
+                                corredorActual.setEquipo(
+                                        XMLStAXUtilsCursor.leerAtributo(reader, "equipo")
+                                );
+                            }
+                            case "puntuacion" -> {
+                                puntuacion = new Puntuacion();
+                                puntuacion.setAnio(Integer.parseInt(
+                                        XMLStAXUtilsCursor.leerAtributo(reader, "anio")
+                                ));
+                            }
                         }
                     }
-                }
 
+                    case XMLStreamReader.CHARACTERS -> {
+                        String txt = XMLStAXUtilsCursor.leerTexto(reader);
+                        if (!txt.isBlank()) contenidoActual = txt;
+                    }
 
-                case XMLStreamReader.CHARACTERS -> {
-                    String txt = XMLStAXUtilsCursor.leerTexto(reader);
-                    if (!txt.isBlank()) contenidoActual = txt;
-                }
+                    case XMLStreamReader.END_ELEMENT -> {
+                        String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
+                        switch (nombreEtiqueta) {
 
-
-                case XMLStreamReader.END_ELEMENT -> {
-                    String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
-                    switch (nombreEtiqueta) {
-
-                        case "velocista", "fondista" -> {
-                            if (corredorActual.getEquipo().equals(equipoBuscado)) {
-                                lista.add(corredorActual);
+                            case "velocista", "fondista" -> {
+                                if (corredorActual.getEquipo().equals(equipoBuscado)) {
+                                    lista.add(corredorActual);
+                                }
                             }
-                        }
-
-                        case "puntuacion" -> {
-                            puntuacion.setPuntos(Float.parseFloat(contenidoActual));
-                            historialActual.add(puntuacion);
-                        }
-
-                        case "historial" -> corredorActual.setHistorial(historialActual);
-
-                        case "nombre" -> corredorActual.setNombre(contenidoActual);
-
-                        case "fecha_nacimiento" -> corredorActual.setFechaNacimiento(LocalDate.parse(contenidoActual));
-
-                        case "velocidad_media" -> {
-                            if (corredorActual instanceof Velocista v) {
-                                v.setVelocidadMedia(Float.parseFloat(contenidoActual));
+                            case "puntuacion" -> {
+                                puntuacion.setPuntos(Float.parseFloat(contenidoActual));
+                                historialActual.add(puntuacion);
                             }
-                        }
-
-                        case "distancia_max" -> {
-                            if (corredorActual instanceof Fondista f) {
-                                f.setDistanciaMax(Float.parseFloat(contenidoActual));
+                            case "historial" -> corredorActual.setHistorial(historialActual);
+                            case "nombre" -> corredorActual.setNombre(contenidoActual);
+                            case "fecha_nacimiento" ->
+                                    corredorActual.setFechaNacimiento(LocalDate.parse(contenidoActual));
+                            case "velocidad_media" -> {
+                                if (corredorActual instanceof Velocista v) {
+                                    v.setVelocidadMedia(Float.parseFloat(contenidoActual));
+                                }
+                            }
+                            case "distancia_max" -> {
+                                if (corredorActual instanceof Fondista f) {
+                                    f.setDistanciaMax(Float.parseFloat(contenidoActual));
+                                }
                             }
                         }
                     }
                 }
             }
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al leer los corredores por equipo StAX: " + e.getMessage(), e);
         }
-
         return lista;
     }
 
+    public List<Patrocinador> cargarPatrocinadoresActualizacion(XMLStreamReader reader) throws ExcepcionXML {
 
-    /**
-     * Calcula el total de donaciones por patrocinador desde un XML usando modelo Cursor
-     *
-     * @param rutaEntrada ruta del fichero XML
-     * @return TreeMap con clave=NombrePatrocinador y valor=totalDonado
-     * @throws ExcepcionXML
-     */
-    public static Map<String, Double> calcularDonaciones(String rutaEntrada) throws ExcepcionXML {
-        XMLStreamReader reader = null;
-        Map<String, Double> mapaDonaciones = new TreeMap<>();
+        // Lista final de corredores procesados
+        List<Patrocinador> patrocinadores = new ArrayList<>();
+
+        // Patrocinador temporal
+        Patrocinador patrocinadorActual = null;
+
+        // Variables temporales para decidir el tipo
+        String codigoTemporal = null;
+        String equipoTemporal = null;
+        String fechaDonacionTemporal = null;
+        String cantidadDonacionTemporal = null;
+        String nombrePatrocinadorTemp = null;
+
+        // Texto entre etiquetas
+        String contenidoActual = "";
+
+
         try {
-            reader = XMLStAXUtilsCursor.cargarDocumentoStAXCursor(rutaEntrada, persistenciaDOM.TipoValidacion.XSD);
-
-            String nombrePatrocinador = "";
-            Double donacionActual = 0.0;
-            boolean esPatrocinador = false;
-
+            // Bucle principal
             while (reader.hasNext()) {
                 int tipo = reader.next();
-
                 switch (tipo) {
                     case XMLStreamConstants.START_ELEMENT -> {
                         String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
-                        if ("Patrocinador".equals(nombreEtiqueta)) {
-                            nombrePatrocinador = "";
-                            String don = XMLStAXUtilsCursor.leerAtributo(reader, "donacion");
-                            donacionActual = don != null ? Double.parseDouble(don) : 0.0;
-                            esPatrocinador = true;
+                        switch (nombreEtiqueta) {
+                            case "Actualizaciones" -> {
+                                // No se necesita hacer nada especial al iniciar el documento de actualizaciones
+                                // se pone para evitar el default
+                            }
+                            case "Patrocinador" -> {
+                                // Guardo temporalmente los atributos
+                                codigoTemporal = XMLStAXUtilsCursor.leerAtributo(reader, "idEquipo");
+                                equipoTemporal = XMLStAXUtilsCursor.leerAtributo(reader, "nombreEquipo");
+                            }
+                            case "nombre" -> contenidoActual = "";
+
+                            case "Donacion" -> {
+                                fechaDonacionTemporal = XMLStAXUtilsCursor.leerAtributo(reader, "fecha");
+                                contenidoActual = "";
+                            }
+
+                            default -> throw new ExcepcionXML("Elemento inesperado en startElement: " + nombreEtiqueta);
                         }
+
                     }
                     case XMLStreamConstants.CHARACTERS -> {
-                        if (esPatrocinador) {
-                            nombrePatrocinador += XMLStAXUtilsCursor.leerTexto(reader);
-                        }
+                        contenidoActual += XMLStAXUtilsCursor.leerTexto(reader);
                     }
                     case XMLStreamConstants.END_ELEMENT -> {
                         String nombreEtiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
-                        if ("Patrocinador".equals(nombreEtiqueta)) {
-                            esPatrocinador = false;
-                            nombrePatrocinador = nombrePatrocinador.trim();
-                            mapaDonaciones.merge(nombrePatrocinador, donacionActual, Double::sum);
-                            // Si el patrocinador ya existe, suma la donación actual a la existente
-                            // Si no existe, la añade con la donación actual
+                        switch (nombreEtiqueta) {
+                            case "Actualizaciones" -> {
+                                // No se necesita hacer nada especial al finalizar el documento de actualizaciones
+                                // se pone para evitar el default
+                            }
+                            case "Patrocinador" -> {
+                                if (nombrePatrocinadorTemp != null && !nombrePatrocinadorTemp.isEmpty()
+                                        && cantidadDonacionTemporal != null && !cantidadDonacionTemporal.isEmpty()
+                                        && fechaDonacionTemporal != null && !fechaDonacionTemporal.isEmpty()
+                                        && codigoTemporal != null && !codigoTemporal.isEmpty()
+                                        && equipoTemporal != null && !equipoTemporal.isEmpty()) {
+
+                                    float donacion = Float.parseFloat(cantidadDonacionTemporal);
+                                    LocalDate fechaInicio = LocalDate.parse(fechaDonacionTemporal);
+
+                                    patrocinadorActual = new Patrocinador(nombrePatrocinadorTemp, donacion, fechaInicio, codigoTemporal, equipoTemporal);
+                                    patrocinadores.add(patrocinadorActual);
+
+                                    // Reseteo variables temporales
+                                    nombrePatrocinadorTemp = null;
+                                    cantidadDonacionTemporal = null;
+                                    fechaDonacionTemporal = null;
+                                    codigoTemporal = null;
+                                    equipoTemporal = null;
+
+                                } else {
+                                    System.err.println("Datos incompletos para el patrocinador con idEquipo: " + codigoTemporal);
+                                }
+                            }
+                            case "nombre" -> nombrePatrocinadorTemp = contenidoActual;
+                            case "Donacion" -> cantidadDonacionTemporal = contenidoActual;
+                            default -> throw new ExcepcionXML("Elemento inesperado en endElement: " + nombreEtiqueta);
                         }
                     }
                 }
             }
-        } catch (Exception e) {
-            throw new ExcepcionXML("Error al calcular donaciones: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (reader != null) reader.close();
-            } catch (XMLStreamException e) {
-                // Ignorar cierre
-            }
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al leer el fichero de actualización de patrocinadores: " + e.getMessage(), e);
         }
-
-        return mapaDonaciones;
+        return patrocinadores;
     }
 
+    /**
+     * Lee las donaciones de los patrocinadores desde un XML utilizando StAX Cursor
+     *
+     * @param reader Lector para recorrer el XML
+     * @return Mapa con el nombre del patrocinador como clave y la suma de sus donaciones como valor
+     * @throws ExcepcionXML Si ocurre un error durante la lectura del XML
+     */
+    public Map<String, Double> leerDonacionesPatrocinadores(XMLStreamReader reader) throws ExcepcionXML {
+
+        // Mapa resultado
+        Map<String, Double> mapa = new TreeMap<>();
+
+        String contenidoActual = "";
+        String nombrePatrocinadorActual = null;
+        Double donacionActual = null;
+
+        // Flag para saber si estamos dentro de un patrocinador (para el case CHARACTERS)
+        boolean dentroPatrocinador = false;
+
+        try {
+            while (reader.hasNext()) {
+
+                int tipo = reader.next();
+                switch (tipo) {
+                    case XMLStreamReader.START_ELEMENT -> {
+
+                        String etiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
+                        switch (etiqueta) {
+                            case "patrocinador" -> {
+                                dentroPatrocinador = true;
+
+                                // Leer atributo donacion
+                                String don = XMLStAXUtilsCursor.leerAtributo(reader, "donacion");
+                                donacionActual = Double.parseDouble(don);
+
+                                contenidoActual = "";
+                            }
+                        }
+                    }
+
+                    case XMLStreamReader.CHARACTERS -> {
+                        if (dentroPatrocinador) {
+                            contenidoActual += XMLStAXUtilsCursor.leerTexto(reader);
+                        }
+                    }
+
+                    case XMLStreamReader.END_ELEMENT -> {
+
+                        String etiqueta = XMLStAXUtilsCursor.obtenerNombreEtiqueta(reader);
+
+                        switch (etiqueta) {
+                            case "patrocinador" -> {
+                                dentroPatrocinador = false;
+
+                                // El texto entre etiquetas es el nombre del patrocinador
+                                nombrePatrocinadorActual = contenidoActual.trim();
+
+                                // Si ya existe → sumar; si no → insertar
+                                mapa.merge(nombrePatrocinadorActual, donacionActual, Double::sum);
+                            }
+
+
+                        }
+                    }
+                }
+            }
+
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al leer patrocinadores: " + e.getMessage(), e);
+        }
+
+        return mapa;
+    }
+
+    /**
+     * Escribe un XML con las donaciones totales de cada patrocinador utilizando StAX Cursor
+     *
+     * @param rutaSalida      Ruta del archivo XML de salida
+     * @param mapaDonaciones Mapa con el nombre del patrocinador como clave y la suma de sus donaciones como valor
+     * @throws ExcepcionXML Si ocurre un error durante la escritura del XML
+     */
+    public void escribirDonaciones(String rutaSalida, Map<String, Double> mapaDonaciones) throws ExcepcionXML {
+
+        int numElementos = mapaDonaciones.size();
+        int i = 0;
+
+        XMLStreamWriter writer = XMLStAXUtilsCursor.crearWriterStAX(rutaSalida);
+
+        try {
+
+            // Declaración XML
+            XMLStAXUtilsCursor.ADDDeclaracion(writer);
+            // Elemento raíz <donaciones>
+            XMLStAXUtilsCursor.ADDStartElemento(writer, "donaciones");
+            // Salto de línea + indent 1
+            XMLStAXUtilsCursor.ADDSaltoLinea(writer, 1);
+
+            // Elementos Patrocinador
+            for (Map.Entry<String, Double> entry : mapaDonaciones.entrySet()) {
+
+                String nombre = entry.getKey();
+                Double total = entry.getValue();
+
+                XMLStAXUtilsCursor.ADDStartElemento(writer, "patrocinador");
+                XMLStAXUtilsCursor.ADDAtributo(writer, "totalDonado", String.valueOf(total));
+                XMLStAXUtilsCursor.ADDTextoAElemento(writer, nombre);
+
+                XMLStAXUtilsCursor.ADDEndElemento(writer);
+
+                i++;
+
+                if(i<numElementos){
+                    XMLStAXUtilsCursor.ADDSaltoLinea(writer, 1);
+                }
+                else{
+                    XMLStAXUtilsCursor.ADDSaltoLinea(writer, 0);
+                }
+
+
+            }
+
+            // Cierre del elemento raíz </donaciones>
+            writer.writeEndElement();
+
+            // Fin del documento
+            writer.writeEndDocument();
+
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error escribiendo donaciones XML", e);
+
+        } finally {
+            try {
+                if (writer != null)
+                    writer.close();
+            } catch (XMLStreamException ignored) {}
+        }
+    }
 
 }

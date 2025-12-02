@@ -18,7 +18,7 @@ public class PatrocinadoresJAXB {
     private int numPatrocinadores;
 
     @XmlElement(name = "patrocinador", required=true)
-    private Set<PatrocinadoresJAXB> patrocinadores = new HashSet<>();
+    private Set<PatrocinadorJAXB> patrocinadores = new HashSet<>();
 
 
     // CONSTRUCTORES
@@ -46,12 +46,21 @@ public class PatrocinadoresJAXB {
         this.numPatrocinadores = numPatrocinadores;
     }
 
-    public Set<PatrocinadoresJAXB> getPatrocinadores() {
+    public Set<PatrocinadorJAXB> getPatrocinadores() {
         return patrocinadores;
     }
 
-    public void setPatrocinadores(Set<PatrocinadoresJAXB> patrocinadores) {
+    public void setPatrocinadores(Set<PatrocinadorJAXB> patrocinadores) {
         this.patrocinadores = patrocinadores;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for(PatrocinadorJAXB p : patrocinadores){
+            sb.append(p.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }
 

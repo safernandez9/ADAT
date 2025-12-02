@@ -8,7 +8,7 @@ import jakarta.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Trabajador extends Persona {
 
-   @XmlElement
+   @XmlElement(name = "Empresa")
    private Empresa empresa;
 
    @XmlElement(name = "Salario")

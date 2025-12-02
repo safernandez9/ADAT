@@ -1,42 +1,24 @@
 package logica;
 
-import jakarta.xml.bind.JAXBException;
-import persistenciaDOM.ExcepcionXML;
-import persistenciaJAXB.clasesJAXB.EquipoJAXB;
-import persistenciaJAXB.clasesJAXB.EquiposJAXB;
 import persistenciaJAXB.XMLJAXBUtils;
+import persistenciaJAXB.clasesJAXB.EquipoJAXB;
+import utilidades.ExcepcionXML;
+import persistenciaJAXB.clasesJAXB.EquiposJAXB;
+
 
 public class GestorEquipos {
 
-
-
-    //COMPROBAR EXCEPCION
-    public void mostrarEquipos(){
-//        try{
-//            EquiposJAXB equipos = XMLJAXBUtils.unmarshall(EquiposJAXB.class, "ArchivosXMLSDTD/Equipos.xml");
-//        }catch(ExcepcionXML | JAXBException e){
-//            System.out.println(e.getMessage());
-//        }
-    }
-
-    public void mostrarEquiposJAXB(String rutaXML){
-
-        EquiposJAXB equipos = EquiposJAXB.leerEquipos(rutaXML);
-
-//        for(EquipoJAXB e : equipos){
-//            System.out.println(e);
-//        }
-
-
-    }
-
-    public void escribirEquipos(String rutaXML){
+    public void mostrarEquiposJAXB(String ruta){
         try{
-            EquiposJAXB.escribirEquipos(rutaXML);
+            EquiposJAXB equipos = XMLJAXBUtils.unmarshall(EquiposJAXB.class, ruta);
+            for(EquipoJAXB equipo : equipos.getEquipos()){
+                System.out.println(equipo);
+            }
+        }catch(ExcepcionXML e){
+            System.out.println(e.getMessage());
         }
-        catch (ExcepcionXML e){
-            System.out.println("Error al escribir equipos XML: " + e.getMessage());
-        }
-
     }
+
+
+
 }

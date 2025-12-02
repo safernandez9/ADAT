@@ -1,10 +1,9 @@
 package persistenciaStAX.modoCursor;
 
 import org.xml.sax.SAXException;
-import persistenciaDOM.ExcepcionXML;
-import persistenciaDOM.TipoValidacion;
+import utilidades.ExcepcionXML;
+import utilidades.TipoValidacion;
 
-import javax.xml.XMLConstants;
 import javax.xml.stream.*;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -267,4 +266,18 @@ public class XMLStAXUtilsCursor {
         }
     }
 
+    /**
+     * Añade texto al elemento actual en el flujo XML
+     *
+     * @param writer XMLStreamWriter que escribe el documento
+     * @param nombre Texto a añadir
+     * @throws ExcepcionXML en caso de error al añadir el texto
+     */
+    public static void ADDTextoAElemento(XMLStreamWriter writer, String nombre) {
+        try {
+            writer.writeCharacters(nombre);
+        } catch (XMLStreamException e) {
+            throw new ExcepcionXML("Error al añadir texto al elemento: " + nombre, e);
+        }
+    }
 }

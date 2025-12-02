@@ -1,5 +1,6 @@
 package persistenciaJAXB.clasesJAXB;
 
+import clases.Patrocinador;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -52,4 +53,22 @@ public class EquipoJAXB {
     public void setPatrocinadores(PatrocinadoresJAXB patrocinadores) {
         this.patrocinadores = patrocinadores;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Equipo [ID=").append(idEquipo)
+                .append(", Nombre=").append(nombre).append("]\n");
+
+        if (patrocinadores == null) {
+            sb.append("  No tiene patrocinadores.\n");
+        } else {
+            sb.append("  Patrocinadores:\n");
+            System.out.println(patrocinadores);
+        }
+
+        return sb.toString();
+    }
+
 }

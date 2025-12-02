@@ -2,7 +2,7 @@
 package persistenciaJAXB;
 
 import jakarta.xml.bind.*;
-import persistenciaDOM.ExcepcionXML;
+import utilidades.ExcepcionXML;
 
 import java.io.File;
 
