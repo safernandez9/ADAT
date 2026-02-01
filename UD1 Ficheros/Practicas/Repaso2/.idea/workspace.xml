@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d81d2442-bf1c-4c42-8c12-bd050a8e2344" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Repaso1/Recursos/Entrada/texto/empleados.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/Repaso1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/excepciones/ArchivoNoExisteException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/excepciones/ExcepcionFicheros.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/excepciones/ExcepcionXML.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/logica/GestorEmpleados.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/modelo/EmpleadoCompleto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/modelo/EmpleadoDepartamento.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/persistenciaArchivos/persistenciaBin/EmpleadosBinDat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/persistenciaArchivos/persistenciaBin/LecturaBinDat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/persistenciaArchivos/persistenciaObj/EmpleadosBinObj.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/persistenciaArchivos/persistenciaObj/LectorObj.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/persistenciaArchivos/persistenciaTexto/EmpleadosTxt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/persistenciaArchivos/persistenciaTexto/LecturaTexto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/persistenciaStAX/EmpleadosStAXCursor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/persistenciaStAX/XMLStAXUtilsCursor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/utilidades/Archivo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/utilidades/Directorio.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Repaso1/src/utilidades/TipoValidacion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "safernandez9"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/safernandez9/ADAT.git",
+    "accountId": "a1afcbdd-1779-4493-a681-4d98a841c8a0"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="361zI5NbGzuKg2PTwZzNC1Kw1aU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "onboarding.tips.debug.path": "D:/FP/DAM 2/ADAT/UD1 Ficheros/Practicas/Repaso2/src/Main.java"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26199.169" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d81d2442-bf1c-4c42-8c12-bd050a8e2344" name="Changes" comment="" />
+      <created>1764188784220</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1764188784220</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

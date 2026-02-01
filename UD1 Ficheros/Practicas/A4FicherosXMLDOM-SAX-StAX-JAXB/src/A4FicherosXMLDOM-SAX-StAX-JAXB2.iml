@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/main" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="A4FicherosXMLDOM-SAX-StAX-JAXB" />
+    <orderEntry type="module" module-name="Repaso1" />
+    <orderEntry type="module" module-name="EXUD1P2SaulFS" />
+    <orderEntry type="module" module-name="EXUD1P1SaulFS" />
+    <orderEntry type="module" module-name="Tarea1ConexionesYOperacionesBasicas" />
+    <orderEntry type="module" module-name="Tarea4ProcedimientosFunciones" />
+    <orderEntry type="module" module-name="Tarea3Actualizacion" />
+    <orderEntry type="module" module-name="Tarea2Consultas" />
+    <orderEntry type="module" module-name="EXAMEN" />
+    <orderEntry type="module" module-name="A3SerializacionObjetos" />
+  </component>
+</module>

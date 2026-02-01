@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="enu">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Recursos/Microsoft JDBC Driver 4.0 for SQL Server1/sqljdbc_4.0/enu/sqljdbc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Recursos/Microsoft JDBC Driver 4.0 for SQL Server1/sqljdbc_4.0/enu/sqljdbc4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

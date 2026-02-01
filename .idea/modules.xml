@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Recursos/3 Drivers Bases/3 Drivers Bases.iml" filepath="$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Recursos/3 Drivers Bases/3 Drivers Bases.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD1 Ficheros/Practicas/A1FicherosYDirectorios/A1FicherosYDirectorios.iml" filepath="$PROJECT_DIR$/UD1 Ficheros/Practicas/A1FicherosYDirectorios/A1FicherosYDirectorios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD1 Ficheros/Practicas/A2ArchivosSecuencialesTexto/A2ArchivosSecuencialesTexto.iml" filepath="$PROJECT_DIR$/UD1 Ficheros/Practicas/A2ArchivosSecuencialesTexto/A2ArchivosSecuencialesTexto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD1 Ficheros/Practicas/A3SerializacionObjetos/A3SerializacionObjetos.iml" filepath="$PROJECT_DIR$/UD1 Ficheros/Practicas/A3SerializacionObjetos/A3SerializacionObjetos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD1 Ficheros/Practicas/A4FicherosXMLDOM-SAX-StAX-JAXB/A4FicherosXMLDOM-SAX-StAX-JAXB.iml" filepath="$PROJECT_DIR$/UD1 Ficheros/Practicas/A4FicherosXMLDOM-SAX-StAX-JAXB/A4FicherosXMLDOM-SAX-StAX-JAXB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD1 Ficheros/Practicas/A4FicherosXMLDOM-SAX-StAX-JAXB/src/A4FicherosXMLDOM-SAX-StAX-JAXB2.iml" filepath="$PROJECT_DIR$/UD1 Ficheros/Practicas/A4FicherosXMLDOM-SAX-StAX-JAXB/src/A4FicherosXMLDOM-SAX-StAX-JAXB2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ADAT.iml" filepath="$PROJECT_DIR$/.idea/ADAT.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/EXAMEN/EXAMEN.iml" filepath="$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/EXAMEN/EXAMEN.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD1 Ficheros/Practicas/EXUD1P1SaulFS/EXUD1P1SaulFS.iml" filepath="$PROJECT_DIR$/UD1 Ficheros/Practicas/EXUD1P1SaulFS/EXUD1P1SaulFS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD1 Ficheros/Practicas/EXUD1P2SaulFS/EXUD1P2SaulFS.iml" filepath="$PROJECT_DIR$/UD1 Ficheros/Practicas/EXUD1P2SaulFS/EXUD1P2SaulFS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Recursos/Microsoft JDBC Driver 4.0 for SQL Server1/Microsoft JDBC Driver 4.0 for SQL Server1.iml" filepath="$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Recursos/Microsoft JDBC Driver 4.0 for SQL Server1/Microsoft JDBC Driver 4.0 for SQL Server1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD1 Ficheros/Practicas/Repaso1/Repaso1.iml" filepath="$PROJECT_DIR$/UD1 Ficheros/Practicas/Repaso1/Repaso1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea1ConexionesYOperacionesBasicas/Tarea1ConexionesYOperacionesBasicas.iml" filepath="$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea1ConexionesYOperacionesBasicas/Tarea1ConexionesYOperacionesBasicas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea2Consultas/Tarea2Consultas.iml" filepath="$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea2Consultas/Tarea2Consultas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea2Consultas/src/Tarea2Consultas2.iml" filepath="$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea2Consultas/src/Tarea2Consultas2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea3Actualizacion/Tarea3Actualizacion.iml" filepath="$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea3Actualizacion/Tarea3Actualizacion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea4ProcedimientosFunciones/Tarea4ProcedimientosFunciones.iml" filepath="$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Practicas/Tarea4ProcedimientosFunciones/Tarea4ProcedimientosFunciones.iml" />
+    </modules>
+  </component>
+</project>

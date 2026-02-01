@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sqljdbc_11.2.0.0_enu">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/UD2 Acceso a Bases de Datos Relacionales/Recursos/3 Drivers Bases/SqlServer 2019/sqljdbc_11.2.0.0_enu.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
